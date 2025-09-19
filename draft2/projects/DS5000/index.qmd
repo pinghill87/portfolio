@@ -1,0 +1,123 @@
+---
+title: "Predicting Voting Trends: Uncovering Patterns Through Data Science"
+---
+
+
+# Introduction 
+ 
+This project explores the factors that influence voting rates. By utilizing machine learning methods such as Dimensionality Reduction, Clustering, Regression, and Classification, the project identifies trends, evaluates model performance, and provides insights into voter participation patterns.
+
+## Motivation
+
+Voting is a fundamental part of the democratic process, yet every year millions of people refrain from voting. Voting allows the people to speak for what they want, drive change, and elect new leaders.
+Despite the importance of voting, many states continue to have low voting rates, with many falling below the 50% mark. 
+
+Understanding voting patterns is important for increasing voter turn out and participation. By using data science tools, this project addresses real-world challenges in predicting voter behavior and identifying areas of improvement
+
+
+
+## Research Question 
+
+What are the biggest variables that influence voter turn out?
+
+How accurately can machine learning models predict voting rates?
+
+Can models effectively distinguish between Low, Medium, and High Voting Rates?
+
+What variable or demographic is responsible for highest voting rates
+
+What and who can government officials and initiatives target to raise voting rates in their district?
+
+# Literature Review  
+
+## Factors of Voter Turnout: Effects of Habit, Social Pressure, and Gerrymandering on Voting Behavior  
+[**Gibbons 2022**](#gibbons-2022)  
+
+- In this review, **Gibbons**, rather than analyzing the socio-economic and racial differences that may influence voter turnout, analyzes the **history of the United States**, **social pressures**, and **voter behaviors** as key factors for voting.  
+
+- Gibbons analyzes **Gerrymandering** (the manipulation of district boundaries in favor of a political party) and concludes:  
+   - **Gerrymandering does not necessarily correlate to voter turnout** but rather **influences district results** more.  
+
+- Voters who **habitually vote** have higher likelihoods of continually voting:  
+   - Citizens who exhibit voting as a **habit** have a **higher influence** on voting rates than other factors such as outcome preferences or political ties.  
+
+- Gibbons touches on the influence of **Social Pressure**:  
+   - **Altruism**: Emphasizing collective benefits.  
+   - **Tribalism**: Loyalty to a group.  
+   - Social media has contributed to **voter turnout** by amplifying social influence.  
+
+- **Solutions Proposed**:  
+   - Implementing more **K-12 Civic Education Programs**, such as *"Kids Voting USA"*, that emphasize civic skills and understanding.  
+   - Assigning **election days as holidays** to reduce barriers for working-class individuals.  
+      - Public support: **71% of Democrats** and **59% of Republicans** are in favor.  
+   - Introducing **mandatory voting**, which is controversial but successful in countries like **Australia**, where citizens face minor penalties for not voting.  
+
+---
+
+## What Affects Voter Turnout?  
+[**Blais 2016**](#blais-2006)  
+
+- In *"What Affects Voter Turnout?"* by **Andre Blais**, Blais analyzes voter turnout in **different countries** to identify the biggest factors influencing turnout.  
+
+- Key Findings:  
+   - Countries that **require citizens to vote**, such as **Australia**, consistently had **10-15% higher voter turnout** compared to countries without mandatory voting.  
+   - Countries with an **Electoral System** showed **higher turnouts** in advanced democracies but failed to show similar results in **less established democracies** (e.g., Latin America).  
+   - In **smaller countries** and **advanced economies**, voter turnout tends to be **higher**.  
+   - **Closely contested elections** consistently resulted in **higher voter turnout**.  
+
+---
+
+## A Study of Key Factors Influencing Youth Voter Turnout  
+[**Zhu 2021**](#zhu-2021)  
+
+- In *"A Study of Key Factors Influencing Youth Voter Turnout"*, **Claire Zhu** analyzes the major factors influencing youth voter turnout.  
+
+- **Race and Ethnicity**:  
+   - Zhu found that **race and ethnicity** had a significant impact on voter turnout, but the gaps are **narrowing**:  
+      - Example: Voter turnout between **White and Black voters** has become closer in some regions due to increased awareness and civic understanding.  
+      - **Disparities remain**: **Hispanic** and **Asian populations** consistently vote at **lower rates** compared to White and Black populations.  
+
+- **Social Media**:  
+   - Social media is a **huge driver** of voting for youth voters, increasing **motivation** and **awareness**.  
+
+- **Gender Differences**:  
+   - Women are **slightly more likely to vote** than men, but the difference is **minimal** and has little impact on overall turnout.  
+
+- **Socioeconomic Factors**:  
+   - Areas with **low-income levels** are correlated with **lower voter participation**.  
+   - Areas with **higher education levels** correlate with **higher voter participation**.  
+
+- **Reasons for Low Turnout**:  
+   - **Distrust** in candidates.  
+   - The **inconvenience** of voting.  
+   - A general **disinterest** in politics.  
+
+- Zhu concluded that youth voter turnout is influenced by a combination of:  
+   - **Racial** factors.  
+   - **Socioeconomic inequalities**.  
+   - **Institutional barriers**.  
+
+- **Proposed Solutions**:  
+   - Address **socioeconomic inequalities**.  
+   - Make voting **easier**.  
+   - Increase **social media presence** to drive awareness.  
+
+
+# Audience  
+
+This project is designed for a diverse audience:  
+
+- **Policymakers**: Leaders seeking actionable insights to improve voter engagement and participation.  
+- **Data Professionals**: Individuals interested in exploring machine learning techniques and model evaluation in real-world scenarios.  
+- **Researchers**: Those studying voting patterns, supervised learning methods, and voter behavior.  
+- **Curious Readers**: Anyone eager to discover data-driven stories and gain insights into voting rates and trends.  
+
+---
+
+# References  
+
+- <a id="gibbons-2022"></a> Gibbons, Aubrie. *Factors of Voter Turnout*. Diss. Florida Atlantic University, 2022.  
+
+- <a id="blais-2006"></a> Blais, André. (2006). *What Affects Turnout?*. 9. 111-136.  
+
+- <a id="zhu-2021"></a> Zhu, Claire. 2021. *“A Study of Key Factors Influencing Youth Voter Turnout.”* APSA Preprints. doi: 10.33774/apsa-2021-rh7kg. *This content is a preprint and has not been peer-reviewed.*  

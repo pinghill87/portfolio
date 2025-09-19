@@ -1,0 +1,65 @@
+project:
+  type: website
+  resources:
+    - "projects/**/files/**"
+    - "projects/Scholarship/*.csv"
+    - "projects/Scholarship/*.geojson"
+    - "projects/Scholarship/*.geo.json"
+    - "projects/Scholarship/*.html"
+  render:
+    - "*.qmd"
+    - "projects/**/index.qmd"
+    - "projects/**/**/*.qmd"
+    - "projects/**/**/*.ipynb"
+
+website:
+  title: "Soong Ping Hill"
+  navbar:
+    title: "Soong Ping Hill"
+    href: about.qmd
+    left:
+      - text: About
+        href: about.qmd
+      - text: Projects
+        menu:
+          - text: Voting Behavior Prediction
+            href: projects/DS5000/index.qmd
+          - text: Airbnb Pricing Analysis
+            href: projects/DS5100/index.qmd
+          - text: Humanitarian Security Research
+            href: projects/Scholarship/index.qmd
+  sidebar:
+    - id: ds5000
+      title: "DSAN-5000"
+      contents:
+        - text: Home
+          href: projects/DS5000/index.qmd
+        - text: Report
+          href: projects/DS5000/report.qmd
+        - section: "Technical details"
+          contents:
+            - projects/DS5000/data-collection/main.ipynb
+            - projects/DS5000/data-cleaning/main.ipynb
+            - projects/DS5000/eda/main.ipynb
+            - projects/DS5000/unsupervised-learning/main.ipynb
+            - projects/DS5000/supervised-learning/main.ipynb
+    - id: scholarship
+      title: "Scholarship Project"
+      contents:
+        - text: Overview
+          href: projects/Scholarship/index.qmd
+        - text: Supervised
+          href: projects/Scholarship/supervised.qmd
+        - text: Data Choropleth
+          href: projects/Scholarship/data_chloropeth.qmd
+        - text: Recommendations
+          href: projects/Scholarship/recommendations.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+execute:
+  freeze: auto

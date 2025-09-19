@@ -1,0 +1,5 @@
+sidebar: ds5000
+format:
+  html:
+    toc: true
+    code-fold: true

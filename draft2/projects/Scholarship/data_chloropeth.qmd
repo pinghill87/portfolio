@@ -1,0 +1,461 @@
+
+```{python}
+import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+# Load data
+df = pd.read_csv("security_incidents.csv")
+
+# Complete mapping of ISO alpha-2 codes to numeric codes
+country_code_map = {
+    'AF': 4,    # Afghanistan
+    'AL': 8,    # Albania
+    'AM': 51,   # Armenia
+    'AO': 24,   # Angola
+    'AR': 32,   # Argentina
+    'AZ': 31,   # Azerbaijan
+    'BD': 50,   # Bangladesh
+    'BF': 854,  # Burkina Faso
+    'BI': 108,  # Burundi
+    'BJ': 204,  # Benin
+    'BO': 68,   # Bolivia
+    'BW': 72,   # Botswana
+    'CD': 180,  # Democratic Republic of the Congo
+    'CF': 140,  # Central African Republic
+    'CG': 178,  # Republic of the Congo
+    'CI': 384,  # Côte d'Ivoire
+    'CL': 152,  # Chile
+    'CM': 120,  # Cameroon
+    'CO': 170,  # Colombia
+    'DO': 214,  # Dominican Republic
+    'DZ': 12,   # Algeria
+    'EC': 218,  # Ecuador
+    'EG': 818,  # Egypt
+    'EH': 732,  # Western Sahara
+    'ER': 232,  # Eritrea
+    'ET': 231,  # Ethiopia
+    'FJ': 242,  # Fiji
+    'GE': 268,  # Georgia
+    'GN': 324,  # Guinea
+    'GT': 320,  # Guatemala
+    'GW': 624,  # Guinea-Bissau
+    'GY': 328,  # Guyana
+    'HN': 340,  # Honduras
+    'HT': 332,  # Haiti
+    'ID': 360,  # Indonesia
+    'IL': 376,  # Israel
+    'IN': 356,  # India
+    'IQ': 368,  # Iraq
+    'IR': 364,  # Iran
+    'JM': 388,  # Jamaica
+    'JO': 400,  # Jordan
+    'KE': 404,  # Kenya
+    'KG': 417,  # Kyrgyzstan
+    'KH': 116,  # Cambodia
+    'LB': 422,  # Lebanon
+    'LK': 144,  # Sri Lanka
+    'LR': 430,  # Liberia
+    'LS': 426,  # Lesotho
+    'LY': 434,  # Libya
+    'MG': 450,  # Madagascar
+    'ML': 466,  # Mali
+    'MM': 104,  # Myanmar
+    'MR': 478,  # Mauritania
+    'MU': 480,  # Mauritius
+    'MW': 454,  # Malawi
+    'MX': 484,  # Mexico
+    'MZ': 508,  # Mozambique
+    'NE': 562,  # Niger
+    'NG': 566,  # Nigeria
+    'NI': 558,  # Nicaragua
+    'NP': 524,  # Nepal
+    'PE': 604,  # Peru
+    'PG': 598,  # Papua New Guinea
+    'PH': 608,  # Philippines
+    'PK': 586,  # Pakistan
+    'PL': 616,  # Poland
+    'PS': 275,  # Palestinian Territories (using unofficial code)
+    'RW': 646,  # Rwanda
+    'SA': 682,  # Saudi Arabia
+    'SD': 729,  # Sudan
+    'SL': 694,  # Sierra Leone
+    'SN': 686,  # Senegal
+    'SO': 706,  # Somalia
+    'SS': 728,  # South Sudan
+    'SV': 222,  # El Salvador
+    'SY': 760,  # Syria
+    'SZ': 748,  # Eswatini (formerly Swaziland)
+    'TD': 148,  # Chad
+    'TH': 764,  # Thailand
+    'TJ': 762,  # Tajikistan
+    'TN': 788,  # Tunisia
+    'TR': 792,  # Turkey
+    'TZ': 834,  # Tanzania
+    'UA': 804,  # Ukraine
+    'UG': 800,  # Uganda
+    'UY': 858,  # Uruguay
+    'VE': 862,  # Venezuela
+    'VN': 704,  # Vietnam
+    'XK': 0,    # Kosovo (no official ISO numeric code, using 0 as placeholder)
+    'YE': 887,  # Yemen
+    'ZA': 710,  # South Africa
+    'ZM': 894,  # Zambia
+    'ZW': 716,  # Zimbabwe
+}
+
+# Convert country codes to numeric IDs for the map
+# Convert country codes to numeric IDs for the map
+if 'Country Code' in df.columns:
+    # Map ISO alpha-2 codes to numeric codes
+    df['id'] = df['Country Code'].map(country_code_map)
+    
+    # Handle missing values
+    print(f"Rows before dropping NaN 'id': {len(df)}")
+    df = df.dropna(subset=['id'])
+    print(f"Rows after dropping NaN 'id': {len(df)}")
+    
+    # Convert id to integer for proper joining
+    df['id'] = df['id'].astype(int)
+    
+    # 🔑 NEW: Convert id to string for Altair map matching
+    df['id'] = df['id'].astype(str)
+else:
+    print("Warning: 'Country Code' column not found. Check your data.")
+
+
+# Group by country (using mapped id) and year, counting incidents
+# Group by country (using mapped id) and year, counting incidents
+df_grouped = df.groupby(['id', 'Year']).size().reset_index(name='Incident Count')
+
+# 🔑 NEW: Ensure df_grouped['id'] is also a string
+df_grouped['id'] = df_grouped['id'].astype(str)
+
+
+# Get unique years for the dropdown
+years = sorted(df_grouped['Year'].unique())
+
+# Load world map TopoJSON
+countries = alt.topo_feature(data.world_110m.url, 'countries')
+
+# Create year selection dropdown
+input_dropdown = alt.binding_select(options=years, name="Select_Year")
+selection = alt.selection_point(fields=['Year'], bind=input_dropdown)
+
+# Base map (always visible regardless of data)
+base_map = alt.Chart(countries).mark_geoshape(
+    fill='#f0f0f0',  # Light gray for countries with no data
+    stroke='white',
+    strokeWidth=0.5
+).properties(
+    width=800,
+    height=450
+)
+
+# Data layer showing incidents
+choropleth = alt.Chart(countries).mark_geoshape().encode(
+    color=alt.Color(
+        'Incident Count:Q',
+        scale=alt.Scale(scheme='reds'),
+        legend=alt.Legend(title="Incident Count")
+    ),
+    tooltip=[
+        alt.Tooltip('id:N', title='Country Code'),
+        alt.Tooltip('Incident Count:Q', title='Incidents'),
+        alt.Tooltip('Year:N', title='Year')
+    ]
+).transform_filter(
+    selection  # FIRST: filter by year
+).transform_lookup(
+    lookup='id',
+    from_=alt.LookupData(
+        df_grouped, 'id', ['Incident Count', 'Year']
+    ),
+    default={'Incident Count': 0, 'Year': None}
+).project(
+    type='equirectangular'
+)
+
+
+
+# Combine base map and data layer
+final_map = alt.layer(
+    base_map,
+    choropleth
+).properties(
+    title='Incidents Against Aid Workers by Country and Year'
+).add_selection(
+    selection
+)
+
+final_map
+```
+
+```{python}
+import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+# Load data
+df = pd.read_csv("security_incidents.csv")
+print("🔹 Initial rows:", len(df))
+
+# Check year column types and missing values
+print("\n🧠 Year column type:", df['Year'].dtype)
+print("❓ Null years:", df['Year'].isna().sum())
+print("🪵 Sample years:")
+print(df['Year'].value_counts(dropna=False).sort_index().head(20))
+
+# Show rows where year is NaN or not an integer
+print("\n🔎 Rows with weird years:")
+print(df[df['Year'].isna() | ~df['Year'].apply(lambda x: str(x).isdigit())].head(10))
+
+
+# Clean up year column
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')  # force numbers, turn bad ones to NaN
+df = df.dropna(subset=['Year'])  # drop rows with missing year
+df['Year'] = df['Year'].astype(int)  # make sure it's an int
+
+
+# Convert country codes
+country_code_map = {
+    'AF': 4, 'AL': 8, 'AM': 51, 'AO': 24, 'AR': 32, 'AZ': 31, 'BD': 50, 'BF': 854,
+    'BI': 108, 'BJ': 204, 'BO': 68, 'BW': 72, 'CD': 180, 'CF': 140, 'CG': 178,
+    'CI': 384, 'CL': 152, 'CM': 120, 'CO': 170, 'DO': 214, 'DZ': 12, 'EC': 218,
+    'EG': 818, 'EH': 732, 'ER': 232, 'ET': 231, 'FJ': 242, 'GE': 268, 'GN': 324,
+    'GT': 320, 'GW': 624, 'GY': 328, 'HN': 340, 'HT': 332, 'ID': 360, 'IL': 376,
+    'IN': 356, 'IQ': 368, 'IR': 364, 'JM': 388, 'JO': 400, 'KE': 404, 'KG': 417,
+    'KH': 116, 'LB': 422, 'LK': 144, 'LR': 430, 'LS': 426, 'LY': 434, 'MG': 450,
+    'ML': 466, 'MM': 104, 'MR': 478, 'MU': 480, 'MW': 454, 'MX': 484, 'MZ': 508,
+    'NE': 562, 'NG': 566, 'NI': 558, 'NP': 524, 'PE': 604, 'PG': 598, 'PH': 608,
+    'PK': 586, 'PL': 616, 'PS': 275, 'RW': 646, 'SA': 682, 'SD': 729, 'SL': 694,
+    'SN': 686, 'SO': 706, 'SS': 728, 'SV': 222, 'SY': 760, 'SZ': 748, 'TD': 148,
+    'TH': 764, 'TJ': 762, 'TN': 788, 'TR': 792, 'TZ': 834, 'UA': 804, 'UG': 800,
+    'UY': 858, 'VE': 862, 'VN': 704, 'XK': 0, 'YE': 887, 'ZA': 710, 'ZM': 894, 'ZW': 716
+}
+
+# Map ISO alpha-2 to numeric
+df['id'] = df['Country Code'].map(country_code_map)
+print("🔹 Rows with mapped country codes:", df['id'].notnull().sum())
+
+# Drop nulls, convert to string for TopoJSON
+df = df.dropna(subset=['id'])
+df['id'] = df['id'].astype(int).astype(str)
+
+print("🔹 Sample of mapped 'id':", df['id'].unique()[:5])
+print("🔹 Year range:", df['Year'].min(), "to", df['Year'].max())
+
+# Group by id + year
+df_grouped = df.groupby(['id', 'Year']).size().reset_index(name='Incident Count')
+df_grouped['id'] = df_grouped['id'].astype(str)
+
+print("🔹 Sample grouped data:")
+print(df_grouped.head(10))
+
+# Show how many countries have incidents in a specific year
+target_year = 2002
+sample = df_grouped[df_grouped['Year'] == target_year]
+print(f"🔹 Countries with incidents in {target_year}: {len(sample)}")
+print(sample)
+
+# Create dropdown
+years = sorted(df_grouped['Year'].unique())
+input_dropdown = alt.binding_select(options=years, name="Select_Year")
+selection = alt.selection_point(fields=['Year'], bind=input_dropdown)
+
+# Load map
+countries = alt.topo_feature(data.world_110m.url, 'countries')
+
+# Base map
+base_map = alt.Chart(countries).mark_geoshape(
+    fill='#f0f0f0',
+    stroke='white',
+    strokeWidth=0.5
+).properties(
+    width=800,
+    height=450
+)
+
+# Data layer
+# Data layer
+choropleth = alt.Chart(countries).mark_geoshape().encode(
+    color=alt.Color(
+        'Incident Count:Q',
+        scale=alt.Scale(scheme='reds'),
+        legend=alt.Legend(title="Incident Count")
+    ),
+    tooltip=[
+        alt.Tooltip('id:N', title='Country Code'),
+        alt.Tooltip('Incident Count:Q', title='Incidents'),
+        alt.Tooltip('Year:N', title='Year')
+    ]
+)
+# NEW: filter by selected year first, THEN lookup incidents
+choropleth = choropleth.transform_filter(
+    selection
+).transform_lookup(
+    lookup='id',
+    from_=alt.LookupData(
+        df_grouped, 'id', ['Incident Count', 'Year']
+    ),
+    default={'Incident Count': 0, 'Year': None}
+).project(
+    type='equirectangular'
+)
+
+
+# Combine layers
+final_map = alt.layer(
+    base_map,
+    choropleth
+).properties(
+    title='Incidents Against Aid Workers by Country and Year'
+).add_selection(
+    selection
+)
+
+final_map
+
+
+```
+
+
+```{python}
+```
+
+```{python}
+# Re-run without altair for now, just to inspect data
+import pandas as pd
+
+# Load the dataset
+df = pd.read_csv("security_incidents.csv")
+
+# Clean and process Year column
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df = df.dropna(subset=['Year', 'Country'])
+df['Year'] = df['Year'].astype(int)
+
+# Group total incidents per year
+yearly_counts = df.groupby('Year').size().reset_index(name='Incident Count')
+
+# Identify baseline (e.g., year 2000)
+baseline = yearly_counts[yearly_counts['Year'] == 2000]['Incident Count'].values[0]
+latest = yearly_counts[yearly_counts['Year'] == yearly_counts['Year'].max()]['Incident Count'].values[0]
+tripled = latest >= 3 * baseline
+
+# Group total incidents by country
+country_counts = df.groupby('Country').size().reset_index(name='Incident Count')
+top_countries = country_counts.sort_values(by='Incident Count', ascending=False).head(10)
+
+print(top_countries)
+
+```
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Load the dataset
+df = pd.read_csv("security_incidents.csv")
+
+# Clean and prepare the data
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df = df.dropna(subset=['Year', 'Country'])
+df['Year'] = df['Year'].astype(int)
+
+# Group by year for incidents trend
+yearly_incidents = df.groupby('Year').size().reset_index(name='Incident Count')
+
+# Filter from 2000 onwards
+yearly_incidents_filtered = yearly_incidents[yearly_incidents['Year'] >= 2000]
+
+# Group by country for top 10 dangerous countries
+country_incidents = df.groupby('Country').size().reset_index(name='Incident Count')
+top_countries = country_incidents.sort_values('Incident Count', ascending=False).head(10)
+
+# Line chart: Incidents over time
+line_chart = alt.Chart(yearly_incidents_filtered).mark_line(point=True).encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Incident Count:Q', title='Total Incidents'),
+    tooltip=['Year', 'Incident Count']
+).properties(
+    width=700,
+    height=400,
+    title='Total Aid Worker Incidents by Year (2000–2025)'
+)
+
+# Bar chart: Top 10 countries
+bar_chart = alt.Chart(top_countries).mark_bar().encode(
+    x=alt.X('Incident Count:Q', title='Total Incidents'),
+    y=alt.Y('Country:N', sort='-x', title='Country'),
+    tooltip=['Country', 'Incident Count']
+).properties(
+    width=700,
+    height=400,
+    title='Top 10 Countries with Most Aid Worker Incidents (1997–2025)'
+)
+
+
+
+line_chart & bar_chart
+
+
+```
+
+```{python}
+import pandas as pd
+
+# Load data
+df = pd.read_csv("security_incidents.csv")
+
+# Filter to Afghanistan (or whatever country)
+df_afg = df[df['Country'] == 'Afghanistan']
+df_afg = df_afg.dropna(subset=['Latitude', 'Longitude'])
+
+
+import altair as alt
+
+# Load your custom GeoJSON as a TopoFeature
+afghanistan_map = alt.Data(url="custom.geo.json", format=alt.DataFormat(property='features', type='json'))
+
+# Base map from GeoJSON
+base_map = alt.Chart(afghanistan_map).mark_geoshape(
+    fill='lightgray',
+    stroke='white'
+).properties(
+    width=800,
+    height=500
+).project(
+    type='mercator',
+    center=[66.5, 33.5],
+    scale=3600   # Slightly less zoom than before
+)
+
+       # Zoom level
+
+
+
+base_map
+```
+
+
+
+```{python}
+# Plot points
+points = alt.Chart(df_afg).mark_circle(opacity=0.6, color='red').encode(
+    longitude='Longitude:Q',
+    latitude='Latitude:Q',
+    size=alt.value(30),
+    tooltip=[
+        alt.Tooltip('Year:O'),
+        alt.Tooltip('City:N'),
+        alt.Tooltip('Means of attack:N'),
+        alt.Tooltip('Total killed:Q'),
+        alt.Tooltip('Actor type:N')
+    ]
+)
+
+afghanistan_map_chart = base_map + points
+afghanistan_map_chart
+
+```

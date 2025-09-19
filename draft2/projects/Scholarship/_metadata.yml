@@ -1,0 +1,8 @@
+sidebar: scholarship
+execute:
+  kernel: dsan6600
+format:
+  html:
+    toc: true
+    code-fold: true
+

@@ -1,0 +1,1449 @@
+# Risking Everything to Save Lives
+### A Data-Driven Look at Violence Against Aid Workers (1997–2025)
+
+
+This project explores 25+ years of data to uncover where, how, and why attacks happen — and what patterns may help predict them in the future.
+
+# Trends
+## Attacks and Deaths are on the rise
+From 1997-2024, attack frequency and aid workers deaths have had an upward trend, with a sharp increase in both starting in 2022.
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Load data
+df = pd.read_csv("security_incidents.csv")
+
+# Clean year column
+df = df.dropna(subset=['Year', 'Country Code'])
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df = df.dropna(subset=['Year'])
+df['Year'] = df['Year'].astype(int)
+
+# Group by year and count incidents
+yearly_incidents = df.groupby('Year').size().reset_index(name='Incident Count')
+
+# Remove 2025
+yearly_incidents = yearly_incidents[yearly_incidents['Year'] < 2025]
+
+# Create line chart
+line = alt.Chart(yearly_incidents).mark_line(point=True).encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Incident Count:Q', title='Total Incidents'),
+    tooltip=[
+        alt.Tooltip('Year:O'),
+        alt.Tooltip('Incident Count:Q')
+    ]
+).properties(
+    width=700,
+    height=400,
+    title='Total Attacks on Aid Workers by Year (1997–2024)'
+)
+
+line
+```
+
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Load data
+df = pd.read_csv("security_incidents.csv")
+
+# Clean and prepare year column
+df = df.dropna(subset=['Year', 'Country Code', 'Total killed'])
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df['Total killed'] = pd.to_numeric(df['Total killed'], errors='coerce')
+df = df.dropna(subset=['Year', 'Total killed'])
+df['Year'] = df['Year'].astype(int)
+
+# Group by year and sum total deaths
+yearly_deaths = df.groupby('Year')['Total killed'].sum().reset_index()
+
+
+yearly_deaths = yearly_deaths[yearly_deaths['Year'] < 2025]
+
+# Create line chart
+line = alt.Chart(yearly_deaths).mark_line(point=True).encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Total killed:Q', title='Total Deaths'),
+    tooltip=[
+        alt.Tooltip('Year:O'),
+        alt.Tooltip('Total killed:Q', title='Total Deaths')
+    ]
+).properties(
+    width=700,
+    height=400,
+    title='Total Aid Worker Deaths by Year (1997–2024)'
+)
+
+line
+
+
+```
+Note: Data for 2025 is incomplete and excluded from the trend line.
+
+# Where Are Aid Workers Most at Risk?
+
+ Areas going through economic and political unrest are the biggest hotspots for violence against aid workers. These include Afghanistan, Sudan, South Sudan, Syria, Somalia, DR Congo, and Palestine.
+
+
+```{python}
+import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+# Load and clean data
+df = pd.read_csv("security_incidents.csv")
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df = df.dropna(subset=['Year', 'Country Code', 'Country'])
+df['Year'] = df['Year'].astype(int)
+
+# Map ISO alpha-2 to ISO numeric codes (for TopoJSON match)
+country_code_map = {
+    'AF': 4, 'AL': 8, 'AM': 51, 'AO': 24, 'AR': 32, 'AZ': 31, 'BD': 50, 'BF': 854,
+    'BI': 108, 'BJ': 204, 'BO': 68, 'BW': 72, 'CD': 180, 'CF': 140, 'CG': 178,
+    'CI': 384, 'CL': 152, 'CM': 120, 'CO': 170, 'DO': 214, 'DZ': 12, 'EC': 218,
+    'EG': 818, 'EH': 732, 'ER': 232, 'ET': 231, 'FJ': 242, 'GE': 268, 'GN': 324,
+    'GT': 320, 'GW': 624, 'GY': 328, 'HN': 340, 'HT': 332, 'ID': 360, 'IL': 376,
+    'IN': 356, 'IQ': 368, 'IR': 364, 'JM': 388, 'JO': 400, 'KE': 404, 'KG': 417,
+    'KH': 116, 'LB': 422, 'LK': 144, 'LR': 430, 'LS': 426, 'LY': 434, 'MG': 450,
+    'ML': 466, 'MM': 104, 'MR': 478, 'MU': 480, 'MW': 454, 'MX': 484, 'MZ': 508,
+    'NE': 562, 'NG': 566, 'NI': 558, 'NP': 524, 'PE': 604, 'PG': 598, 'PH': 608,
+    'PK': 586, 'PL': 616, 'PS': 275, 'RW': 646, 'SA': 682, 'SD': 729, 'SL': 694,
+    'SN': 686, 'SO': 706, 'SS': 728, 'SV': 222, 'SY': 760, 'SZ': 748, 'TD': 148,
+    'TH': 764, 'TJ': 762, 'TN': 788, 'TR': 792, 'TZ': 834, 'UA': 804, 'UG': 800,
+    'UY': 858, 'VE': 862, 'VN': 704, 'XK': 0, 'YE': 887, 'ZA': 710, 'ZM': 894, 'ZW': 716
+}
+
+# Map codes
+df['id'] = df['Country Code'].map(country_code_map)
+df = df.dropna(subset=['id'])
+df['id'] = df['id'].astype(int).astype(str)
+
+# Group by country id and name
+df_total = df.groupby(['id', 'Country']).size().reset_index(name='Incident Count')
+
+# Load world map
+countries = alt.topo_feature(data.world_110m.url, 'countries')
+
+# Base map with no data 
+base_map = alt.Chart(countries).mark_geoshape(
+    fill='#f0f0f0',
+    stroke='white',
+    strokeWidth=0.5
+)
+
+# Choropleth overlay with incidents
+choropleth = alt.Chart(countries).mark_geoshape().encode(
+    color=alt.Color(
+        'Incident Count:Q',
+        scale=alt.Scale(scheme='reds'),
+        legend=alt.Legend(title="Incident Count")
+    ),
+    tooltip=[
+        alt.Tooltip('Country:N', title='Country'),
+        alt.Tooltip('Incident Count:Q', title='Total Incidents')
+    ]
+).transform_lookup(
+    lookup='id',
+    from_=alt.LookupData(df_total, 'id', ['Country', 'Incident Count']),
+    default={'Incident Count': 0, 'Country': 'N/A'}
+)
+
+# Combine map and data
+final_map = alt.layer(
+    base_map,
+    choropleth
+).project(
+    type='equirectangular'
+).properties(
+    width=650,
+    height=450,
+    title='Total Incidents Against Aid Workers by Country (1997–2025)'
+)
+
+final_map
+
+```
+
+## Top 10 Most Dangerous Countries for Aid Workers
+
+Nearly 70% of all attacks occurred in just these countries, making up 3029 of 4332 total incidents. x
+
+```{python}
+import pandas as pd
+import altair as alt
+
+
+df = pd.read_csv("security_incidents.csv")
+
+# Clean and prepare the data
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df = df.dropna(subset=['Year', 'Country'])
+df['Year'] = df['Year'].astype(int)
+
+# Group by country for top 10 dangerous countries
+country_incidents = df.groupby('Country').size().reset_index(name='Incident Count')
+top_countries = country_incidents.sort_values('Incident Count', ascending=False).head(10)
+
+# Bar chart: Top 10 countries
+bar_chart = alt.Chart(top_countries).mark_bar().encode(
+    x=alt.X('Incident Count:Q', title='Total Incidents'),
+    y=alt.Y('Country:N', sort='-x', title='Country'),
+    tooltip=['Country', 'Incident Count']
+).properties(
+    width=600,
+    height=400,
+    title='Top 10 Countries with Most Aid Worker Incidents (1997–2025)'
+)
+
+bar_chart
+
+
+```
+
+## Yearly Trend of incidents in top 5 countries 
+
+Afghanistan and Syria peaked in 2013, but while afghanistan has declined since then, Syria peaked again in 2016-2020, finally declining in 2021. 
+
+South Sudan had been on the rise througout the 2010-2020, but has declined starting in 2024.
+
+Sudan and Palestine on the other hand, saw a sharp uptick starting in 2023.
+ 
+```{python}
+
+
+import pandas as pd
+import altair as alt
+
+# Load and clean
+df = pd.read_csv("security_incidents.csv")
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df = df.dropna(subset=['Year', 'Country'])
+df['Year'] = df['Year'].astype(int)
+df = df[df['Year'] < 2025]
+
+# Top 5 countries
+top_countries = df['Country'].value_counts().nlargest(7).index.tolist()
+df_top = df[df['Country'].isin(top_countries)].copy()
+
+# Group by year and country
+df_yearly = df_top.groupby(['Country', 'Year']).size().reset_index(name='Incident Count')
+
+# Duplicate and label
+df_show_all = df_yearly.copy()
+df_show_all['Country Selection'] = 'Show All'
+df_yearly['Country Selection'] = df_yearly['Country']
+
+# Combine both
+df_combined = pd.concat([df_yearly, df_show_all], ignore_index=True)
+
+# Dropdown selection
+dropdown = alt.binding_select(options=['Show All'] + sorted(top_countries), name='Select Country: ')
+country_select = alt.selection_point(fields=['Country Selection'], bind=dropdown, value='Show All')
+
+# Line chart
+chart = alt.Chart(df_combined).transform_filter(
+    country_select
+).mark_line(point=True).encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Incident Count:Q', title='Incident Count'),
+    color=alt.Color('Country:N', title='Country'),
+    tooltip=['Country', 'Year', 'Incident Count']
+).add_params(
+    country_select
+).properties(
+    width=580,
+    height=400,
+    title='Incident Trends: Select a Country or Show All'
+)
+
+chart
+
+
+```
+
+## Deadliness of Attacks by Country
+
+This chart maps countries by total number of incidents (x-axis) and total deaths (y-axis), with color representing the average number of people killed per attack.
+
+Countries in the upper-left quadrant, such as Palestine, tend to have fewer incidents but high death tolls — suggesting that when attacks occur, they are especially deadly. 
+
+Meanwhile, countries in the upper-right quadrant, such as Afghanistan, face both frequent and deadly violence, posing ongoing risks to humanitarian workers.
+
+Afghanistan has experienced the most incidents (610) and the highest total deaths (486), averaging 0.8 deaths per attack.
+In contrast, the Occupied Palestinian Territories have seen only 158 incidents but nearly as many deaths (431), with an average of 2.73 deaths per attack — one of the highest among countries with significant incident counts.
+
+
+```{python}
+
+import pandas as pd
+import altair as alt
+
+# Load data
+df = pd.read_csv("security_incidents.csv")
+
+# Drop missing data
+df = df.dropna(subset=['Country Code', 'Country', 'Total killed'])
+
+# Convert values
+df['Total killed'] = pd.to_numeric(df['Total killed'], errors='coerce')
+df = df.dropna(subset=['Total killed'])
+
+# Group by country
+df_grouped = df.groupby(['Country Code', 'Country']).agg(
+    Incident_Count=('Incident ID', 'count'),
+    Total_Killed=('Total killed', 'sum')
+).reset_index()
+
+# Compute average
+df_grouped['Avg_Killed_Per_Incident'] = df_grouped['Total_Killed'] / df_grouped['Incident_Count']
+
+risk_matrix = alt.Chart(df_grouped).mark_circle(size=100).encode(
+    x=alt.X('Incident_Count:Q', title='Total Incidents'),
+    y=alt.Y('Total_Killed:Q', title='Total Deaths'),
+    color=alt.Color('Avg_Killed_Per_Incident:Q',
+                    scale=alt.Scale(scheme='reds'),
+                    legend=alt.Legend(title='Avg Deaths/Incident')),
+    tooltip=[
+        alt.Tooltip('Country:N'),
+        alt.Tooltip('Incident_Count:Q', title='Total Incidents'),
+        alt.Tooltip('Total_Killed:Q', title='Total Deaths'),
+        alt.Tooltip('Avg_Killed_Per_Incident:Q', format='.2f', title='Avg Deaths/Incident')
+    ]
+).properties(
+    width=600,
+    height=400,
+    title='Total Deaths vs Incidents (Color = Avg Deaths/Incident)'
+)
+
+risk_matrix
+
+```
+
+
+## Are attack types Evolving over time?
+
+Throughout the 2000s and 2010s, the main type of attacks were attributed to shootings and kidnapping, while starting in 2016, Aeriel Bombardment and Bodily Assault has been on the rise. 
+
+
+```{python}
+import altair as alt
+import pandas as pd
+
+# Load & clean
+df = pd.read_csv("security_incidents.csv")
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df = df.dropna(subset=['Year', 'Country', 'Means of attack'])
+df['Year'] = df['Year'].astype(int)
+df['Means of attack'] = df['Means of attack'].fillna('Unknown').str.strip().str.lower().str.title()
+
+# Top 10 countries by number of incidents
+top_countries = df['Country'].value_counts().nlargest(7).index.tolist()
+df_top = df[df['Country'].isin(top_countries)].copy()
+
+# Clean Means of attack
+top_attacks = df_top['Means of attack'].value_counts().nlargest(5).index.tolist()
+df_top['Means Clean'] = df_top['Means of attack'].apply(lambda x: x if x in top_attacks else 'Other')
+
+# Group by country
+country_counts = df_top.groupby(['Country', 'Year', 'Means Clean']).size().reset_index(name='Incident Count')
+
+# Group for "All Countries" total
+global_counts = df_top.groupby(['Year', 'Means Clean']).size().reset_index(name='Incident Count')
+global_counts['Country'] = 'All Countries'
+
+# Combine both
+attack_counts = pd.concat([country_counts, global_counts], ignore_index=True)
+
+# Sort order for color legend
+attack_order = attack_counts['Means Clean'].value_counts().index.tolist()
+
+
+dropdown_options = ['All Countries'] + sorted(top_countries)
+dropdown = alt.binding_select(options=dropdown_options, name="Select Country: ")
+country_select = alt.selection_point(fields=['Country'], bind=dropdown, value='All Countries')
+
+# Altair chart
+stacked_count = alt.Chart(attack_counts).transform_filter(
+    country_select
+).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Incident Count:Q', title='Number of Incidents'),
+    color=alt.Color('Means Clean:N', title='Attack Type', sort=attack_order),
+    tooltip=['Country', 'Year', 'Means Clean', 'Incident Count']
+).add_params(
+    country_select
+).properties(
+    width=600,
+    height=400,
+    title='Top Types of Attacks on Aid Workers Over Time (Top 10 Countries)'
+)
+
+stacked_count
+
+
+```
+
+
+## Which Aid workers are impacted the most 
+
+Nationals killed outnumber internationals killed by a large margin. Of the 380 total aid worker deaths, 369 were nationals, while only 11 were internationals. This means nearly all aid worker fatalities (97%) were local staff, highlighting the disproportionate risk borne by national aid workers on the ground.
+
+```{python}
+df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+df = df.dropna(subset=['Year'])
+df['Year'] = df['Year'].astype(int)
+
+# Melt data
+victim_df = df[['Year', 'Nationals killed', 'Internationals killed']].fillna(0)
+victim_df = victim_df.groupby('Year').sum().reset_index()
+
+victim_long = victim_df.melt(id_vars='Year', 
+                             var_name='Victim Type', 
+                             value_name='Count')
+
+# Plot
+victim_bar = alt.Chart(victim_long).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Count:Q', title='People Killed'),
+    color=alt.Color('Victim Type:N', title='Victim Group'),
+    tooltip=['Year:O', 'Victim Type:N', 'Count:Q']
+).properties(
+    width=600,
+    height=400,
+    title='Who Gets Killed in Attacks on Aid Workers'
+)
+
+victim_bar
+
+```
+# Actor Type and Means of Attack Analysis
+This heatmap explores the correlation between Actor Type and Means of Attack
+
+In Afghanistan, kidnapping is the most common incident among National and Unknown Non State Armed Groups. Palestine on the other hand has the host state committing many shooting and aerial bombardment incidents, while Foreign States mainly commited aerial bombardments. 
+```{python}
+import pandas as pd
+import altair as alt
+
+# Allow rendering of large datasets
+alt.data_transformers.disable_max_rows()
+
+# Load the dataset
+df = pd.read_csv("security_incidents.csv")
+
+# Clean and standardize text columns
+df['Actor type'] = df['Actor type'].str.strip().str.lower().str.title()
+df['Means of attack'] = df['Means of attack'].str.strip().str.lower().str.title()
+df['Country'] = df['Country'].str.strip()
+
+# Filter out invalid entries
+df_heat = df[
+    df['Actor type'].notna() &
+    df['Means of attack'].notna() &
+    df['Country'].notna() &
+    (df['Actor type'] != 'Unknown') &
+    (df['Means of attack'] != 'Unknown')
+].copy()
+
+# --- DEBUGGING STEP: Print Summary Stats for Aerial Bombardment ---
+country_focus = "Afghanistan"  # Change as needed
+aerial_subset = df_heat[
+    (df_heat['Country'] == country_focus) &
+    (df_heat['Means of attack'] == "Aerial Bombardment")
+]
+
+
+
+# Group incident counts
+grouped = df_heat.groupby(['Country', 'Actor type', 'Means of attack']).size().reset_index(name='Count')
+
+# Ensure full combination of values exists for complete heatmap
+countries = grouped['Country'].unique()
+actors = grouped['Actor type'].unique()
+attacks = grouped['Means of attack'].unique()
+
+full_index = pd.MultiIndex.from_product(
+    [countries, actors, attacks],
+    names=['Country', 'Actor type', 'Means of attack']
+)
+grouped_full = grouped.set_index(['Country', 'Actor type', 'Means of attack']).reindex(
+    full_index, fill_value=0
+).reset_index()
+
+# Dropdown to select country
+dropdown = alt.binding_select(options=sorted(grouped_full['Country'].unique()), name='Select Country: ')
+country_select = alt.selection_point(fields=['Country'], bind=dropdown, value=country_focus)
+
+# Base heatmap
+heatmap = alt.Chart(grouped_full).transform_filter(
+    country_select
+).mark_rect(stroke='white').encode(
+    x=alt.X('Means of attack:N', title='Means of Attack'),
+    y=alt.Y('Actor type:N', title='Actor Type'),
+    color=alt.Color('Count:Q', scale=alt.Scale(scheme='reds'), title='Number of Incidents'),
+    tooltip=['Actor type:N', 'Means of attack:N', 'Count:Q']
+)
+
+# Add text labels with counts
+text = alt.Chart(grouped_full).transform_filter(
+    country_select
+).mark_text(baseline='middle', fontSize=11).encode(
+    x='Means of attack:N',
+    y='Actor type:N',
+    text=alt.Text('Count:Q', format='.0f'),
+    color=alt.condition(
+        alt.datum.Count > 50,
+        alt.value('white'),
+        alt.value('black')
+    )
+)
+
+# Combine and show chart
+(heatmap + text).add_params(
+    country_select
+).properties(
+    width=550,
+    height=400,
+    title='Actor Type vs. Means of Attack on Aid Workers'
+).configure_axis(
+    labelAngle=-45
+)
+
+
+```
+
+
+
+# A Closer Look: Afghanistan’s Humanitarian Danger Zones
+## Terrorism and Counter-Insurgency
+
+Afghanistan has been in a constant conflict for over 40 years. In the 1970s-80s, Afghanistan was occupied by Soviets, however after withdrawal in 1989, Afghanistan fell to civil war, with the Taliban rising in power and by 1997-2001, controlled most of Afghanistan. 
+
+After 9/11, the US invaded Afghanistan, targeting the Taliban and al-Qaeda. From 2001-2014, the US military and other foreign countries engage in combat, with NATO finally ending their missions in 2014 and the US signing a peace deal with the Taliban in 2020.
+
+After the US military withdrawals in 2021, the Taliban quickly rise to power again, raising concerns regarding human rights for women and aid workers. 
+
+[PBS News Desk 2021](#references)
+
+
+## Where are the Incidents?
+
+Major confict areas include cities like Kabul , Jalalabad and Kandahar, where the  political significance, international presence, population density, supply routes and the presence of insurgent groups all contributing to the risks and incidents involving aid workers.
+
+```{python}
+import pandas as pd
+import altair as alt
+import json
+
+# Load the data
+df = pd.read_csv("security_incidents.csv")
+
+# Filter to Afghanistan and drop missing coordinates
+df_afg = df[df['Country'] == 'Afghanistan'].dropna(subset=['Latitude', 'Longitude', 'City'])
+
+# Clean columns
+df_afg['Latitude'] = pd.to_numeric(df_afg['Latitude'], errors='coerce')
+df_afg['Longitude'] = pd.to_numeric(df_afg['Longitude'], errors='coerce')
+df_afg['Total killed'] = pd.to_numeric(df_afg['Total killed'], errors='coerce')
+df_afg = df_afg.dropna(subset=['Latitude', 'Longitude', 'City'])
+
+# Group by City
+df_grouped = df_afg.groupby('City').agg(
+    Latitude=('Latitude', 'mean'),
+    Longitude=('Longitude', 'mean'),
+    Incident_Count=('Incident ID', 'count'),
+    Total_Killed=('Total killed', 'sum'),
+    Avg_Killed=('Total killed', 'mean')
+).reset_index()
+
+# Load Afghanistan GeoJSON outline
+with open("custom.geo.json", "r") as f:
+    geojson_data = json.load(f)
+
+# Base map outline
+base_map = alt.Chart(alt.Data(values=geojson_data['features'])).mark_geoshape(
+    fill='lightgray',
+    stroke='black'
+).project(
+    type='mercator',
+    center=[65.1, 33.5],
+    scale=3600
+).properties(
+    width=800,
+    height=500,
+    title=' City-Level Hotspots of Attacks on Aid Workers in Afghanistan (1997–2025)'
+)
+
+# City-level bubbles
+bubbles = alt.Chart(df_grouped).mark_circle(opacity=0.9).encode(
+    longitude='Longitude:Q',
+    latitude='Latitude:Q',
+    size=alt.Size('Incident_Count:Q', scale=alt.Scale(range=[30, 300]), title='Incidents'),
+    color=alt.Color(
+    'Total_Killed:Q',
+    scale=alt.Scale(
+        domain=[0, df_grouped['Total_Killed'].max()],
+        range=['orange', 'red']
+    ),
+    title='Total Deaths'
+),
+
+    tooltip=[
+        alt.Tooltip('City:N'),
+        alt.Tooltip('Incident_Count:Q', title='Total Incidents'),
+        alt.Tooltip('Total_Killed:Q', title='Total Deaths'),
+        alt.Tooltip('Avg_Killed:Q', title='Avg Deaths/Incident')
+    ]
+)
+
+# Combine map + bubbles
+afghanistan_city_map = base_map + bubbles
+afghanistan_city_map
+
+```
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Load the data
+df = pd.read_csv("security_incidents.csv")
+
+# Filter to Afghanistan
+df_afg = df[df['Country'] == 'Afghanistan'].copy()
+
+# Clean and normalize the District column
+df_afg['District'] = df_afg['District'].str.strip().str.title()
+
+# Drop missing or "Unknown" districts
+df_afg = df_afg[df_afg['District'].notna()]
+df_afg = df_afg[df_afg['District'].str.lower() != 'unknown']
+
+# Group by District and summarize
+district_summary_afg = df_afg.groupby('District').agg(
+    Incidents=('Incident ID', 'count'),
+    Total_Deaths=('Total killed', 'sum'),
+    Avg_Deaths=('Total killed', 'mean')
+).reset_index().sort_values('Incidents', ascending=False)
+
+# Take Top 5
+top5_districts_afg = district_summary_afg.head(5)
+
+# Plot as horizontal bar chart
+alt.Chart(top5_districts_afg).mark_bar().encode(
+    x=alt.X('Incidents:Q', title='Number of Incidents'),
+    y=alt.Y('District:N', sort='-x', title='District'),
+    tooltip=['District', 'Incidents', 'Total_Deaths', 'Avg_Deaths'],
+    color=alt.Color('District:N', legend=None)
+).properties(
+    title='Top 5 Districts in Afghanistan by Number of Security Incidents',
+    width=600,
+    height=300
+)
+
+
+```
+
+## Perpetrators in Afghanistan 
+
+The biggest perpetrators are attributed to National Non-state armed groups and other Non state armed groups. These include the Taliban, who are the most prominent non-state actor in Afghanistan, and responsible for numerous attacks on aid workers. Another example of a non-state groups include the Islamic State Khorasan Province, a branch of ISIS located and operating in Afghanistan since 2015
+
+[U.S. Department of State 2022](#references)
+
+```{python}
+
+# Filter to Afghanistan and exclude unknown actor types
+actor_df_afg = df[
+    (df['Country'] == 'Afghanistan') &
+    (df['Actor type'].notna()) &
+    (df['Actor type'] != 'Unknown')
+]
+
+# Get top 5 actor types within Afghanistan
+top_actors_afg = (
+    actor_df_afg['Actor type']
+    .value_counts()
+    .head(5)
+    .index.tolist()
+)
+
+# Filter to top 5 actor types
+actor_df_afg_top5 = actor_df_afg[actor_df_afg['Actor type'].isin(top_actors_afg)]
+
+# Group by year and actor type
+actor_yearly_afg = actor_df_afg_top5.groupby(['Year', 'Actor type']).size().reset_index(name='Count')
+
+# Line chart
+alt.Chart(actor_yearly_afg).mark_line(point=True).encode(
+    x='Year:O',
+    y='Count:Q',
+    color='Actor type:N',
+    tooltip=['Year', 'Actor type', 'Count']
+).properties(
+    title='Top 5 Actor Types in Afghanistan Over Time',
+    width=580,
+    height=400
+)
+```
+
+## How Deadly Are Attack Types Over Time in Afghanistan
+
+In Afghanistan, shootings are the most commonly used method of attack against aid workers, followed by aerial bombardments, however after 2022 there has been a decrease in incidents leading to death. The previous pattern reflects the prevalence of small arms violence and ongoing conflict dynamics within the country. 
+
+
+
+```{python}
+import pandas as pd
+import altair as alt
+
+
+# Filter to Afghanistan
+df_afg = df[df['Country'] == 'Afghanistan'].copy()
+
+# Clean and prep
+df_afg['Year'] = pd.to_numeric(df_afg['Year'], errors='coerce')
+df_afg['Total killed'] = pd.to_numeric(df_afg['Total killed'], errors='coerce')
+df_afg = df_afg.dropna(subset=['Year', 'Total killed', 'Means of attack'])
+df_afg['Year'] = df_afg['Year'].astype(int)
+
+# Get top 5 most deadly attack types
+top_attacks = (
+    df_afg.groupby('Means of attack')['Total killed'].sum()
+    .sort_values(ascending=False)
+    .head(5)
+    .index
+)
+
+# Filter to top 5 attack types
+df_afg_top = df_afg[df_afg['Means of attack'].isin(top_attacks)]
+
+# Group by year and attack type
+deaths_by_type = df_afg_top.groupby(['Year', 'Means of attack'])['Total killed'].sum().reset_index()
+
+# Stacked bar chart
+alt.Chart(deaths_by_type).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Total killed:Q', title='Total Deaths'),
+    color=alt.Color('Means of attack:N', title='Attack Type'),
+    tooltip=['Year', 'Means of attack', 'Total killed']
+).properties(
+    width=600,
+    height=400,
+    title='Total Deaths in Afghanistan by Attack Type (Top 5)'
+)
+
+
+```
+
+## Comparing Frequency and Lethality of Attack Types in Afghanistan
+
+The average deaths of shooting incidents is 1.14, with 154 total incidents and 175 total deaths. Aerial Bombardments had an average of 2.5, with 12 incidents and 30 deaths. Bodily Assault had the lowest lethality per attack, with an average death of 0.23 per incident.
+
+```{python}
+# Bubble chart: x = Total Incidents, y = Total Deaths, size = Avg Deaths/Incident
+
+df = pd.read_csv("security_incidents.csv")
+df_afg = df[df['Country'] == 'Afghanistan'].copy()
+
+# Clean necessary columns
+df_afg['Total killed'] = pd.to_numeric(df_afg['Total killed'], errors='coerce')
+df_afg['Means of attack'] = df_afg['Means of attack'].fillna('Unknown').str.strip()
+
+# Drop missing or invalid values
+df_afg = df_afg.dropna(subset=['Total killed', 'Means of attack'])
+
+# Group by Means of Attack
+attack_stats = df_afg.groupby('Means of attack').agg(
+    Total_Incidents=('Incident ID', 'count'),
+    Total_Deaths=('Total killed', 'sum'),
+    Avg_Deaths_Per_Incident=('Total killed', 'mean')
+).sort_values(by='Total_Deaths', ascending=False).reset_index()
+
+# Round for cleaner display
+attack_stats['Avg_Deaths_Per_Incident'] = attack_stats['Avg_Deaths_Per_Incident'].round(2)
+
+alt.Chart(attack_stats).mark_circle().encode(
+    x=alt.X('Total_Incidents:Q', title='Total Incidents'),
+    y=alt.Y('Total_Deaths:Q', title='Total Deaths'),
+    size=alt.Size('Avg_Deaths_Per_Incident:Q', title='Avg Deaths per Incident'),
+    color=alt.Color('Means of attack:N', title='Attack Type'),
+    tooltip=[
+        'Means of attack',
+        'Total_Incidents',
+        'Total_Deaths',
+        'Avg_Deaths_Per_Incident'
+    ]
+).properties(
+    title='How Deadly Are Different Attack Types in Afghanistan?',
+    width=600,
+    height=400
+)
+
+```
+
+## Fatalities by Attack Context in Afghanistan
+
+Throughout the 2000s, Ambush attacks were the most common, however starting in 2014, Combat/Crossfire incidents become more prevalent. Starting in 2021, Individual Attacks and Raids have taken the lead, likely due to shifting power structures, increased targeted violence, and withdrawal of international forces.
+
+```{python}
+
+import pandas as pd
+import altair as alt
+
+# Filter to Afghanistan
+df_afg = df[df['Country'] == 'Afghanistan'].copy()
+
+# Clean and prep
+df_afg['Year'] = pd.to_numeric(df_afg['Year'], errors='coerce')
+df_afg['Total killed'] = pd.to_numeric(df_afg['Total killed'], errors='coerce')
+df_afg['Attack context'] = df_afg['Attack context'].fillna('Unknown').str.strip()
+df_afg = df_afg.dropna(subset=['Year', 'Total killed', 'Attack context'])
+df_afg['Year'] = df_afg['Year'].astype(int)
+
+# Get top 5 most deadly attack contexts
+top_contexts = (
+    df_afg.groupby('Attack context')['Total killed'].sum()
+    .sort_values(ascending=False)
+    .head(5)
+    .index
+)
+
+# Filter to top 5 contexts
+df_afg_top = df_afg[df_afg['Attack context'].isin(top_contexts)]
+
+# Group by year and attack context
+deaths_by_context = df_afg_top.groupby(['Year', 'Attack context'])['Total killed'].sum().reset_index()
+
+# Stacked bar chart
+alt.Chart(deaths_by_context).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Total killed:Q', title='Total Deaths'),
+    color=alt.Color('Attack context:N', title='Attack Context'),
+    tooltip=['Year', 'Attack context', 'Total killed']
+).properties(
+    width=600,
+    height=400,
+    title='Total Deaths in Afghanistan by Attack Context (Top 5)'
+)
+
+```
+
+
+
+
+# A Closer Look: Palestine
+## Disputed Territories
+
+Palestine and Gaza have a complex and long history. From 1948-1967, Gaza was in Egypt's rule, however after the Six Day war in 1967, Israel seized control of Gaza, the West Bank and East Jerusalem. This marked a turning point, displacing many Palestinians and intensifying the struggle over occupied land.
+
+The first Palestinian Uprising took place in 1987, known as the first Intifada. For 5 years, protests and violence sprung up in Palestine. It was at this time, Hamas, a militant group based out of Gaza was formed. In 1993, peace talks were attempted, however fell short due to uprisings and continued violence. 
+
+In 2005, Israel withdrew all troops and settlers in Palestine, with Hamas winning elections. In 2007, Hamas violently seized full control of Gaza from Fatah(the ruling faction of Palestine). This prompted Israel and Egypt to impose a strict blockade on the territory, citing security concern Overtime,  Hamas became more and more powerful, amassing more weapons and rockets
+
+In October 2023, Hamas planned a surprise attack on Israel, killing 1,200 people and took 250 people hostage. This has sparked an huge military response, which has resulted in tens of thousands of Palestinians deaths, violence, and huge displacement in Gaza's population.
+
+[Frankel 2025](#references)
+
+
+## Where Are the Incidents?
+
+Similar to Afghanistan, areas of conflict include Gaza, Khan Younis, Nablus, and Rafah, where ongoing political tensions, dense urban populations, border proximity, and frequent military operations all contribute to higher risks and incidents involving aid workers.
+
+```{python}
+import pandas as pd
+import altair as alt
+
+
+df = pd.read_csv("security_incidents.csv")
+
+# Filter to Palestine
+df_pal = df[df['Country'] == 'Occupied Palestinian Territories'].copy()
+
+# Clean and normalize the District column
+df_pal['District'] = df_pal['District'].str.strip().str.title()
+
+# Drop missing or "Unknown" districts
+df_pal = df_pal[df_pal['District'].notna()]
+df_pal = df_pal[df_pal['District'].str.lower() != 'unknown']
+
+# Group by District and summarize
+district_summary = df_pal.groupby('District').agg(
+    Incidents=('Incident ID', 'count'),
+    Total_Deaths=('Total killed', 'sum'),
+    Avg_Deaths=('Total killed', 'mean')
+).reset_index().sort_values('Incidents', ascending=False)
+
+# Take Top 5
+top5_districts = district_summary.head(5)
+
+# Plot as horizontal bar chart (easier to read long names)
+alt.Chart(top5_districts).mark_bar().encode(
+    x=alt.X('Incidents:Q', title='Number of Incidents'),
+    y=alt.Y('District:N', sort='-x', title='District'),
+    tooltip=['District', 'Incidents', 'Total_Deaths', 'Avg_Deaths'],
+    color=alt.Color('District:N', legend=None)
+).properties(
+    title='Top 5 Districts in Palestine by Number of Security Incidents',
+    width=600,
+    height=300
+)
+
+```
+
+## Perpetrators in Palestine
+
+ Starting in 2002, the majority of Perpetrators in Palestine are the host state itself, however in 2024 and 2025 there's been a rise in incidents involving foreign or coalition forces. The host state can be attributed to the workings of Hamas, while attacks by foreign states can be attributed to the workings of Israel and Iran backed Hezbollah.
+
+```{python}
+import altair as alt
+
+# Filter to Palestine and exclude unknown actor types
+actor_df_pal = df[
+    (df['Country'] == 'Occupied Palestinian Territories') &
+    (df['Actor type'].notna()) &
+    (df['Actor type'] != 'Unknown')
+]
+
+#top 5 actor types within Palestine
+top_actors_pal = (
+    actor_df_pal['Actor type']
+    .value_counts()
+    .head(5)
+    .index.tolist()
+)
+
+# Filter to top 5 actor types
+actor_df_pal_top5 = actor_df_pal[actor_df_pal['Actor type'].isin(top_actors_pal)]
+
+# Group by year and actor type
+actor_yearly_pal = actor_df_pal_top5.groupby(['Year', 'Actor type']).size().reset_index(name='Count')
+
+# Stacked bar chart
+alt.Chart(actor_yearly_pal).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Count:Q', title='Number of Incidents'),
+    color=alt.Color('Actor type:N', title='Actor Type'),
+    tooltip=['Year', 'Actor type', 'Count']
+).properties(
+    title='Top 5 Actor Types in Palestine Over Time',
+    width=600,
+    height=400
+)
+
+
+```
+
+## How Deadly Are Attack Types Over Time in Palestine
+
+Throughout the 2000s and 2010s, the main types of attacks conducted involved shootings, with occasional Aeriel Bombardments (only attributing to 11 deaths), however starting in 2023, Aeriel Bombardment has seen a massive increase in incidents, accounting for 294 of the 381 deaths (77%).
+
+```{python}
+
+# Filter to Palestine
+df_pal = df[df['Country'] == 'Occupied Palestinian Territories'].copy()
+
+# Clean and prep
+df_pal['Year'] = pd.to_numeric(df_pal['Year'], errors='coerce')
+df_pal['Total killed'] = pd.to_numeric(df_pal['Total killed'], errors='coerce')
+df_pal = df_pal.dropna(subset=['Year', 'Total killed', 'Means of attack'])
+df_pal['Year'] = df_pal['Year'].astype(int)
+
+# Get top 5 most deadly attack types
+top_attacks_pal = (
+    df_pal.groupby('Means of attack')['Total killed'].sum()
+    .sort_values(ascending=False)
+    .head(5)
+    .index
+)
+
+# Filter to top 5 attack types
+df_pal_top = df_pal[df_pal['Means of attack'].isin(top_attacks_pal)]
+
+# Group by year and attack type
+deaths_by_type_pal = df_pal_top.groupby(['Year', 'Means of attack'])['Total killed'].sum().reset_index()
+
+# Stacked bar chart
+alt.Chart(deaths_by_type_pal).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Total killed:Q', title='Total Deaths'),
+    color=alt.Color('Means of attack:N', title='Attack Type'),
+    tooltip=['Year', 'Means of attack', 'Total killed']
+).properties(
+    width=600,
+    height=400,
+    title='Total Deaths in Palestine by Attack Type (Top 5)'
+)
+
+```
+
+## Comparing Frequency and Lethality of Attack Types in Palestine
+
+The average deaths of Aeriel Bombardment is 4.55, with 67 total incidents and 305 total deaths. Shootings had an average of 0.78, with 41 incidents and 32 deaths. With an average fatality of 4.55 per incident, this is the deadliest attack type we have seen in our analysis.
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Load and filter data to Palestine
+df = pd.read_csv("security_incidents.csv")
+df_pal = df[df['Country'] == 'Occupied Palestinian Territories'].copy()
+
+# Clean necessary columns
+df_pal['Total killed'] = pd.to_numeric(df_pal['Total killed'], errors='coerce')
+df_pal['Means of attack'] = df_pal['Means of attack'].fillna('Unknown').str.strip()
+
+# Drop missing or invalid values
+df_pal = df_pal.dropna(subset=['Total killed', 'Means of attack'])
+
+# Group by Means of Attack
+attack_stats_pal = df_pal.groupby('Means of attack').agg(
+    Total_Incidents=('Incident ID', 'count'),
+    Total_Deaths=('Total killed', 'sum'),
+    Avg_Deaths_Per_Incident=('Total killed', 'mean')
+).sort_values(by='Total_Deaths', ascending=False).reset_index()
+
+
+attack_stats_pal['Avg_Deaths_Per_Incident'] = attack_stats_pal['Avg_Deaths_Per_Incident'].round(2)
+
+# Bubble chart
+alt.Chart(attack_stats_pal).mark_circle().encode(
+    x=alt.X('Total_Incidents:Q', title='Total Incidents'),
+    y=alt.Y('Total_Deaths:Q', title='Total Deaths'),
+    size=alt.Size('Avg_Deaths_Per_Incident:Q', title='Avg Deaths per Incident'),
+    color=alt.Color('Means of attack:N', title='Attack Type'),
+    tooltip=[
+        'Means of attack',
+        'Total_Incidents',
+        'Total_Deaths',
+        'Avg_Deaths_Per_Incident'
+    ]
+).properties(
+    title='How Deadly Are Different Attack Types in Palestine?',
+    width=560,
+    height=450
+)
+
+
+```
+
+## Fatalities by Attack Context in Palestine
+
+ Combat and individual attacks dominate the attack context in Palestine, likely due to the intensity of urban conflict, military operations, and acts of violence in densely populated areas like Gaza.
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Filter to Afghanistan
+df_afg = df[df['Country'] == 'Occupied Palestinian Territories'].copy()
+
+# Clean and prep
+df_afg['Year'] = pd.to_numeric(df_afg['Year'], errors='coerce')
+df_afg['Total killed'] = pd.to_numeric(df_afg['Total killed'], errors='coerce')
+df_afg['Attack context'] = df_afg['Attack context'].fillna('Unknown').str.strip()
+df_afg = df_afg.dropna(subset=['Year', 'Total killed', 'Attack context'])
+df_afg['Year'] = df_afg['Year'].astype(int)
+
+# Get top 5 most deadly attack contexts
+top_contexts = (
+    df_afg.groupby('Attack context')['Total killed'].sum()
+    .sort_values(ascending=False)
+    .head(5)
+    .index
+)
+
+# Filter to top 5 contexts
+df_afg_top = df_afg[df_afg['Attack context'].isin(top_contexts)]
+
+# Group by year and attack context
+deaths_by_context = df_afg_top.groupby(['Year', 'Attack context'])['Total killed'].sum().reset_index()
+
+# Stacked bar chart
+alt.Chart(deaths_by_context).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Total killed:Q', title='Total Deaths'),
+    color=alt.Color('Attack context:N', title='Attack Context'),
+    tooltip=['Year', 'Attack context', 'Total killed']
+).properties(
+    width=600,
+    height=400,
+    title='Total Deaths in Palestine by Attack Context (Top 5)'
+)
+
+
+```
+
+
+
+# A Closer Look: South Sudan
+## Civil War Fallout
+
+After decades of civil war and oppression under Sudanese rule, South Sudan emerged as the world's newest nation.
+Starting in 2011, South Sudan finally achieved independence, however just 2 years later in 2013, President Kiir fired his vice president Riek Machar, accusing him of starting a coup. This started a civil war, splitting the country along ethnic lines, causing widespread destruction and displacing more than 2 million people. 
+
+In 2015, a peace deal was reached, however, violence quickly resumed in 2016 when Machar returned as Vice President and was forced to flee. In 2018 a second peace deal was reached, however slow implementation led to more than 7 million people facing hunger and food shortages by 2019, with this being where Sudan is today. 
+Today, South Sudan remains conflicted by political instability, continuing to face violence and instability with constant need for humanitarian aid. 
+
+[Concern Worldwide 2022](#references)
+
+## Where are the Incidents?
+
+Major conflict areas in South Sudan include cities such as Juba, Rubkona, Pibor, Torit, and Maba. Aid Workers in these cities face higher risks due to political instability, ongoing ethnic and communal tensions, proximity to military activity, all of which contribute to frequent attacks on aid workers.
+
+
+```{python}
+import pandas as pd
+import altair as alt
+import json
+
+# Load the data
+df = pd.read_csv("security_incidents.csv")
+
+# Filter to South Sudan and drop missing coordinates
+df_ss = df[df['Country'] == 'South Sudan'].dropna(subset=['Latitude', 'Longitude', 'City'])
+
+# Clean columns
+df_ss['Latitude'] = pd.to_numeric(df_ss['Latitude'], errors='coerce')
+df_ss['Longitude'] = pd.to_numeric(df_ss['Longitude'], errors='coerce')
+df_ss['Total killed'] = pd.to_numeric(df_ss['Total killed'], errors='coerce')
+df_ss = df_ss.dropna(subset=['Latitude', 'Longitude', 'City'])
+
+# Group by City
+df_grouped_ss = df_ss.groupby('City').agg(
+    Latitude=('Latitude', 'mean'),
+    Longitude=('Longitude', 'mean'),
+    Incident_Count=('Incident ID', 'count'),
+    Total_Killed=('Total killed', 'sum'),
+    Avg_Killed=('Total killed', 'mean')
+).reset_index()
+
+# Load South Sudan GeoJSON
+with open("southsudan.geo.json", "r") as f:
+    geojson_ss = json.load(f)
+
+# Base map outline for South Sudan
+base_map_ss = alt.Chart(alt.Data(values=geojson_ss['features'])).mark_geoshape(
+    fill='lightgray',
+    stroke='black'
+).project(
+    type='mercator',
+    center=[26.31, 7.6],  # Approximate center of South Sudan
+    scale=3700
+).properties(
+    width=1000,
+    height=700,
+    title='City-Level Hotspots of Attacks on Aid Workers in South Sudan (1997–2025)'
+)
+
+
+# City-level bubbles
+bubbles_ss = alt.Chart(df_grouped_ss).mark_circle(opacity=0.9).encode(
+    longitude='Longitude:Q',
+    latitude='Latitude:Q',
+    size=alt.Size('Incident_Count:Q', scale=alt.Scale(range=[30, 300]), title='Incidents'),
+    color=alt.Color(
+        'Total_Killed:Q',
+        scale=alt.Scale(
+            domain=[0, df_grouped_ss['Total_Killed'].max()],
+            range=['orange', 'red']
+        ),
+        title='Total Deaths'
+    ),
+    tooltip=[
+        alt.Tooltip('City:N'),
+        alt.Tooltip('Incident_Count:Q', title='Total Incidents'),
+        alt.Tooltip('Total_Killed:Q', title='Total Deaths'),
+        alt.Tooltip('Avg_Killed:Q', title='Avg Deaths/Incident')
+    ]
+)
+
+# Combine placeholder base + bubbles
+southsudan_city_map = base_map_ss + bubbles_ss
+southsudan_city_map
+
+
+```
+
+# Most Dangerous Districts in South Sudan 
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Filter to South Sudan
+df_ss = df[df['Country'] == 'South Sudan'].copy()
+
+# Clean and normalize
+df_ss['District'] = df_ss['District'].fillna('Unknown').str.strip().str.title()
+df_ss = df_ss[df_ss['District'].str.lower() != 'unknown']
+df_ss['Total killed'] = pd.to_numeric(df_ss['Total killed'], errors='coerce')
+
+# Group by District and summarize
+district_summary_ss = df_ss.groupby('District').agg(
+    Incidents=('Incident ID', 'count'),
+    Total_Deaths=('Total killed', 'sum'),
+    Avg_Deaths=('Total killed', 'mean')
+).reset_index().sort_values('Incidents', ascending=False)
+
+# Take Top 5
+top5_districts_ss = district_summary_ss.head(5)
+
+# Plot as horizontal bar chart
+alt.Chart(top5_districts_ss).mark_bar().encode(
+    x=alt.X('Incidents:Q', title='Number of Incidents'),
+    y=alt.Y('District:N', sort='-x', title='District'),
+    tooltip=['District', 'Incidents', 'Total_Deaths', 'Avg_Deaths'],
+    color=alt.Color('District:N', legend=None)
+).properties(
+    title='Top 5 Districts in South Sudan by Number of Security Incidents',
+    width=600,
+    height=300
+)
+
+
+
+```
+
+## Top Actor Types in South Sudan Over Time
+
+Throughout the 2010s, unaffiliated groups and unknown armed groups have been the main culprit of incidents, however starting in 2021, Subnational Non-state groups have been the main group that has. This is likely due to post civil war instability and power struggles.
+
+```{python}
+# Filter to South Sudan and exclude unknown actor types
+actor_df_ss = df[
+    (df['Country'] == 'South Sudan') &
+    (df['Actor type'].notna()) &
+    (df['Actor type'] != 'Unknown')
+]
+
+# Top 5 actor types in South Sudan
+top_actors_ss = (
+    actor_df_ss['Actor type']
+    .value_counts()
+    .head(5)
+    .index.tolist()
+)
+
+# Filter to top 5 actor types
+actor_df_ss_top5 = actor_df_ss[actor_df_ss['Actor type'].isin(top_actors_ss)]
+
+# Group by year and actor type
+actor_yearly_ss = actor_df_ss_top5.groupby(['Year', 'Actor type']).size().reset_index(name='Count')
+
+# Line chart
+alt.Chart(actor_yearly_ss).mark_line(point=True).encode(
+    x='Year:O',
+    y='Count:Q',
+    color='Actor type:N',
+    tooltip=['Year', 'Actor type', 'Count']
+).properties(
+    title='Top 5 Actor Types in South Sudan Over Time',
+    width=580,
+    height=400
+)
+
+```
+
+## How Deadly Are Attack Types Over Time in South Sudan
+
+In South Sudan, shootings are the most commonly used method of attack against aid workers, followed by Bodily Assults, however following 2023 there has been a decrease in incidents leading to death. 
+
+```{python}
+# Filter to South Sudan
+df_ss = df[df['Country'] == 'South Sudan'].copy()
+
+# Clean and prep
+df_ss['Year'] = pd.to_numeric(df_ss['Year'], errors='coerce')
+df_ss['Total killed'] = pd.to_numeric(df_ss['Total killed'], errors='coerce')
+df_ss = df_ss.dropna(subset=['Year', 'Total killed', 'Means of attack'])
+df_ss['Year'] = df_ss['Year'].astype(int)
+
+# Top 5 most deadly attack types
+top_attacks_ss = (
+    df_ss.groupby('Means of attack')['Total killed'].sum()
+    .sort_values(ascending=False)
+    .head(5)
+    .index
+)
+
+# Filter to top 5 attack types
+df_ss_top = df_ss[df_ss['Means of attack'].isin(top_attacks_ss)]
+
+# Group by year and attack type
+deaths_by_type_ss = df_ss_top.groupby(['Year', 'Means of attack'])['Total killed'].sum().reset_index()
+
+# Stacked bar chart
+alt.Chart(deaths_by_type_ss).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Total killed:Q', title='Total Deaths'),
+    color=alt.Color('Means of attack:N', title='Attack Type'),
+    tooltip=['Year', 'Means of attack', 'Total killed']
+).properties(
+    width=600,
+    height=400,
+    title='Total Deaths in South Sudan by Attack Type (Top 5)'
+)
+
+
+```
+
+## Comparing Frequency and Lethality of Attack Types in South Sudan
+
+The average deaths of Shootings incidents is 0.69 with 248 total incidents and 171 total deaths. Bodily Assaults had an average fatality of 0.1 per incident, with 219 incidents and 22 deaths. Kidnap Killings had the highest fatality rate, with 2.29, however only had 7 total incidents and 9 total deaths. 
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Load the data
+df = pd.read_csv("security_incidents.csv")
+
+# Filter to South Sudan
+df_ss = df[df['Country'] == 'South Sudan'].copy()
+
+# Clean relevant columns
+df_ss['Total killed'] = pd.to_numeric(df_ss['Total killed'], errors='coerce')
+df_ss['Means of attack'] = df_ss['Means of attack'].fillna('Unknown').str.strip()
+
+# Drop missing values
+df_ss = df_ss.dropna(subset=['Total killed', 'Means of attack'])
+
+# Group by Means of Attack
+attack_stats_ss = df_ss.groupby('Means of attack').agg(
+    Total_Incidents=('Incident ID', 'count'),
+    Total_Deaths=('Total killed', 'sum'),
+    Avg_Deaths_Per_Incident=('Total killed', 'mean')
+).sort_values(by='Total_Deaths', ascending=False).reset_index()
+
+
+attack_stats_ss['Avg_Deaths_Per_Incident'] = attack_stats_ss['Avg_Deaths_Per_Incident'].round(2)
+
+# Bubble chart
+alt.Chart(attack_stats_ss).mark_circle().encode(
+    x=alt.X('Total_Incidents:Q', title='Total Incidents'),
+    y=alt.Y('Total_Deaths:Q', title='Total Deaths'),
+    size=alt.Size('Avg_Deaths_Per_Incident:Q', title='Avg Deaths per Incident'),
+    color=alt.Color('Means of attack:N', title='Attack Type'),
+    tooltip=[
+        'Means of attack',
+        'Total_Incidents',
+        'Total_Deaths',
+        'Avg_Deaths_Per_Incident'
+    ]
+).properties(
+    title='Lethality of Attack Types in South Sudan',
+    width=600,
+    height=450
+)
+
+
+```
+
+## Fatalities by Attack Context in South Sudan
+
+ Ambush attacks are the most prevalent in South Sudan, with combat and crossfire incidents following closely. South Sudan is also the only country analyzed where raids were used throughout. This pattern likely reflects shifting power dynamics, ongoing intercommunal violence, and limited state control
+
+```{python}
+import pandas as pd
+import altair as alt
+
+# Filter to Afghanistan
+df_afg = df[df['Country'] == 'South Sudan'].copy()
+
+# Clean and prep
+df_afg['Year'] = pd.to_numeric(df_afg['Year'], errors='coerce')
+df_afg['Total killed'] = pd.to_numeric(df_afg['Total killed'], errors='coerce')
+df_afg['Attack context'] = df_afg['Attack context'].fillna('Unknown').str.strip()
+df_afg = df_afg.dropna(subset=['Year', 'Total killed', 'Attack context'])
+df_afg['Year'] = df_afg['Year'].astype(int)
+
+# Get top 5 most deadly attack contexts
+top_contexts = (
+    df_afg.groupby('Attack context')['Total killed'].sum()
+    .sort_values(ascending=False)
+    .head(5)
+    .index
+)
+
+# Filter to top 5 contexts
+df_afg_top = df_afg[df_afg['Attack context'].isin(top_contexts)]
+
+# Group by year and attack context
+deaths_by_context = df_afg_top.groupby(['Year', 'Attack context'])['Total killed'].sum().reset_index()
+
+# Stacked bar chart
+alt.Chart(deaths_by_context).mark_bar().encode(
+    x=alt.X('Year:O', title='Year'),
+    y=alt.Y('Total killed:Q', title='Total Deaths'),
+    color=alt.Color('Attack context:N', title='Attack Context'),
+    tooltip=['Year', 'Attack context', 'Total killed']
+).properties(
+    width=600,
+    height=400,
+    title='Total Deaths in South Sudan by Attack Context (Top 5)'
+)
+
+
+```
+
+
+# Final Insights
+
+Over the last quarter century, violence against aid workers has grown significantly, with attacks becoming more frequent and deadly. This analysis highlights regional trends, evolving methods of attack, incident hotspots, and patterns in perpetrators, revealing how geopolitical instability, occupational conflict, and civil war place aid workers in severe risk and danger.
+
+## Afghanistan
+- Conflict: Terrorism and Counter-Insurgency
+- Had the highest amount of violence toward aid workers, totalling **610 incidents** since 1997, with an average of **21 per year**.
+- Driven by terrorism and counter-insurgency groups including the **Taliban** and **IS-K**.
+- Violence is widespread and frequent, with shootings being the most widespread form.
+
+
+## Palestine
+- Conflict: Occupation Conflict
+- With recent political unrest, Palestine has seen a sharp uptick in attacks starting in **2023**, driven largely by the rise in aerial bombardments. These attacks average 4.55 deaths per attack, making them the deadliest in the observed countries 
+- Incidents are less frequent, however more deadly, with an average of 2.7 deaths per incident—the highest among all countries studied.
+- The host state (Hamas), and in later years, foreign or coalition forces are the primary perpetrators.
+
+## South Sudan
+- Conflict: Civil War Fallout & Ethnic Violence
+- Reflects post-civil war instability.
+- Shootings most common attacks, however kidnap-killings are highly lethal.
+- Aid workers are frequently caught in the crossfire.
+
+---
+
+# Understanding the Root Causes of Aid Worker Violence
+
+## Afghanistan
+- Terrorist insurgencies and decades-long conflict.
+- Major actors include **Taliban**, **ISIS-K**, and other extremist groups.
+
+## Palestine
+- Longstanding territorial and occupation conflicts.
+- Escalation in **2023** with major operations in **Gaza** and surrounding areas.
+
+## South Sudan
+- Power vacuums and interethnic violence.
+- Weak government institutions allow armed groups to flourish.
+
+---
+
+# Recommendations
+
+Learn how aid agencies and policymakers can protect workers and reduce risk in conflict zones:  
+[View Recommendations](recommendations.qmd)
+
+# References
+
+PBS News Desk. "A Historical Timeline of Afghanistan." *PBS NewsHour*, 30 Aug. 2021. https://www.pbs.org/newshour/politics/a-historical-timeline-of-afghanistan.
+
+U.S. Department of State. (2022). Country Reports on Terrorism 2021: Afghanistan. Bureau of Counterterrorism. Retrieved from https://www.state.gov/reports/country-reports-on-terrorism-2021/afghanistan
+
+
+Frankel, Julia. A Timeline of the Gaza Strip in Modern History. Associated Press via PBS NewsHour, Feb. 5, 2025. https://www.pbs.org/newshour/world/a-timeline-of-the-gaza-strip-in-modern-history
+
+Concern Worldwide. (2022, January 10). Timeline: South Sudan's history at a glance. Concern USA. https://www.concernusa.org/story/timeline-south-sudan-history/

@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Soong Ping Hill – Exploratory Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Soong Ping Hill</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="../../../projects/DS5000/index.html">
+ <span class="dropdown-text">Voting Behavior Prediction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../projects/DS5100/index.html">
+ <span class="dropdown-text">Airbnb Pricing Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../projects/Scholarship/index.html">
+ <span class="dropdown-text">Humanitarian Security Research</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../projects/DS5000/data-collection/main.html">Technical details</a></li><li class="breadcrumb-item"><a href="../../../projects/DS5000/eda/main.html">Exploratory Data Analysis</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../projects/DS5000/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../projects/DS5000/report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Report</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Technical details</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../projects/DS5000/data-collection/main.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Collection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../projects/DS5000/data-cleaning/main.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Cleaning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../projects/DS5000/eda/main.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Exploratory Data Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../projects/DS5000/unsupervised-learning/main.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unsupervised Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../projects/DS5000/supervised-learning/main.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supervised Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#basic-eda" id="toc-basic-eda" class="nav-link" data-scroll-target="#basic-eda">Basic Eda</a>
+  <ul class="collapse">
+  <li><a href="#univariate-distribution" id="toc-univariate-distribution" class="nav-link" data-scroll-target="#univariate-distribution">Univariate Distribution</a></li>
+  </ul></li>
+  <li><a href="#skewness-measurement-after-log" id="toc-skewness-measurement-after-log" class="nav-link" data-scroll-target="#skewness-measurement-after-log">Skewness Measurement After Log</a></li>
+  <li><a href="#standardizing-log-transformed-data" id="toc-standardizing-log-transformed-data" class="nav-link" data-scroll-target="#standardizing-log-transformed-data">Standardizing Log Transformed Data</a></li>
+  </ul></li>
+  <li><a href="#distribution-of-log-transformed-data" id="toc-distribution-of-log-transformed-data" class="nav-link" data-scroll-target="#distribution-of-log-transformed-data">Distribution of Log Transformed Data</a></li>
+  <li><a href="#distribution-of-non-log-transformed-data" id="toc-distribution-of-non-log-transformed-data" class="nav-link" data-scroll-target="#distribution-of-non-log-transformed-data">Distribution of Non-Log Transformed Data</a></li>
+  <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation">Correlation</a>
+  <ul class="collapse">
+  <li><a href="#correlation-heatmap-of-log-transformed-data" id="toc-correlation-heatmap-of-log-transformed-data" class="nav-link" data-scroll-target="#correlation-heatmap-of-log-transformed-data">Correlation Heatmap of Log-Transformed Data</a></li>
+  </ul></li>
+  <li><a href="#correlation-heatmap-off-non-log-transformed-data" id="toc-correlation-heatmap-off-non-log-transformed-data" class="nav-link" data-scroll-target="#correlation-heatmap-off-non-log-transformed-data">Correlation Heatmap off Non Log-Transformed Data</a>
+  <ul class="collapse">
+  <li><a href="#log-transformed-effect-analysis" id="toc-log-transformed-effect-analysis" class="nav-link" data-scroll-target="#log-transformed-effect-analysis">Log Transformed Effect Analysis</a></li>
+  <li><a href="#voting-rate-estimates-correlation" id="toc-voting-rate-estimates-correlation" class="nav-link" data-scroll-target="#voting-rate-estimates-correlation">Voting Rate Estimates Correlation</a></li>
+  <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">Correlation Analysis</a></li>
+  </ul></li>
+  <li><a href="#bi-variate-distribution" id="toc-bi-variate-distribution" class="nav-link" data-scroll-target="#bi-variate-distribution">Bi-Variate Distribution</a>
+  <ul class="collapse">
+  <li><a href="#plotting-log-transformed-values" id="toc-plotting-log-transformed-values" class="nav-link" data-scroll-target="#plotting-log-transformed-values">Plotting Log-Transformed Values</a></li>
+  <li><a href="#plotting-raw-values" id="toc-plotting-raw-values" class="nav-link" data-scroll-target="#plotting-raw-values">Plotting Raw Values</a></li>
+  <li><a href="#comparison-of-raw-vs-log-transformed-data-statistics" id="toc-comparison-of-raw-vs-log-transformed-data-statistics" class="nav-link" data-scroll-target="#comparison-of-raw-vs-log-transformed-data-statistics">Comparison of Raw vs Log-Transformed Data Statistics</a></li>
+  </ul></li>
+  <li><a href="#voting-rate-by-state" id="toc-voting-rate-by-state" class="nav-link" data-scroll-target="#voting-rate-by-state">Voting Rate by State</a>
+  <ul class="collapse">
+  <li><a href="#distribution-of-voting-rate-pairplot" id="toc-distribution-of-voting-rate-pairplot" class="nav-link" data-scroll-target="#distribution-of-voting-rate-pairplot">Distribution of Voting Rate Pairplot</a></li>
+  </ul></li>
+  <li><a href="#statistical-testing" id="toc-statistical-testing" class="nav-link" data-scroll-target="#statistical-testing">Statistical Testing</a>
+  <ul class="collapse">
+  <li><a href="#anova-test" id="toc-anova-test" class="nav-link" data-scroll-target="#anova-test">Anova Test</a></li>
+  <li><a href="#t-test-california-vs-texas" id="toc-t-test-california-vs-texas" class="nav-link" data-scroll-target="#t-test-california-vs-texas">T-Test: California vs Texas</a></li>
+  <li><a href="#t-test-massachusetts-vs-rhode-island" id="toc-t-test-massachusetts-vs-rhode-island" class="nav-link" data-scroll-target="#t-test-massachusetts-vs-rhode-island">T-Test: Massachusetts vs Rhode Island</a></li>
+  <li><a href="#t-test-florida-vs-oregon" id="toc-t-test-florida-vs-oregon" class="nav-link" data-scroll-target="#t-test-florida-vs-oregon">T-Test: Florida vs Oregon</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#distribution-analysis" id="toc-distribution-analysis" class="nav-link" data-scroll-target="#distribution-analysis">Distribution Analysis</a></li>
+  <li><a href="#correlation-analysis-1" id="toc-correlation-analysis-1" class="nav-link" data-scroll-target="#correlation-analysis-1">Correlation Analysis</a></li>
+  <li><a href="#state-wise-voting-rate" id="toc-state-wise-voting-rate" class="nav-link" data-scroll-target="#state-wise-voting-rate">State-Wise Voting Rate</a></li>
+  <li><a href="#statistical-testing-1" id="toc-statistical-testing-1" class="nav-link" data-scroll-target="#statistical-testing-1">Statistical Testing</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a>
+  <ul class="collapse">
+  <li><a href="#policy-recommendations" id="toc-policy-recommendations" class="nav-link" data-scroll-target="#policy-recommendations">Policy Recommendations</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../projects/DS5000/data-collection/main.html">Technical details</a></li><li class="breadcrumb-item"><a href="../../../projects/DS5000/eda/main.html">Exploratory Data Analysis</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Exploratory Data Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The next step is conducting Exploratory Data Analysis on our data. Exploratory Data Analysis is needed as it lets us understand the data on a deeper level, finding errors or correlations, as well as prepping it for the next step in analysis.</p>
+<p>Data Exploratory Analysis contains many aspects, and are complex in determining which types of data are optimal for showing insights. The most basic form of data analysis involves understanding our dataset. This involves looking at table value types, descriptive statistics, and quickly gives us insight into our data distribution.</p>
+<p>Exploratory Analysis also includes data visualization, letting us utilize visuals to make complex data easier to understand. Correlation analysis is also commonly used to find relationships between variables, and statistical / Hypothesis testing lets us answer questions regarding the data and relationships between variables.</p>
+<p>In our Exploratory data analysis, we performed z-score normalization, as explained in data cleaning, and <strong>Log Transformation</strong>.</p>
+<section id="log-transformation" class="level4">
+<h4 class="anchored" data-anchor-id="log-transformation">Log Transformation</h4>
+<p>Log transformation is performed on data that is highly skewed. Data that is highly skewed contains an asymmetric distribution, mainly due to extreme outliers, and can pose many problems in models that utilize distance metrics. This transformation is done by performing a log transformation on each data point utilizing this formula:</p>
+<p><span class="math inline">\(\text{log\_transformed\_value} = \log_{10}(x + 1)\)</span></p>
+</section>
+<section id="basic-eda" class="level2">
+<h2 class="anchored" data-anchor-id="basic-eda">Basic Eda</h2>
+<p>In our EDA analysis, we will be utilizing both non-standardized and standardized data as they are both useful in gathering insights. It is important to remember that standardized and non-standardized data will have same distribution, allowing one to use them interchangeably when visualizing distributions.</p>
+<p>I first plotted the voting rate turnout and congressional districts for each state has to understand the geographical distribution of our data. Minnesota and Oregon had the highest voting rates while Hawaii and Arkansas had the lowest voting rates. California and Texas had the highest amount of congressional districts, combining for 90.</p>
+<!-- After digesting the instructions, you can delete this cell, these are assignment instructions and do not need to be included in your final submission.  -->
+<div id="cell-3" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pd.read_csv(<span class="st">'../../data/processed-data/merged.csv'</span>) </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>merged_standard_df <span class="op">=</span> pd.read_csv(<span class="st">'../../data/processed-data/merged_standard.csv'</span>) </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>state_turnout <span class="op">=</span> merged_df.groupby(<span class="st">'state_abbreviation'</span>)[<span class="st">'voting_rate_estimate'</span>].mean().sort_values()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top 5 states with the highest voting rate:"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(state_turnout.tail(<span class="dv">5</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the bottom 5 states with the lowest voting rate</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Bottom 5 states with the lowest voting rate:"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(state_turnout.head(<span class="dv">5</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency counts for categorical variables</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot for state frequencies</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>merged_df[<span class="st">'state'</span>].value_counts().plot(kind<span class="op">=</span><span class="st">'bar'</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"State Abbreviation Frequencies"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"State"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Top 5 states with the highest voting rate:
+state_abbreviation
+ME    58.857784
+OR    59.639056
+CO    60.514654
+MT    61.240815
+MN    62.717493
+Name: voting_rate_estimate, dtype: float64
+
+Bottom 5 states with the lowest voting rate:
+state_abbreviation
+HI    39.223979
+AR    39.922292
+WV    40.342983
+OK    41.335192
+MS    41.945696
+Name: voting_rate_estimate, dtype: float64</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-2-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="univariate-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="univariate-distribution">Univariate Distribution</h3>
+<p>I then plotted the <strong>univariate variables</strong>:<br>
+- <strong>median_household_income</strong><br>
+- <strong>total_population</strong><br>
+- <strong>voting_rate_estimate</strong></p>
+<p>to better understand the <strong>distribution of the data</strong>.</p>
+<ul>
+<li><strong>total_population</strong> and <strong>voting_rate_estimate</strong> displayed <strong>normal distributions</strong>.<br>
+</li>
+<li>The distribution of <strong>median_household_income</strong> was <strong>skewed to the right</strong>, with the majority of values falling <strong>below the mean</strong>.</li>
+</ul>
+<div id="cell-5" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics for numerical variables</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Histograms for selected columns</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">'Median_Household_Income'</span>, <span class="st">'Total_Population'</span>, <span class="st">'voting_rate_estimate'</span>]:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    sns.histplot(merged_df[col], kde<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Distribution of </span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(col)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-3-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-3-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Outlier Removal To address outliers that may affect the mean and skewness of the data, I evaluated the skewness of every variable, those with over 1 were considered skewed and needed to be Log Normalized.</p>
+<p>This showed that the variables “African_American”, “Asian”, “American_Indian_and_Alaskan_Native”, “Native_Hawaiin_and_Pacific_Islander” and “Median_househould_income” had skew values greater than the absolute value of 1, indicating a highly asymmetric and imbalanced distribution of data. ## Skewness Measurement Before Log</p>
+<div id="cell-7" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate skewness for all numerical columns</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> skew</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure 'Congressional_District' is treated as a string</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>merged_df[<span class="st">'Congressional_District'</span>] <span class="op">=</span> merged_df[<span class="st">'Congressional_District'</span>].astype(<span class="bu">str</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate skewness for all numerical columns and filter values greater than 1</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>skew_values <span class="op">=</span> {}</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> merged_df.select_dtypes(include<span class="op">=</span>[<span class="st">'float64'</span>, <span class="st">'int64'</span>]).columns:</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    skew_value <span class="op">=</span> skew(merged_df[col], nan_policy<span class="op">=</span><span class="st">'omit'</span>)  <span class="co"># Handle NaN values gracefully</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">abs</span>(skew_value) <span class="op">&gt;</span> <span class="dv">1</span>:  <span class="co"># Filter for skewness greater than 1 in magnitude</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        skew_values[col] <span class="op">=</span> skew_value</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Display columns with skewness &gt; 1</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Columns with skewness &gt; 1:"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col, skew_value <span class="kw">in</span> skew_values.items():</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>skew_value<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Columns with skewness &gt; 1:
+African_American: 1.8797342205111223
+Asian: 3.1701394736477755
+Median_Household_Income: 1.2034986622111112
+American_Indian_and_Alaska_Native: 7.498173419926523
+Native_Hawaiian_and_Pacific_Islander: 13.340848187737828</code></pre>
+</div>
+</div>
+<p>This analysis showed that the variables <strong>African_American</strong>, <strong>Asian</strong>, <strong>American_Indian_and_Alaskan_Native</strong>, <strong>Native_Hawaiian_and_Pacific_Islander</strong>, and <strong>Median_household_income</strong> had skew values greater than the absolute value of 1, indicating a <strong>highly asymmetric and imbalanced distribution</strong> of data.</p>
+</section>
+</section>
+<section id="skewness-measurement-after-log" class="level2">
+<h2 class="anchored" data-anchor-id="skewness-measurement-after-log">Skewness Measurement After Log</h2>
+<div id="cell-9" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> skew</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a copy of the dataframe for log transformation</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>merged_log_df <span class="op">=</span> merged_df.copy()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify highly skewed columns</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>highly_skewed_cols <span class="op">=</span> [col <span class="cf">for</span> col, skewness <span class="kw">in</span> skew_values.items() <span class="cf">if</span> <span class="bu">abs</span>(skewness) <span class="op">&gt;</span> <span class="dv">1</span>]</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply log1p transformation to highly skewed columns</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> highly_skewed_cols:</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> merged_log_df.columns:  <span class="co"># Check if the column exists</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        merged_log_df[<span class="ss">f'Log_</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">'</span>] <span class="op">=</span> np.log1p(merged_log_df[col])  <span class="co"># log1p handles zeros</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify skewness after log transformation</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Skewness after log transformation:"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> highly_skewed_cols:</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    log_col <span class="op">=</span> <span class="ss">f'Log_</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">'</span>  <span class="co"># Construct the name of the log-transformed column</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> log_col <span class="kw">in</span> merged_log_df.columns:  <span class="co"># Ensure the column exists</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        transformed_skew <span class="op">=</span> skew(merged_log_df[log_col])</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>log_col<span class="sc">}</span><span class="ss"> skewness: </span><span class="sc">{</span>transformed_skew<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>log_col<span class="sc">}</span><span class="ss"> does not exist in the dataframe."</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co"># List of original columns to drop</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>original_cols_to_drop <span class="op">=</span> [<span class="st">'African_American'</span>, <span class="st">'Asian'</span>, <span class="st">'Median_Household_Income'</span>, </span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'American_Indian_and_Alaska_Native'</span>, </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'Native_Hawaiian_and_Pacific_Islander'</span>]</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the original columns</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>merged_log_df <span class="op">=</span> merged_log_df.drop(columns<span class="op">=</span>original_cols_to_drop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Skewness after log transformation:
+Log_African_American skewness: -0.0037722382003638464
+Log_Asian skewness: 0.23046056077109553
+Log_Median_Household_Income skewness: 0.4321994689438688
+Log_American_Indian_and_Alaska_Native skewness: 0.8066703344257306
+Log_Native_Hawaiian_and_Pacific_Islander skewness: -1.1212873986956227</code></pre>
+</div>
+</div>
+<p>I applied <strong>log-normalization</strong> to these columns on a copy of the original <code>merged_df</code>. After checking the skewness again:<br>
+- All values had an absolute value &lt; 1, except for <strong>Native_Hawaiian_and_Pacific_Islander</strong>, which remained slightly over 1.</p>
+<p>I chose <strong>not to reapply log-normalization</strong> to this variable, as the skew was only slightly above 1 and further transformations could compromise <strong>data integrity</strong>.</p>
+<p>The results were stored in a new temporary DataFrame called <strong><code>merged_log_df</code></strong>, with the original skewed columns removed.</p>
+</section>
+<section id="standardizing-log-transformed-data" class="level2">
+<h2 class="anchored" data-anchor-id="standardizing-log-transformed-data">Standardizing Log Transformed Data</h2>
+<p>I then decided to standardize the columns once again, as the new <code>merged_log_df</code> has only been log normalized so far, producing a new data set <code>merged_log_standard_df</code>. This data frame will include columns that were logged and standardized. Merged_df, containing the raw data, and <code>merged_standard_df</code>, containing standardized data are kept for comparison.</p>
+<div id="cell-11" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>columns_to_standardize <span class="op">=</span> [<span class="st">'Total_Population'</span>, <span class="st">'White'</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'Veterans'</span>, <span class="st">'Nonveterans'</span>, <span class="st">'Below_Poverty_Level'</span>, <span class="st">'High_School_Graduate'</span>, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'Bachelors_Degree_or_Higher'</span>, <span class="st">'Households_with_Computers'</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'Households_with_Internet'</span>, <span class="st">'Median_Age'</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'Log_African_American'</span>, <span class="st">'Log_Asian'</span>, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'Log_Median_Household_Income'</span>, <span class="st">'Log_American_Indian_and_Alaska_Native'</span>, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'Log_Native_Hawaiian_and_Pacific_Islander'</span>, <span class="st">'votes_cast'</span>, <span class="st">'citizen_voting_age_population_estimate'</span>,  <span class="st">'voting_rate_estimate'</span>]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the scaler</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the selected columns</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>merged_standard_log_df <span class="op">=</span> merged_log_df.copy() </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>merged_standard_log_df[columns_to_standardize] <span class="op">=</span> scaler.fit_transform(merged_standard_log_df[columns_to_standardize])</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(merged_standard_log_df.describe().T)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                          count          mean       std  \
+Total_Population                          431.0  4.698484e-16  1.001162   
+White                                     431.0  1.318873e-16  1.001162   
+Veterans                                  431.0  1.648591e-17  1.001162   
+Nonveterans                               431.0  1.191107e-15  1.001162   
+Below_Poverty_Level                       431.0  5.357921e-17  1.001162   
+High_School_Graduate                      431.0 -3.544471e-16  1.001162   
+Bachelors_Degree_or_Higher                431.0 -1.895880e-16  1.001162   
+Households_with_Computers                 431.0  4.780914e-16  1.001162   
+Households_with_Internet                  431.0  2.143168e-16  1.001162   
+Median_Age                                431.0  2.514101e-16  1.001162   
+votes_cast                                431.0 -3.626900e-16  1.001162   
+citizen_voting_age_population_estimate    431.0 -7.377445e-16  1.001162   
+voting_rate_estimate                      431.0  6.882868e-16  1.001162   
+Log_African_American                      431.0  4.142085e-16  1.001162   
+Log_Asian                                 431.0 -1.714535e-15  1.001162   
+Log_Median_Household_Income               431.0  3.977226e-15  1.001162   
+Log_American_Indian_and_Alaska_Native     431.0  8.902392e-16  1.001162   
+Log_Native_Hawaiian_and_Pacific_Islander  431.0 -4.121478e-17  1.001162   
+
+                                               min       25%       50%  \
+Total_Population                         -4.062869 -0.606897 -0.098532   
+White                                    -3.177154 -0.437689  0.223164   
+Veterans                                 -2.197543 -0.639807  0.039217   
+Nonveterans                              -3.410535 -0.597602 -0.064598   
+Below_Poverty_Level                      -1.861771 -0.730136 -0.107994   
+High_School_Graduate                     -2.717688 -0.686154  0.038784   
+Bachelors_Degree_or_Higher               -2.138960 -0.719254 -0.148051   
+Households_with_Computers                -3.029705 -0.542686  0.035155   
+Households_with_Internet                 -3.579080 -0.528901  0.021268   
+Median_Age                               -2.801809 -0.631139 -0.026648   
+votes_cast                               -2.733969 -0.602509  0.018376   
+citizen_voting_age_population_estimate   -3.689873 -0.521647  0.089798   
+voting_rate_estimate                     -2.644234 -0.674530  0.022953   
+Log_African_American                     -2.589643 -0.704148 -0.055633   
+Log_Asian                                -2.916233 -0.671612 -0.114192   
+Log_Median_Household_Income              -2.770396 -0.711817 -0.129623   
+Log_American_Indian_and_Alaska_Native    -2.528258 -0.632916 -0.139876   
+Log_Native_Hawaiian_and_Pacific_Islander -3.245660 -0.441311  0.098166   
+
+                                               75%       max  
+Total_Population                          0.508237  5.639162  
+White                                     0.741616  3.021102  
+Veterans                                  0.539561  3.616628  
+Nonveterans                               0.558341  4.894800  
+Below_Poverty_Level                       0.506680  4.419298  
+High_School_Graduate                      0.670886  2.775129  
+Bachelors_Degree_or_Higher                0.616793  3.505945  
+Households_with_Computers                 0.577837  4.444702  
+Households_with_Internet                  0.612859  3.940705  
+Median_Age                                0.577842  4.699368  
+votes_cast                                0.684237  4.320593  
+citizen_voting_age_population_estimate    0.594691  5.440290  
+voting_rate_estimate                      0.702530  2.772851  
+Log_African_American                      0.715286  2.066910  
+Log_Asian                                 0.671755  2.869244  
+Log_Median_Household_Income               0.623249  3.148080  
+Log_American_Indian_and_Alaska_Native     0.532964  4.100022  
+Log_Native_Hawaiian_and_Pacific_Islander  0.587863  2.983121  </code></pre>
+</div>
+</div>
+<p>The below plot shows the difference in distribution of the logged variables. It is very prominent that the logged values are much more normally distributed than the skewed data.</p>
+</section>
+</section>
+<section id="distribution-of-log-transformed-data" class="level1">
+<h1>Distribution of Log Transformed Data</h1>
+<div id="cell-13" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select log-transformed columns</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>log_columns <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> merged_standard_log_df.columns <span class="cf">if</span> <span class="st">"Log_"</span> <span class="kw">in</span> col]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot distributions</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, col <span class="kw">in</span> <span class="bu">enumerate</span>(log_columns, <span class="dv">1</span>):</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, <span class="dv">3</span>, i)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    sns.histplot(merged_standard_log_df[col], kde<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Distribution of </span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(col)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="distribution-of-non-log-transformed-data" class="level1">
+<h1>Distribution of Non-Log Transformed Data</h1>
+<div id="cell-15" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the columns to plot</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>columns_to_plot <span class="op">=</span> [</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Asian"</span>, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"African_American"</span>, </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Native_Hawaiian_and_Pacific_Islander"</span>, </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Median_Household_Income"</span>, </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"American_Indian_and_Alaska_Native"</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot distributions</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, col <span class="kw">in</span> <span class="bu">enumerate</span>(columns_to_plot, <span class="dv">1</span>):</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, <span class="dv">2</span>, i)  <span class="co"># Adjust the grid for the number of plots</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    sns.histplot(merged_standard_df[col], kde<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Distribution of </span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(col)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="correlation" class="level1">
+<h1>Correlation</h1>
+<p>To evaluate if utilizing the log transformed and standardized data set produced any difference, a <strong>correlation heat map</strong> was created.</p>
+<section id="correlation-heatmap-of-log-transformed-data" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-heatmap-of-log-transformed-data">Correlation Heatmap of Log-Transformed Data</h2>
+<div id="cell-17" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a mapping of original to log-transformed column names</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>original_columns <span class="op">=</span> merged_standard_df.columns</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>log_columns <span class="op">=</span> [<span class="st">"Log_"</span> <span class="op">+</span> col <span class="cf">if</span> <span class="st">"Log_"</span> <span class="op">+</span> col <span class="kw">in</span> merged_standard_log_df.columns <span class="cf">else</span> col <span class="cf">for</span> col <span class="kw">in</span> original_columns]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Reorder the log-transformed dataframe to match the order of original dataframe</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>merged_standard_log_df <span class="op">=</span> merged_standard_log_df[log_columns]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the correlation matrix</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>numeric_cols <span class="op">=</span> merged_standard_log_df.select_dtypes(include<span class="op">=</span>[<span class="st">'float64'</span>, <span class="st">'int64'</span>])</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> numeric_cols.corr()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a mask for the upper triangle</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> np.triu(np.ones_like(corr, dtype<span class="op">=</span><span class="bu">bool</span>))</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Heatmap visualization</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>sns.heatmap(corr, mask<span class="op">=</span>mask, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'.2f'</span>, cmap<span class="op">=</span><span class="st">'coolwarm'</span>, square<span class="op">=</span><span class="va">True</span>, cbar_kws<span class="op">=</span>{<span class="st">"shrink"</span>: <span class="fl">.8</span>})</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Correlation Matrix of Standard Log Data"</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="correlation-heatmap-off-non-log-transformed-data" class="level1">
+<h1>Correlation Heatmap off Non Log-Transformed Data</h1>
+<div id="cell-19" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the correlation matrix</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>numeric_cols <span class="op">=</span> merged_standard_df.select_dtypes(include<span class="op">=</span>[<span class="st">'float64'</span>, <span class="st">'int64'</span>])</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> numeric_cols.corr()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a mask for the upper triangle</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> np.triu(np.ones_like(corr, dtype<span class="op">=</span><span class="bu">bool</span>))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Heatmap visualization</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>sns.heatmap(corr, mask<span class="op">=</span>mask, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'.2f'</span>, cmap<span class="op">=</span><span class="st">'coolwarm'</span>, square<span class="op">=</span><span class="va">True</span>, cbar_kws<span class="op">=</span>{<span class="st">"shrink"</span>: <span class="fl">.8</span>})</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Correlation Matrix Standard Only "</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="log-transformed-effect-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="log-transformed-effect-analysis">Log Transformed Effect Analysis</h2>
+<div id="cell-21" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Data for the table</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variable"</span>: [</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"African American"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Asian"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Median Income"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"American Indian and Alaska Native"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Native Hawaiian and Pacific Islander"</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Standard Correlation"</span>: [</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span><span class="fl">0.22</span>, </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.05</span>, </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.53</span>, </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span><span class="fl">0.09</span>, </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.09</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Log Correlation"</span>: [</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span><span class="fl">0.24</span>, </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.19</span>, </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.56</span>, </span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span><span class="fl">0.12</span>, </span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span><span class="fl">0.04</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the DataFrame</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>comparison_df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(comparison_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                               Variable  Standard Correlation  Log Correlation
+0                      African American                 -0.22            -0.24
+1                                 Asian                  0.05             0.19
+2                         Median Income                  0.53             0.56
+3     American Indian and Alaska Native                 -0.09            -0.12
+4  Native Hawaiian and Pacific Islander                  0.09            -0.04</code></pre>
+</div>
+</div>
+<p>The results showed that the variables that were logged experienced a <strong>change in correlation</strong> with <code>voting_rate_estimate</code> after the transformation:</p>
+<ul>
+<li><strong>African American</strong>:
+<ul>
+<li>Standard: <strong>-0.22</strong> → Log-transformed: <strong>-0.24</strong></li>
+</ul></li>
+<li><strong>Asian</strong>:
+<ul>
+<li>Standard: <strong>0.05</strong> → Log-transformed: <strong>0.19</strong></li>
+</ul></li>
+<li><strong>Median Income</strong>:
+<ul>
+<li>Standard: <strong>0.53</strong> → Log-transformed: <strong>0.56</strong></li>
+</ul></li>
+<li><strong>American Indian and Alaska Native</strong>:
+<ul>
+<li>Standard: <strong>-0.05</strong> → Log-transformed: <strong>-0.09</strong></li>
+</ul></li>
+<li><strong>Native Hawaiian and Pacific Islander</strong>:
+<ul>
+<li>Standard: <strong>0.09</strong> → Log-transformed: <strong>-0.04</strong></li>
+</ul></li>
+</ul>
+<p>Other variables not affected by the log transformation retained the <strong>same correlation scores</strong>.</p>
+<p>The <strong>biggest difference</strong> and surprise was for <strong>Asian</strong>, where the correlation increased by <strong>0.14</strong>. This shift could uncover <strong>new insights previously unseen</strong> and highlights the importance of applying <strong>log transformation</strong> to the dataset.</p>
+</section>
+<section id="voting-rate-estimates-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="voting-rate-estimates-correlation">Voting Rate Estimates Correlation</h2>
+<div id="cell-23" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>voting_corr <span class="op">=</span> corr[<span class="st">'voting_rate_estimate'</span>]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to DataFrame for better readability</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>voting_corr_df <span class="op">=</span> voting_corr.reset_index()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>voting_corr_df.columns <span class="op">=</span> [<span class="st">'Feature'</span>, <span class="st">'Correlation with Voting Rate'</span>]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by correlation values</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>voting_corr_df <span class="op">=</span> voting_corr_df.sort_values(by<span class="op">=</span><span class="st">'Correlation with Voting Rate'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the DataFrame</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(voting_corr_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                   Feature  Correlation with Voting Rate
+18                    voting_rate_estimate                      1.000000
+16                              votes_cast                      0.909693
+11                Households_with_Internet                      0.631127
+9               Bachelors_Degree_or_Higher                      0.622064
+10               Households_with_Computers                      0.549691
+7                  Median_Household_Income                      0.523973
+17  citizen_voting_age_population_estimate                      0.417818
+14                              Median_Age                      0.392134
+2                                    White                      0.358125
+5                              Nonveterans                      0.219181
+4                                 Veterans                      0.197612
+0                         Total_Population                      0.117178
+3                                    Asian                      0.042946
+12       American_Indian_and_Alaska_Native                     -0.046798
+13    Native_Hawaiian_and_Pacific_Islander                     -0.087200
+15                  Congressional_District                     -0.220039
+1                         African_American                     -0.230694
+8                     High_School_Graduate                     -0.308645
+6                      Below_Poverty_Level                     -0.661573</code></pre>
+</div>
+</div>
+</section>
+<section id="correlation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-analysis">Correlation Analysis</h2>
+<p>In analyzing the Log Transformed heatmap, we found that Voting Rate had the highest correlation with Households_with_internet with 0.63 Bachelors_Degree_or Higher, with 0.62. Following, was Log Median Household Income with 0.56, and Households_with_Computers with 0.55.</p>
+<p>Below Poverty Level had the most negative correlation with -0.66, followed by High_school Graduate with -0.31 and Log_African_American, with -0.25.</p>
+<p>Some other interesting metrics were white with 0.26 and Nonveterans having a higher correlation (0.22) than Veterans (0.2).</p>
+</section>
+</section>
+<section id="bi-variate-distribution" class="level1">
+<h1>Bi-Variate Distribution</h1>
+<p>Further visualizations revealed patterns of correlation between features I deemed important, including:<br>
+- Median_Household_Income<br>
+- African_American<br>
+- Asian<br>
+- Poverty_Rate<br>
+- White<br>
+- Veterans<br>
+- High_School_Graduate<br>
+- Bachelors_Degree_or_Higher<br>
+- Median_Age</p>
+<section id="plotting-log-transformed-values" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-log-transformed-values">Plotting Log-Transformed Values</h2>
+<div id="cell-25" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot of voting_rate_estimate against key features</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>important_features <span class="op">=</span> [<span class="st">'Log_Median_Household_Income'</span>, <span class="st">'Log_African_American'</span>, <span class="st">'Log_Asian'</span>, <span class="st">'Below_Poverty_Level'</span>, <span class="st">'White'</span>, <span class="st">'Veterans'</span>, <span class="st">'High_School_Graduate'</span>, <span class="st">'Bachelors_Degree_or_Higher'</span>, <span class="st">'Median_Age'</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, feature <span class="kw">in</span> <span class="bu">enumerate</span>(important_features, <span class="dv">1</span>):</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, <span class="dv">3</span>, i)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(data<span class="op">=</span>merged_standard_log_df, x<span class="op">=</span>feature, y<span class="op">=</span><span class="st">'voting_rate_estimate'</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Voting Rate vs </span><span class="sc">{</span>feature<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(feature)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Voting Rate Estimate"</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This showcased very interesting outcomes:<br>
+- <strong>Positive correlations</strong> between voting rates and:<br>
+- Median Household Income<br>
+- White<br>
+- Asian<br>
+- Bachelors Degree or Higher<br>
+- Median Age</p>
+<ul>
+<li><strong>Negative correlations</strong> between voting rates and:
+<ul>
+<li>Poverty Rate<br>
+</li>
+<li>High School Graduate</li>
+</ul></li>
+<li>A <strong>slightly negative correlation</strong> was observed between voting rates and African American.</li>
+</ul>
+</section>
+<section id="plotting-raw-values" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-raw-values">Plotting Raw Values</h2>
+<div id="cell-27" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot of voting_rate_estimate against key features</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">'Median_Household_Income'</span>, <span class="st">'African_American'</span>, <span class="st">'Asian'</span>, <span class="st">'Below_Poverty_Level'</span>, <span class="st">'White'</span>, <span class="st">'Veterans'</span>, <span class="st">'High_School_Graduate'</span>, <span class="st">'Bachelors_Degree_or_Higher'</span>, <span class="st">'Median_Age'</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, feature <span class="kw">in</span> <span class="bu">enumerate</span>(features, <span class="dv">1</span>):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">3</span>, <span class="dv">3</span>, i)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(data<span class="op">=</span>merged_df, x<span class="op">=</span>feature, y<span class="op">=</span><span class="st">'voting_rate_estimate'</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Voting Rate vs </span><span class="sc">{</span>feature<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(feature)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Voting Rate Estimate"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>When comparing the log-transformed data to the raw data, the both showed patterns where:<br>
+- Median Age, Bachelors Degree, Median Household Income, and White showed <strong>positive correlations</strong>.<br>
+- Poverty Rate maintained a <strong>negative correlation</strong>.</p>
+<p>Due to the skewed data in the Raw Data however, analyzing patterns for <strong>Asian</strong> and <strong>African American</strong> becomes very difficult. This highlights the importance of <strong>log transformation</strong>, as it adjusts the data into a more understandable and explainable form.</p>
+</section>
+<section id="comparison-of-raw-vs-log-transformed-data-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-of-raw-vs-log-transformed-data-statistics">Comparison of Raw vs Log-Transformed Data Statistics</h2>
+<div id="cell-29" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>log_transformed_columns <span class="op">=</span> [<span class="st">'Log_African_American'</span>, <span class="st">'Log_Asian'</span>, <span class="st">'Log_Median_Household_Income'</span>, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'Log_American_Indian_and_Alaska_Native'</span>, <span class="st">'Log_Native_Hawaiian_and_Pacific_Islander'</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>raw_columns <span class="op">=</span> [<span class="st">'African_American'</span>, <span class="st">'Asian'</span>, <span class="st">'Median_Household_Income'</span>, </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>               <span class="st">'American_Indian_and_Alaska_Native'</span>, <span class="st">'Native_Hawaiian_and_Pacific_Islander'</span>]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_stats(df, columns):</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    stats <span class="op">=</span> df[columns].agg([<span class="st">'mean'</span>, <span class="st">'std'</span>, <span class="st">'skew'</span>, <span class="st">'kurtosis'</span>]).T</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    stats[<span class="st">'min'</span>] <span class="op">=</span> df[columns].<span class="bu">min</span>()</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    stats[<span class="st">'max'</span>] <span class="op">=</span> df[columns].<span class="bu">max</span>()</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stats</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>raw_stats <span class="op">=</span> calculate_stats(merged_df, raw_columns)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>log_stats <span class="op">=</span> calculate_stats(merged_standard_log_df, log_transformed_columns)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Display statistics</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Raw Data Statistics:"</span>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raw_stats)</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Log-Transformed Data Statistics:"</span>)</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(log_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Raw Data Statistics:
+                                              mean            std       skew  \
+African_American                      94183.689095  102405.485798   1.886305   
+Asian                                 42399.661253   52777.917382   3.181222   
+Median_Household_Income               64795.770302   18072.616613   1.207706   
+American_Indian_and_Alaska_Native      6338.090487   15279.267538   7.524386   
+Native_Hawaiian_and_Pacific_Islander   1448.104408    5381.575914  13.387485   
+
+                                        kurtosis    min     max  
+African_American                        3.165012   3667  491080  
+Asian                                  13.842183   1403  437632  
+Median_Household_Income                 1.817438  30483  141661  
+American_Indian_and_Alaska_Native      66.960823    265  180970  
+Native_Hawaiian_and_Pacific_Islander  208.339729      0   92334  
+
+Log-Transformed Data Statistics:
+                                                  mean       std      skew  \
+Log_African_American                      4.142085e-16  1.001162 -0.003785   
+Log_Asian                                -1.714535e-15  1.001162  0.231266   
+Log_Median_Household_Income               3.977226e-15  1.001162  0.433710   
+Log_American_Indian_and_Alaska_Native     8.902392e-16  1.001162  0.809490   
+Log_Native_Hawaiian_and_Pacific_Islander -4.121478e-17  1.001162 -1.125207   
+
+                                          kurtosis       min       max  
+Log_African_American                     -0.608039 -2.589643  2.066910  
+Log_Asian                                -0.191973 -2.916233  2.869244  
+Log_Median_Household_Income               0.093355 -2.770396  3.148080  
+Log_American_Indian_and_Alaska_Native     1.778489 -2.528258  4.100022  
+Log_Native_Hawaiian_and_Pacific_Islander  2.829978 -3.245660  2.983121  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="voting-rate-by-state" class="level1">
+<h1>Voting Rate by State</h1>
+<p>A box and whisker plot is shown to showcase the differences in voting rates between states. This shows how voting rates differ between states, with Minnesota having the highest with 62.7% and Hawaii with the lowest at 39.22%.</p>
+<div id="cell-31" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot of voting rate by state</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">6</span>))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>merged_standard_log_df, x<span class="op">=</span><span class="st">'state'</span>, y<span class="op">=</span><span class="st">'voting_rate_estimate'</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Voting Rate Estimate by State"</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"State"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Voting Rate Estimate"</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="distribution-of-voting-rate-pairplot" class="level2">
+<h2 class="anchored" data-anchor-id="distribution-of-voting-rate-pairplot">Distribution of Voting Rate Pairplot</h2>
+<p>A pairwise plot showcasing scatterplots between the important features is shown, with the ability to not only check correlation between features and voting rate, but all features amongst each other. - For example, poverty rate and bachelors degree or higher have a negative correlation, while bachelors degree of higher and median income have a positive correlation.</p>
+<div id="cell-33" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribution of voting_rate_estimate</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sns.histplot(merged_standard_log_df[<span class="st">'voting_rate_estimate'</span>], kde<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of Voting Rate Estimate"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Voting Rate Estimate"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Relationship with features</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>sns.pairplot(data<span class="op">=</span>merged_standard_log_df, <span class="bu">vars</span><span class="op">=</span>important_features <span class="op">+</span> [<span class="st">'voting_rate_estimate'</span>])</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="statistical-testing" class="level1">
+<h1>Statistical Testing</h1>
+<p>Statistical testing was utilized to answer questions regarding the data and relationships between variables. We utilize an ANOVA test and T Test to compare and quantify differences between voting rate and states</p>
+<p><strong>Null Hypothesis</strong>: There are no significant statistical differences between states. <strong>Alternative Hypothesis</strong>: There is a significant statistical difference between states. An Anova test is done to evaluate if there is any differences in voting rate between states.</p>
+<section id="anova-test" class="level2">
+<h2 class="anchored" data-anchor-id="anova-test">Anova Test</h2>
+<div id="cell-35" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do voting rates differ for states </span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> f_oneway</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>groups <span class="op">=</span> [merged_standard_log_df[merged_standard_log_df[<span class="st">'state_abbreviation'</span>] <span class="op">==</span> state][<span class="st">'voting_rate_estimate'</span>] </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> state <span class="kw">in</span> merged_standard_log_df[<span class="st">'state_abbreviation'</span>].unique()]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>f_stat, p_value <span class="op">=</span> f_oneway(<span class="op">*</span>groups)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"F-Statistic: </span><span class="sc">{</span>f_stat<span class="sc">}</span><span class="ss">, P-Value: </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>F-Statistic: 5.939407497543833, P-Value: 2.4710973577299353e-25</code></pre>
+</div>
+</div>
+<p>The extremely low P value indicates that there is statistically significant differences in voting rate between states.</p>
+</section>
+<section id="t-test-california-vs-texas" class="level2">
+<h2 class="anchored" data-anchor-id="t-test-california-vs-texas">T-Test: California vs Texas</h2>
+<p>The two states with the highest amount of Districts, California and Texas are compared against each other</p>
+<div id="cell-37" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> ttest_ind</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>state_1 <span class="op">=</span> merged_standard_log_df[merged_standard_log_df[<span class="st">'state_abbreviation'</span>] <span class="op">==</span> <span class="st">'CA'</span>][<span class="st">'voting_rate_estimate'</span>]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>state_2 <span class="op">=</span> merged_standard_log_df[merged_standard_log_df[<span class="st">'state_abbreviation'</span>] <span class="op">==</span> <span class="st">'TX'</span>][<span class="st">'voting_rate_estimate'</span>]</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>t_stat, p_value <span class="op">=</span> ttest_ind(state_1, state_2)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"T-Statistic: </span><span class="sc">{</span>t_stat<span class="sc">}</span><span class="ss">, P-Value: </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>T-Statistic: 1.663421030911609, P-Value: 0.09982659171288376</code></pre>
+</div>
+</div>
+<p>The p-value is greater than 0.05, so we fail to reject the null hypothesis. This indicates the difference in voting rates between California and Texas is not statistically significant at the 95% confidence level.</p>
+</section>
+<section id="t-test-massachusetts-vs-rhode-island" class="level2">
+<h2 class="anchored" data-anchor-id="t-test-massachusetts-vs-rhode-island">T-Test: Massachusetts vs Rhode Island</h2>
+<p>Two states, Massachussets and Rhode Island are compared. Both states are similar in size and in the North East</p>
+<div id="cell-39" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> ttest_ind</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>state_1 <span class="op">=</span> merged_standard_log_df[merged_standard_log_df[<span class="st">'state_abbreviation'</span>] <span class="op">==</span> <span class="st">'MA'</span>][<span class="st">'voting_rate_estimate'</span>]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>state_2 <span class="op">=</span> merged_standard_log_df[merged_standard_log_df[<span class="st">'state_abbreviation'</span>] <span class="op">==</span> <span class="st">'RI'</span>][<span class="st">'voting_rate_estimate'</span>]</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>t_stat, p_value <span class="op">=</span> ttest_ind(state_1, state_2)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"T-Statistic: </span><span class="sc">{</span>t_stat<span class="sc">}</span><span class="ss">, P-Value: </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>T-Statistic: 1.9987057273754905, P-Value: 0.07671272608947101</code></pre>
+</div>
+</div>
+<p>The p-value is greater than 0.05, so we fail to reject the null hypothesis. This indicates the difference in voting rates between Massachussets and Rhode Island is not statistically significant at the 95% confidence level.</p>
+</section>
+<section id="t-test-florida-vs-oregon" class="level2">
+<h2 class="anchored" data-anchor-id="t-test-florida-vs-oregon">T-Test: Florida vs Oregon</h2>
+<p>Florida and Oregon are compared. These states have drastically different population sizes, geography, and voting culture.</p>
+<div id="cell-41" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> ttest_ind</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>state_1 <span class="op">=</span> merged_standard_log_df[merged_standard_log_df[<span class="st">'state_abbreviation'</span>] <span class="op">==</span> <span class="st">'FL'</span>][<span class="st">'voting_rate_estimate'</span>]</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>state_2 <span class="op">=</span> merged_standard_log_df[merged_standard_log_df[<span class="st">'state_abbreviation'</span>] <span class="op">==</span> <span class="st">'OR'</span>][<span class="st">'voting_rate_estimate'</span>]</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>t_stat, p_value <span class="op">=</span> ttest_ind(state_1, state_2)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"T-Statistic: </span><span class="sc">{</span>t_stat<span class="sc">}</span><span class="ss">, P-Value: </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>T-Statistic: -3.1624093707880396, P-Value: 0.003953916864173521</code></pre>
+</div>
+</div>
+<p>The P value below 0.05 indicates that there is statistically significant differences in voting rate between these two states.</p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<section id="distribution-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="distribution-analysis">Distribution Analysis</h2>
+<ul>
+<li><strong>Skewness in Data</strong>: Variables such as <strong>African_American</strong>, <strong>Asian</strong>, <strong>Median_Household_Income</strong>, and 2 other features showed high skewness.<br>
+</li>
+<li><strong>Log Transformation Impact</strong>: After log transformation, the skewed variables became more normally distributed, improving interpretability and analysis.
+<ul>
+<li>For example, the correlation for <strong>Asian</strong> improved from <strong>0.05</strong> (non-logged) to <strong>0.19</strong> (logged), revealing previously unseen patterns.</li>
+</ul></li>
+</ul>
+</section>
+<section id="correlation-analysis-1" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-analysis-1">Correlation Analysis</h2>
+<ul>
+<li>Voting Rate had the <strong>strongest positive correlations</strong> with:
+<ul>
+<li>Households_with_Internet (<strong>0.63</strong>)<br>
+</li>
+<li>`Bachelors_Degree_or_Higher (<strong>0.62</strong>)<br>
+</li>
+<li>Log Median Household Income (<strong>0.56</strong>)<br>
+</li>
+</ul></li>
+<li>The <strong>strongest negative correlations</strong> were observed with:
+<ul>
+<li>Below_Poverty_Level (<strong>-0.66</strong>)<br>
+</li>
+<li>High_School_Graduate (<strong>-0.31</strong>)<br>
+</li>
+<li>Log_African_American (<strong>-0.25</strong>)</li>
+</ul></li>
+</ul>
+</section>
+<section id="state-wise-voting-rate" class="level2">
+<h2 class="anchored" data-anchor-id="state-wise-voting-rate">State-Wise Voting Rate</h2>
+<ul>
+<li>States such as <strong>Minnesota</strong> had the <strong>highest average voting rates</strong> (<strong>62.7%</strong>), while <strong>Hawaii</strong> had the <strong>lowest</strong> (<strong>39.22%</strong>).<br>
+</li>
+<li>Significant differences in voting rates were confirmed across states through the <strong>ANOVA test</strong>.</li>
+</ul>
+</section>
+<section id="statistical-testing-1" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-testing-1">Statistical Testing</h2>
+<ul>
+<li><strong>California vs Texas</strong>: No statistically significant difference in voting rates.<br>
+</li>
+<li><strong>Massachusetts vs Rhode Island</strong>: No statistically significant difference in voting rates.<br>
+</li>
+<li><strong>Florida vs Oregon</strong>: Statistically significant differences were observed, highlighting the impact of <strong>geography</strong> and <strong>culture</strong> on voter turnout.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="next-steps" class="level1">
+<h1>Next Steps</h1>
+<section id="policy-recommendations" class="level2">
+<h2 class="anchored" data-anchor-id="policy-recommendations">Policy Recommendations</h2>
+<ul>
+<li>Focus on <strong>socioeconomic factors</strong> like poverty reduction and <strong>education access</strong> to improve voter turnout.<br>
+</li>
+<li>Increase <strong>internet access</strong>, as these show strong correlations with higher voting rates.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

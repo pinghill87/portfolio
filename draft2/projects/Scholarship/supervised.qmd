@@ -1,0 +1,378 @@
+# Predicting Attack Severity: Low, Medium, High
+
+## Multiclass Classification Overview
+
+We classify each incident into one of three severity levels — Low, Medium, or High — based on relevant features using a multiclass classification model.
+
+```python
+#| code-fold: true
+
+import pandas as pd
+
+# Load data
+df = pd.read_csv("security_incidents.csv")
+
+# Create 'Total Affected' and 'Severity Level'
+df['Total Affected'] = df[['Total killed', 'Total wounded', 'Total kidnapped']].sum(axis=1).fillna(0)
+
+def categorize_severity(x):
+    if x <= 1:
+        return 'Low'
+    elif x <= 4:
+        return 'Medium'
+    else:
+        return 'High'
+
+df['Severity Level'] = df['Total Affected'].apply(categorize_severity)
+```
+
+### Cleaning Data
+
+```python
+#| code-fold: true
+
+from sklearn.preprocessing import LabelEncoder
+
+# Select relevant features (numeric + categorical)
+selected_features = [
+    'Year', 'Month', 'Country Code', 'Region', 'District', 'City',
+    'Means of attack', 'Attack context', 'Actor type', 'Motive',
+    'Latitude', 'Longitude'
+]
+
+# Check which columns exist in the dataset
+existing_features = [col for col in selected_features if col in df.columns]
+missing_features = [col for col in selected_features if col not in df.columns]
+
+if missing_features:
+    print(f"Warning: Missing columns: {missing_features}")
+    selected_features = existing_features
+
+X = df[selected_features].copy().fillna('Unknown')
+y = df['Severity Level']
+
+# Encode categorical features
+categorical_cols = [
+    'Country Code', 'Region', 'District', 'City',
+    'Means of attack', 'Attack context'
+]
+
+# Copy data
+X_encoded = X.copy()
+
+# List of all non-numeric columns (categorical)
+categorical_cols = X_encoded.select_dtypes(include='object').columns.tolist()
+
+# Encode all categorical features using LabelEncoder
+label_encoders = {}
+for col in categorical_cols:
+    le = LabelEncoder()
+    X_encoded[col] = le.fit_transform(X_encoded[col].astype(str))
+    label_encoders[col] = le
+
+# Encode target
+le_target = LabelEncoder()
+y_encoded = le_target.fit_transform(y)
+```
+
+## Feature Selection
+
+Feature selection using **Sequential Forward Floating Selection** (SFFS) highlighted the most predictive variables:
+- **Year**
+- **Country Code**
+- **Region**
+- **Means of Attack**
+- **Actor Type**
+- **Motive**
+- **Longitude**
+
+These features capture both the **context** and **timing** of incidents, aiding in distinguishing between severity levels.
+
+```python
+#| code-fold: true
+
+from mlxtend.feature_selection import SequentialFeatureSelector as SFS
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import StratifiedKFold, train_test_split
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X_encoded, y_encoded, test_size=0.2, stratify=y_encoded, random_state=42
+)
+
+# Set up model + cross-validation
+clf = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
+
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+# Sequential Floating Forward Selection
+sffs = SFS(clf,
+           k_features='best',
+           forward=True,
+           floating=True,
+           scoring='f1_weighted',
+           cv=cv,
+           n_jobs=-1)
+
+sffs.fit(X_train, y_train)
+
+selected_feature_indices = list(sffs.k_feature_idx_)
+selected_feature_names = [X_encoded.columns[i] for i in selected_feature_indices]
+print("Selected features:", selected_feature_names)
+```
+
+## Model Evaluation: Confusion Matrix
+
+The model achieved a moderate overall accuracy of **65.8%**, with stronger performance on low-severity incidents but room for improvement in detecting more severe attacks.
+
+```python
+#| code-fold: true
+
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+
+# Train model using ONLY selected features
+# Final classifier with class weight handling
+clf_final = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
+
+clf_final.fit(X_train.iloc[:, selected_feature_indices], y_train)
+
+# Predict on test set
+y_pred = clf_final.predict(X_test.iloc[:, selected_feature_indices])
+
+# Evaluation
+print(f"Accuracy: {accuracy_score(y_test, y_pred):.3f}")
+print("Classification Report:")
+print(classification_report(y_test, y_pred, target_names=le_target.classes_))
+
+# Confusion Matrix
+disp = ConfusionMatrixDisplay(confusion_matrix(y_test, y_pred), display_labels=le_target.classes_)
+disp.plot(cmap="Reds")
+```
+
+# Forecasting Violence against Aid Workers in 2025
+
+## Polynomial degree tuning
+
+We apply hyperparameter tuning via K-Fold cross-validation to select the optimal polynomial degree for modeling the trend of total affected individuals over time.
+
+```python
+#| code-fold: true
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score
+from sklearn.model_selection import KFold
+
+# --- Load the data ---
+df = pd.read_csv("security_incidents.csv")
+
+# --- Create Total Affected column if not already present ---
+if 'Total Affected' not in df.columns:
+    df['Total Affected'] = df[['Total killed', 'Total wounded', 'Total kidnapped']].sum(axis=1).fillna(0)
+
+# --- Aggregate by year ---
+yearly = df.groupby('Year').agg(
+    Total_Incidents=('Incident ID', 'count') if 'Incident ID' in df.columns else ('Year', 'count'),
+    Total_Affected=('Total Affected', 'sum')
+).reset_index()
+
+# --- Prepare X and y ---
+X_years = yearly['Year'].values.reshape(-1, 1)
+y_affected = yearly['Total_Affected'].values
+
+# --- Polynomial regression with CV ---
+degrees = range(1, 6)
+cv = KFold(n_splits=min(5, len(yearly)), shuffle=True, random_state=42)
+mean_r2_scores = []
+std_r2_scores = []
+
+for d in degrees:
+    r2_fold_scores = []
+    for train_idx, val_idx in cv.split(X_years):
+        X_train, X_val = X_years[train_idx], X_years[val_idx]
+        y_train, y_val = y_affected[train_idx], y_affected[val_idx]
+
+        # Fit polynomial
+        try:
+            coeffs = np.polyfit(X_train.ravel(), y_train, deg=d)
+            poly = np.poly1d(coeffs)
+
+            # Predict + score
+            y_pred = poly(X_val.ravel())
+            r2 = r2_score(y_val, y_pred)
+            r2_fold_scores.append(r2)
+        except np.RankWarning:
+            print(f"Warning: Polynomial degree {d} may be too high for the data")
+            r2_fold_scores.append(-np.inf)
+
+    mean_r2_scores.append(np.mean(r2_fold_scores))
+    std_r2_scores.append(np.std(r2_fold_scores))
+```
+
+## Cross-Validated Model Performance
+
+This plot compares cross-validated R² scores across polynomial degrees from 1 to 5. The optimal degree balances model fit and generalization.
+
+```python
+#| code-fold: true
+
+# --- Plot CV scores ---
+plt.figure(figsize=(7, 4))
+plt.errorbar(degrees, mean_r2_scores, yerr=std_r2_scores, marker='o')
+plt.xticks(degrees)
+plt.xlabel("Polynomial Degree")
+plt.ylabel("Cross-validated R² Score")
+plt.title("Polynomial Degree vs CV R² Score")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+# Report best degree 
+best_degree = degrees[np.argmax(mean_r2_scores)]
+print(f"Best polynomial degree: {best_degree}")
+print(f"Mean R² = {max(mean_r2_scores):.4f} ± {std_r2_scores[np.argmax(mean_r2_scores)]:.4f}")
+```
+
+## Forecast Trendline: Total Affected by Year
+### Linear Regression
+
+The fitted polynomial model (in red) captures the long-term trend in violence against Aid Workers. Actual yearly totals are shown in black. The model forecasts 804 affected individuals in 2025.
+
+```python
+#| code-fold: true
+
+import pandas as pd
+import numpy as np
+import altair as alt
+
+# Load data and filter out 2025
+df = pd.read_csv("security_incidents.csv")
+df = df[df['Year'] < 2025]  # Exclude 2025 data for training
+
+# Compute total affected
+df['Total Affected'] = df[['Total killed', 'Total wounded', 'Total kidnapped']].sum(axis=1).fillna(0)
+
+# Group by year
+yearly = df.groupby('Year').agg(
+    Total_Incidents=('Incident ID', 'count') if 'Incident ID' in df.columns else ('Year', 'count'),
+    Total_Affected=('Total Affected', 'sum')
+).reset_index()
+
+# Fit polynomial regression with optimal degree
+coeffs = np.polyfit(yearly['Year'], yearly['Total_Affected'], deg=best_degree)
+poly = np.poly1d(coeffs)
+
+# Predict for 2025
+pred_2025 = int(round(poly(2025)))
+print(f"Predicted Total Affected in 2025: {pred_2025}")
+
+# Add fitted values
+yearly['Fitted'] = poly(yearly['Year'])
+
+# Append 2025 prediction to the DataFrame
+yearly_extended = yearly.copy()
+yearly_extended = pd.concat([
+    yearly,
+    pd.DataFrame([{
+        'Year': 2025,
+        'Total_Incidents': None,
+        'Total_Affected': None,
+        'Fitted': pred_2025
+    }])
+], ignore_index=True)
+
+# Melt data for Altair plotting
+plot_df = yearly_extended.melt(id_vars='Year', value_vars=['Total_Affected', 'Fitted'], 
+                                var_name='Type', value_name='People Affected')
+
+plot_df.loc[plot_df['Type'] == 'Fitted', 'People Affected'] = plot_df.loc[plot_df['Type'] == 'Fitted', 'People Affected'].round(0)
+
+# Replace "Total_Affected" with "Total Affected" in the Type column
+plot_df['Type'] = plot_df['Type'].replace('Total_Affected', 'Total Affected')
+
+# Plot actual vs fitted
+alt.Chart(plot_df).mark_line(point=True).encode(
+    x=alt.X('Year:O'),
+    y=alt.Y('People Affected:Q'),
+    color=alt.Color('Type:N', title='Line Type', 
+                   scale=alt.Scale(domain=['Total Affected', 'Fitted'],
+                                 range=['black', 'crimson'])),
+    tooltip=['Year', 'Type', alt.Tooltip('People Affected:Q', format='.0f')]
+).properties(
+    title='Forecast of Violence Against Aid Workers (1997–2025)',
+    width=600,
+    height=400
+)
+```
+
+### Polynomial Regression
+
+While cross-validation favors a linear trend due to model simplicity and limited data points, we opted to use a 4th-degree polynomial as it better captures observed spikes and non-linear behavior in the data — particularly post-2010. This model provides a more realistic representation of emerging patterns in humanitarian aid violence, and predicts that aid worker deaths will 804 by the end of 2025.
+
+```python
+#| code-fold: true
+
+import pandas as pd
+import numpy as np
+import altair as alt
+
+# Load data and filter out 2025
+df = pd.read_csv("security_incidents.csv")
+df = df[df['Year'] < 2025]  # Exclude 2025 data for training
+
+# Compute total affected
+df['Total Affected'] = df[['Total killed', 'Total wounded', 'Total kidnapped']].sum(axis=1).fillna(0)
+
+# Group by year
+yearly = df.groupby('Year').agg(
+    Total_Incidents=('Incident ID', 'count') if 'Incident ID' in df.columns else ('Year', 'count'),
+    Total_Affected=('Total Affected', 'sum')
+).reset_index()
+
+# Fit polynomial regression with degree 4
+coeffs = np.polyfit(yearly['Year'], yearly['Total_Affected'], deg=4)
+poly = np.poly1d(coeffs)
+
+# Predict for 2025
+pred_2025 = int(round(poly(2025)))
+print(f"Predicted Total Affected in 2025: {pred_2025}")
+
+# Add fitted values
+yearly['Fitted'] = poly(yearly['Year'])
+
+# Append 2025 prediction to the DataFrame
+yearly_extended = yearly.copy()
+yearly_extended = pd.concat([
+    yearly,
+    pd.DataFrame([{
+        'Year': 2025,
+        'Total_Incidents': None,
+        'Total_Affected': None,
+        'Fitted': pred_2025
+    }])
+], ignore_index=True)
+
+# Melt data for Altair plotting
+plot_df = yearly_extended.melt(id_vars='Year', value_vars=['Total_Affected', 'Fitted'], 
+                                var_name='Type', value_name='People Affected')
+
+# Round the Fitted values to integers
+plot_df.loc[plot_df['Type'] == 'Fitted', 'People Affected'] = plot_df.loc[plot_df['Type'] == 'Fitted', 'People Affected'].round(0)
+
+# Replace "Total_Affected" with "Total Affected" in the Type column
+plot_df['Type'] = plot_df['Type'].replace('Total_Affected', 'Total Affected')
+
+# Plot actual vs fitted
+alt.Chart(plot_df).mark_line(point=True).encode(
+    x=alt.X('Year:O'),
+    y=alt.Y('People Affected:Q'),
+    color=alt.Color('Type:N', title='Line Type', 
+                   scale=alt.Scale(domain=['Total Affected', 'Fitted'],
+                                 range=['black', 'crimson'])),
+    tooltip=['Year', 'Type', alt.Tooltip('People Affected:Q', format='.0f')]
+).properties(
+    title='Forecast of Violence Against Aid Workers (1997–2025)',
+    width=600,
+    height=400
+)
+```
