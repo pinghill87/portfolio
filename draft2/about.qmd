@@ -30,39 +30,46 @@ I am passionate about leveraging data science to uncover patterns, drive decisio
 
 ## Work Experience  
 
+**Silkroll** | *Oakland, CA*  
+**Data Analyst** | *April 2025 – August 2025*  
+
+- Designed and executed MongoDB aggregation pipelines utilizing Metabase to analyze company-wide financial transactions, service fees, and inventory across cash and points-based orders.  
+- Built and optimized interactive dashboards to track sales, returns, and revenue trends, ensuring data accuracy and reliability across historical records.  
+- Automated financial reporting processes, reducing manual effort and improving visibility for stakeholders.  
+
 **Center for Retirement Initiatives** | *Washington, D.C.*  
-**Graduate Student Research Assistant (Georgetown University)**  
+**Graduate Student Research Assistant (Georgetown University)** | *October 2024 – March 2025*  
 
 - Analyzed state program data, creating monthly reports on financial metrics and retirement trends in **Tableau**.  
 - Conducted data collection, cleaning, and dataset uploads using **SQL** and **Python**, ensuring data integrity.  
 - Collaborated with CRI stakeholders to identify new research inquiries and provide evidence-based insights.  
 
-**RESET.BUILD** | *Shanghai, China* | *June 2024 – August 2024*  
-**Data Science Intern (BU Shanghai Internship Program)**  
+**RESET.BUILD** | *Shanghai, China*  
+**Data Science Intern (BU Shanghai Internship Program)** | *June 2024 – August 2024*  
 
 - Developed **Python** scripts to automate big data cleaning, extraction, format corrections, and air quality analysis, saving **8 hours** of manual work per dataset.  
 - Collaborated with cross-functional teams to design and implement data dashboards in **Google Looker Studio**, improving data access and driving internal insights.  
 - Enhanced front-end **UI** using **HTML** and **CSS**, ensuring a professional and user-friendly experience.  
 
-**Ecommerce Store** | *San Francisco, CA* | *June 2023 – Present*  
-**Owner and Manager**  
+**Ecommerce Store** | *San Francisco, CA*  
+**Owner and Manager** | *June 2023 – Present*  
 
 - Managed e-commerce store with **$9,000** in revenue, overseeing inventory, customer service, **SEO**, and marketing strategies.  
 - Applied business insights to adjust pricing strategies and product offerings, enhancing store profitability.  
 
-**Radboud University** | *Nijmegen, Netherlands* | *May 2023 – July 2023*  
-**Machine Learning Research Intern**  
+**Radboud University** | *Nijmegen, Netherlands*  
+**Machine Learning Research Intern** | *May 2023 – July 2023*  
 
 - Programmed pipeline to cut, synchronize, and analyze over **2 TB** of neuronal data and video.  
 - Utilized **DeepLabCut pose-estimation** to analyze cortico-hippocampal activity during memory consolidation.  
 - Partnered with a diverse research team and mentored new interns, creating a written guide for onboarding.  
 
-**UCSF Medical Center – Anesthesia** | *San Francisco, CA* | *May 2022 – August 2022*  
-**Data Research Intern**  
+**UCSF Medical Center – Anesthesia** | *San Francisco, CA*  
+**Data Research Intern** | *May 2022 – August 2022*  
 
 - Contributed to a research study on **pupillary unrest** in ambient light in response to opioids.  
 - Cleaned and visualized data for analysis, designing figures and reports.  
-- **Publication**: *Merlin D. Larsson, Rachel McKay, Soong Ping Hill, Practical Guide to Portable...*  
+- **Publication**: *Merlin D. Larsson, Rachel McKay, Soong Ping Hill, Practical Guide to Portable Pupillometry*
 
 ## Projects
 
