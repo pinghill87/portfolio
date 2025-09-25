@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Soong Ping Hill – Predicting Voting Trends: Uncovering Patterns Through Data Science</title>
+<title>Soong Ping Hill – report</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -122,7 +122,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../projects/DS5000/index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../projects/DS5000/report.html">Report</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -136,13 +136,13 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../projects/DS5000/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../projects/DS5000/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../projects/DS5000/report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../projects/DS5000/report.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Report</span></a>
   </div>
 </li>
@@ -197,194 +197,272 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#voting-analysis" id="toc-voting-analysis" class="nav-link active" data-scroll-target="#voting-analysis">Introduction</a>
+  <li><a href="#voting-rates-in-congressional-districts-key-findings" id="toc-voting-rates-in-congressional-districts-key-findings" class="nav-link active" data-scroll-target="#voting-rates-in-congressional-districts-key-findings">Voting Rates in Congressional Districts: Key Findings</a></li>
+  <li><a href="#final-report" id="toc-final-report" class="nav-link" data-scroll-target="#final-report">Final Report</a>
   <ul class="collapse">
-  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
-  <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">Research Questions</a></li>
-  </ul></li>
-  <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective">Objective</a></li>
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key Findings</a>
   <ul class="collapse">
-  <li><a href="#factors-of-voter-turnout-effects-of-habit-social-pressure-and-gerrymandering-on-voting-behavior" id="toc-factors-of-voter-turnout-effects-of-habit-social-pressure-and-gerrymandering-on-voting-behavior" class="nav-link" data-scroll-target="#factors-of-voter-turnout-effects-of-habit-social-pressure-and-gerrymandering-on-voting-behavior">Factors of Voter Turnout: Effects of Habit, Social Pressure, and Gerrymandering on Voting Behavior</a></li>
-  <li><a href="#what-affects-voter-turnout" id="toc-what-affects-voter-turnout" class="nav-link" data-scroll-target="#what-affects-voter-turnout">What Affects Voter Turnout?</a></li>
-  <li><a href="#a-study-of-key-factors-influencing-youth-voter-turnout" id="toc-a-study-of-key-factors-influencing-youth-voter-turnout" class="nav-link" data-scroll-target="#a-study-of-key-factors-influencing-youth-voter-turnout">A Study of Key Factors Influencing Youth Voter Turnout</a></li>
+  <li><a href="#top-factors-correlated-with-voter-turnout" id="toc-top-factors-correlated-with-voter-turnout" class="nav-link" data-scroll-target="#top-factors-correlated-with-voter-turnout">Top Factors Correlated with Voter Turnout</a></li>
+  <li><a href="#correlation-heatmap" id="toc-correlation-heatmap" class="nav-link" data-scroll-target="#correlation-heatmap">Correlation Heatmap</a></li>
   </ul></li>
-  <li><a href="#audience" id="toc-audience" class="nav-link" data-scroll-target="#audience">Audience</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning">Supervised Learning</a>
+  <ul class="collapse">
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a></li>
+  <li><a href="#linear-regression-visual" id="toc-linear-regression-visual" class="nav-link" data-scroll-target="#linear-regression-visual">Linear Regression Visual</a></li>
+  <li><a href="#binary-classification" id="toc-binary-classification" class="nav-link" data-scroll-target="#binary-classification">Binary Classification</a></li>
+  <li><a href="#random-forest-binary-classification-visual" id="toc-random-forest-binary-classification-visual" class="nav-link" data-scroll-target="#random-forest-binary-classification-visual">Random Forest Binary Classification Visual</a></li>
+  <li><a href="#multi-classification" id="toc-multi-classification" class="nav-link" data-scroll-target="#multi-classification">Multi Classification</a></li>
+  <li><a href="#logistic-regression-multi-class-classification-visual" id="toc-logistic-regression-multi-class-classification-visual" class="nav-link" data-scroll-target="#logistic-regression-multi-class-classification-visual">Logistic Regression Multi-Class Classification Visual</a></li>
+  </ul></li>
+  <li><a href="#unsupervised-learning-predictions" id="toc-unsupervised-learning-predictions" class="nav-link" data-scroll-target="#unsupervised-learning-predictions">Unsupervised Learning Predictions</a></li>
+  <li><a href="#dimensionality-reduction" id="toc-dimensionality-reduction" class="nav-link" data-scroll-target="#dimensionality-reduction">Dimensionality Reduction</a>
+  <ul class="collapse">
+  <li><a href="#pca-principal-component-analysis" id="toc-pca-principal-component-analysis" class="nav-link" data-scroll-target="#pca-principal-component-analysis">PCA (Principal Component Analysis)</a></li>
+  <li><a href="#t-sne-clustering" id="toc-t-sne-clustering" class="nav-link" data-scroll-target="#t-sne-clustering">t-SNE Clustering</a></li>
+  </ul></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a>
+  <ul class="collapse">
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering">K-Means Clustering</a></li>
+  <li><a href="#dbscan-clustering" id="toc-dbscan-clustering" class="nav-link" data-scroll-target="#dbscan-clustering">DBSCAN Clustering</a></li>
+  <li><a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering">Hierarchical Clustering</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#conclusion-and-insights" id="toc-conclusion-and-insights" class="nav-link" data-scroll-target="#conclusion-and-insights">Conclusion and Insights</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Predicting Voting Trends: Uncovering Patterns Through Data Science</h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="voting-analysis" class="level1">
-<h1>Introduction</h1>
-<p><strong>Author:</strong> Soong-Ping Hill<br>
-<strong>Course:</strong> DSAN 5000 - Data Science and Analytics<br>
-<strong>Institution:</strong> Georgetown University</p>
-<p>This project explores the factors that influence voting rates. By utilizing machine learning methods such as Dimensionality Reduction, Clustering, Regression, and Classification, the project identifies trends, evaluates model performance, and provides insights into voter participation patterns.</p>
-<section id="motivation" class="level2">
-<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
-<p>Voting is a fundamental part of the democratic process, yet every year millions of people refrain from voting. Voting allows the people to speak for what they want, drive change, and elect new leaders. Despite the importance of voting, many states continue to have low voting rates, with many falling below the 50% mark.</p>
-<p>Understanding voting patterns is important for increasing voter turn out and participation. By using data science tools, this project addresses real-world challenges in predicting voter behavior and identifying areas of improvement</p>
+<section id="voting-rates-in-congressional-districts-key-findings" class="level1">
+<h1>Voting Rates in Congressional Districts: Key Findings</h1>
 </section>
-<section id="research-questions" class="level2">
-<h2 class="anchored" data-anchor-id="research-questions">Research Questions</h2>
-<p><strong>Primary Research Focus:</strong> * What are the biggest variables that influence voter turnout? * How accurately can machine learning models predict voting rates?</p>
-<p><strong>Model Performance:</strong> * Can models effectively distinguish between Low, Medium, and High voting rates?</p>
-<p><strong>Demographic Impact:</strong> * Which variables or demographics are responsible for the highest voting rates?</p>
-<p><strong>Policy Applications:</strong> * What populations and factors can government officials target to raise voting rates in their districts?</p>
+<section id="final-report" class="level1">
+<h1>Final Report</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Voting is an important part of the democratic process, and increasing voter turnout is crucial in allowing all voices to be heard. Voter turnout varies significantly throughout districts, and understanding the variables that drive voter turnout can provide stakeholders with valuable information to increase voter participation.</p>
+<hr>
+</section>
+<section id="objective" class="level2">
+<h2 class="anchored" data-anchor-id="objective">Objective</h2>
+<p>The objective of this project is:<br>
+1. To collect and clean relevant datasets related to voter turnout and population information.<br>
+2. To perform <strong>exploratory data analysis (EDA)</strong> to identify key trends and patterns.<br>
+3. To apply <strong>unsupervised learning</strong> techniques (clustering, dimensionality reduction) and <strong>supervised learning</strong> models (classification, regression) to uncover insights.<br>
+4. To analyze specific factors such as race, education, or socioeconomic factors, and highlight any patterns or trends revealed in the data.</p>
+<hr>
+</section>
+<section id="key-findings" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings">Key Findings</h2>
+<section id="top-factors-correlated-with-voter-turnout" class="level3">
+<h3 class="anchored" data-anchor-id="top-factors-correlated-with-voter-turnout">Top Factors Correlated with Voter Turnout</h3>
+<ul>
+<li><strong>Internet Access</strong>: Areas with <strong>Higher Internet Access</strong> had a 0.63 correlation with Voter Turnout</li>
+<li><strong>Higher Education</strong>: Areas with higher percentages of voters holding a <strong>Bachelor’s Degree or Higher</strong> had a 0.62 Correlation with Voter Turnout</li>
+<li><strong>Income Level</strong>: Areas with Higher <strong>Median Income Level</strong> had a 0.56 correlation with Voter Turnout</li>
+<li><strong>Poverty Rate</strong>: Areas with Higher levels of <strong>Poverty</strong> had a -0.66 correlation with Voter Turnout.</li>
+<li><strong>African American</strong>: Areas with a Higher density of <strong>African American</strong> had a -0.25 correlation with Voter Turnout.</li>
+<li><strong>High School Degree</strong>: Areas with a Higher percentage of voters with a <strong>High School Degree</strong> had a -0.31 correlation with Voter Turnout.</li>
+</ul>
+</section>
+<section id="correlation-heatmap" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-heatmap">Correlation Heatmap</h3>
+<p><img src="./images/heatmap.png" class="img-fluid"></p>
+<p>Figure 1: Correlation Heatmap of all features</p>
+<hr>
 </section>
 </section>
-<section id="literature-review" class="level1">
-<h1>Literature Review</h1>
-<section id="factors-of-voter-turnout-effects-of-habit-social-pressure-and-gerrymandering-on-voting-behavior" class="level2">
-<h2 class="anchored" data-anchor-id="factors-of-voter-turnout-effects-of-habit-social-pressure-and-gerrymandering-on-voting-behavior">Factors of Voter Turnout: Effects of Habit, Social Pressure, and Gerrymandering on Voting Behavior</h2>
-<p><a href="#gibbons-2022"><strong>Gibbons 2022</strong></a></p>
+<section id="supervised-learning" class="level2">
+<h2 class="anchored" data-anchor-id="supervised-learning">Supervised Learning</h2>
+<section id="regression" class="level3">
+<h3 class="anchored">Regression</h3>
+<p>Linear regression model predicted voter turnout with moderate accuracy.</p>
 <ul>
-<li><p>In this review, <strong>Gibbons</strong>, rather than analyzing the socio-economic and racial differences that may influence voter turnout, analyzes the <strong>history of the United States</strong>, <strong>social pressures</strong>, and <strong>voter behaviors</strong> as key factors for voting.</p></li>
-<li><p>Gibbons analyzes <strong>Gerrymandering</strong> (the manipulation of district boundaries in favor of a political party) and concludes:</p>
+<li><p>RMSE:</p>
 <ul>
-<li><strong>Gerrymandering does not necessarily correlate to voter turnout</strong> but rather <strong>influences district results</strong> more.</li>
+<li>Linear Regression: 0.571
+<ul>
+<li>This means the model’s predictions are, on average, 0.571 standard deviations away from the actual values.</li>
 </ul></li>
-<li><p>Voters who <strong>habitually vote</strong> have higher likelihoods of continually voting:</p>
-<ul>
-<li>Citizens who exhibit voting as a <strong>habit</strong> have a <strong>higher influence</strong> on voting rates than other factors such as outcome preferences or political ties.</li>
+<li><h2 id="cross-validation-0.588" class="anchored" data-anchor-id="regression">Cross Validation: 0.588</h2></li>
+<li>Lasso Regression: 0.576</li>
 </ul></li>
-<li><p>Gibbons touches on the influence of <strong>Social Pressure</strong>:</p>
+<li><p>MAE:</p>
 <ul>
-<li><strong>Altruism</strong>: Emphasizing collective benefits.<br>
+<li>Linear Regression: 0.465
+<ul>
+<li>The average absolute difference between predicted and actual values is 0.465 standard deviations.</li>
+</ul></li>
+<li>Cross Validation: 0.456</li>
+<li>Lasso Regression: 0.469</li>
+</ul></li>
+<li><p>R^2:</p>
+<ul>
+<li>Linear Regression: 0.688
+<ul>
+<li>68.8% of the variance in voter turnout is explained by the model</li>
+</ul></li>
+<li>Cross Validation: 0.64</li>
+<li>Lasso Regression: 0.682</li>
+</ul></li>
+<li><p>Key Predictors: High School Graduate, Poverty Rate and Income, Internet Access, Median Age</p></li>
+<li><p>This model has implications for real-world use. However, with a moderately high prediction error, the model still requires further improvement and calibration before being reliably applied in real voting scenarios. Doing this will allow policymakers and analysts to gain insights and make educated decisions.</p></li>
+</ul>
+</section>
+<section id="linear-regression-visual" class="level3">
+<h3 class="anchored" data-anchor-id="linear-regression-visual">Linear Regression Visual</h3>
+<p><img src="./images/parity.png" class="img-fluid"></p>
+<p>Figure 2: Parity Plot and Accuracy Metrics for Regression</p>
+</section>
+<section id="binary-classification" class="level3">
+<h3 class="anchored" data-anchor-id="binary-classification">Binary Classification</h3>
+<p>Classifying Districts between high and low voting rates</p>
+<ul>
+<li>Logistic Regression and Random Forest models achieved <strong>82%</strong> and <strong>84%</strong> accuracy<br>
 </li>
-<li><strong>Tribalism</strong>: Loyalty to a group.<br>
-</li>
-<li>Social media has contributed to <strong>voter turnout</strong> by amplifying social influence.</li>
-</ul></li>
-<li><p><strong>Solutions Proposed</strong>:</p>
+<li>Key Predictors: Education, Income, Internet Access, Poverty Rate</li>
+</ul>
+</section>
+<section id="random-forest-binary-classification-visual" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest-binary-classification-visual">Random Forest Binary Classification Visual</h3>
+<p><img src="./images/randomforestbinary.png" width="400" height="600"></p>
+<p>Figure 3: Confusion Diagram and Accuracy Metrics with Random Forest Binary Classification</p>
+</section>
+<section id="multi-classification" class="level3">
+<h3 class="anchored" data-anchor-id="multi-classification">Multi Classification</h3>
+<p>Classifying districts between high and medium, and low voting rates</p>
 <ul>
-<li>Implementing more <strong>K-12 Civic Education Programs</strong>, such as <em>“Kids Voting USA”</em>, that emphasize civic skills and understanding.<br>
-</li>
-<li>Assigning <strong>election days as holidays</strong> to reduce barriers for working-class individuals.
+<li>Accuracy
 <ul>
-<li>Public support: <strong>71% of Democrats</strong> and <strong>59% of Republicans</strong> are in favor.<br>
+<li>Logistic Regression: 0.68</li>
+<li>Random Forest: 0.62</li>
+<li>Decision Tree: 0.56</li>
+</ul></li>
+<li>Key Predictors:
+<ul>
+<li>High Voting Rates
+<ul>
+<li>Education, Income, Internet Access,</li>
+</ul></li>
+<li>Medium Voting Rates
+<ul>
+<li>Overlapping patterns make it difficult to pinpoint</li>
+</ul></li>
+<li>Low Voting Rates
+<ul>
+<li>Poverty Rate</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="logistic-regression-multi-class-classification-visual" class="level3">
+<h3 class="anchored" data-anchor-id="logistic-regression-multi-class-classification-visual">Logistic Regression Multi-Class Classification Visual</h3>
+<p><img src="./images/logmulticlass.png" width="400" height="600"></p>
+<p>Figure 4: Confusion Diagram and Accuracy Metrics for Logistic Regression Binary Classification</p>
+<hr>
+</section>
+</section>
+<section id="unsupervised-learning-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="unsupervised-learning-predictions">Unsupervised Learning Predictions</h2>
+</section>
+<section id="dimensionality-reduction" class="level2">
+<h2 class="anchored" data-anchor-id="dimensionality-reduction">Dimensionality Reduction</h2>
+<section id="pca-principal-component-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="pca-principal-component-analysis">PCA (Principal Component Analysis)</h3>
+<ul>
+<li><strong>PC1</strong> (driven by income, education, and population) explains <strong>55% of the variance</strong> and is correlated with high voting rates.<br>
 </li>
+<li><strong>Insight</strong>: Socioeconomic conditions are strong indicators of voter turnout.</li>
+</ul>
+<p><img src="./images/pca.png" class="img-fluid"> Figure 5: PCA: First Two Principal Components Colored by Voting Rate Estimate</p>
+</section>
+<section id="t-sne-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="t-sne-clustering">t-SNE Clustering</h3>
+<ul>
+<li>t-SNE visualizations revealed distinct groupings:
+<ul>
+<li><strong>High Voting Rates</strong>: Clustered with areas of high income and education.<br>
+</li>
+<li><strong>Low Voting Rates</strong>: Grouped with higher poverty and fewer resources.</li>
 </ul></li>
-<li>Introducing <strong>mandatory voting</strong>, which is controversial but successful in countries like <strong>Australia</strong>, where citizens face minor penalties for not voting.</li>
+</ul>
+</section>
+</section>
+<section id="clustering" class="level2">
+<h2 class="anchored" data-anchor-id="clustering">Clustering</h2>
+<section id="k-means-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="k-means-clustering">K-Means Clustering</h3>
+<ul>
+<li><strong>Insight</strong>: Voter turnout patterns show two main groups:
+<ul>
+<li><strong>High Voting Rates</strong>: Areas with higher <strong>education levels</strong>, <strong>Asian and White populations</strong>, <strong>older age demographics</strong>, and <strong>Access to the Internet</strong>.<br>
+</li>
+<li><strong>Low Voting Rates</strong>: Linked to regions with <strong>Higher Poverty Levels</strong> and larger <strong>African American populations</strong>.</li>
 </ul></li>
+</ul>
+<p><img src="./images/kmeans.png" class="img-fluid"> Figure 6: K-Means Clustering Scatterplot: Demographic Features vs.&nbsp;Voting Rate Estimate</p>
+<hr>
+</section>
+<section id="dbscan-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="dbscan-clustering">DBSCAN Clustering</h3>
+<ul>
+<li><strong>Insight</strong>: Clustering based on density <strong>failed to identify meaningful patterns</strong> due to the <strong>uniform distribution</strong> of data.</li>
 </ul>
 <hr>
 </section>
-<section id="what-affects-voter-turnout" class="level2">
-<h2 class="anchored" data-anchor-id="what-affects-voter-turnout">What Affects Voter Turnout?</h2>
-<p><a href="#blais-2006"><strong>Blais 2016</strong></a></p>
+<section id="hierarchical-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchical-clustering">Hierarchical Clustering</h3>
 <ul>
-<li><p>In <em>“What Affects Voter Turnout?”</em> by <strong>Andre Blais</strong>, Blais analyzes voter turnout in <strong>different countries</strong> to identify the biggest factors influencing turnout.</p></li>
-<li><p>Key Findings:</p>
-<ul>
-<li>Countries that <strong>require citizens to vote</strong>, such as <strong>Australia</strong>, consistently had <strong>10-15% higher voter turnout</strong> compared to countries without mandatory voting.<br>
-</li>
-<li>Countries with an <strong>Electoral System</strong> showed <strong>higher turnouts</strong> in advanced democracies but failed to show similar results in <strong>less established democracies</strong> (e.g., Latin America).<br>
-</li>
-<li>In <strong>smaller countries</strong> and <strong>advanced economies</strong>, voter turnout tends to be <strong>higher</strong>.<br>
-</li>
-<li><strong>Closely contested elections</strong> consistently resulted in <strong>higher voter turnout</strong>.</li>
-</ul></li>
+<li><strong>Insight</strong>: Similar to K-Means—regions with <strong>higher education</strong> and <strong>income levels</strong> demonstrate <strong>higher voter turnout</strong>, while areas with <strong>poverty</strong> and <strong>lower education</strong> lag behind.</li>
 </ul>
 <hr>
 </section>
-<section id="a-study-of-key-factors-influencing-youth-voter-turnout" class="level2">
-<h2 class="anchored" data-anchor-id="a-study-of-key-factors-influencing-youth-voter-turnout">A Study of Key Factors Influencing Youth Voter Turnout</h2>
-<p><a href="#zhu-2021"><strong>Zhu 2021</strong></a></p>
-<ul>
-<li><p>In <em>“A Study of Key Factors Influencing Youth Voter Turnout”</em>, <strong>Claire Zhu</strong> analyzes the major factors influencing youth voter turnout.</p></li>
-<li><p><strong>Race and Ethnicity</strong>:</p>
-<ul>
-<li>Zhu found that <strong>race and ethnicity</strong> had a significant impact on voter turnout, but the gaps are <strong>narrowing</strong>:
-<ul>
-<li>Example: Voter turnout between <strong>White and Black voters</strong> has become closer in some regions due to increased awareness and civic understanding.<br>
-</li>
-<li><strong>Disparities remain</strong>: <strong>Hispanic</strong> and <strong>Asian populations</strong> consistently vote at <strong>lower rates</strong> compared to White and Black populations.</li>
-</ul></li>
-</ul></li>
-<li><p><strong>Social Media</strong>:</p>
-<ul>
-<li>Social media is a <strong>huge driver</strong> of voting for youth voters, increasing <strong>motivation</strong> and <strong>awareness</strong>.</li>
-</ul></li>
-<li><p><strong>Gender Differences</strong>:</p>
-<ul>
-<li>Women are <strong>slightly more likely to vote</strong> than men, but the difference is <strong>minimal</strong> and has little impact on overall turnout.</li>
-</ul></li>
-<li><p><strong>Socioeconomic Factors</strong>:</p>
-<ul>
-<li>Areas with <strong>low-income levels</strong> are correlated with <strong>lower voter participation</strong>.<br>
-</li>
-<li>Areas with <strong>higher education levels</strong> correlate with <strong>higher voter participation</strong>.</li>
-</ul></li>
-<li><p><strong>Reasons for Low Turnout</strong>:</p>
-<ul>
-<li><strong>Distrust</strong> in candidates.<br>
-</li>
-<li>The <strong>inconvenience</strong> of voting.<br>
-</li>
-<li>A general <strong>disinterest</strong> in politics.</li>
-</ul></li>
-<li><p>Zhu concluded that youth voter turnout is influenced by a combination of:</p>
-<ul>
-<li><strong>Racial</strong> factors.<br>
-</li>
-<li><strong>Socioeconomic inequalities</strong>.<br>
-</li>
-<li><strong>Institutional barriers</strong>.</li>
-</ul></li>
-<li><p><strong>Proposed Solutions</strong>:</p>
-<ul>
-<li>Address <strong>socioeconomic inequalities</strong>.<br>
-</li>
-<li>Make voting <strong>easier</strong>.<br>
-</li>
-<li>Increase <strong>social media presence</strong> to drive awareness.</li>
-</ul></li>
-</ul>
 </section>
 </section>
-<section id="audience" class="level1">
-<h1>Audience</h1>
-<p>This project is designed for a diverse audience:</p>
+<section id="conclusion-and-insights" class="level1">
+<h1>Conclusion and Insights</h1>
+<ol type="1">
+<li><strong>Education Drives Participation</strong>
 <ul>
-<li><strong>Policymakers</strong>: Leaders seeking actionable insights to improve voter engagement and participation.<br>
+<li><strong>Insight</strong>: Areas with <strong>higher education levels</strong> consistently show <strong>higher voter turnout</strong>.<br>
 </li>
-<li><strong>Data Professionals</strong>: Individuals interested in exploring machine learning techniques and model evaluation in real-world scenarios.<br>
+<li><strong>Action</strong>: Invest in <strong>voter education programs</strong> targeting undereducated communities.</li>
+</ul></li>
+<li><strong>Income and Poverty</strong>
+<ul>
+<li>High poverty levels correlate with <strong>lower voter participation</strong>.</li>
+<li>Higher income regions tend to have <strong>higher voting rates</strong>.<br>
 </li>
-<li><strong>Researchers</strong>: Those studying voting patterns, supervised learning methods, and voter behavior.<br>
+<li><strong>Action</strong>: Address <strong>socioeconomic barriers</strong> to voting by providing:
+<ul>
+<li>Transportation</li>
+<li>Childcare support<br>
 </li>
-<li><strong>Curious Readers</strong>: Anyone eager to discover data-driven stories and gain insights into voting rates and trends.</li>
-</ul>
+<li>Paid voting hours</li>
+</ul></li>
+</ul></li>
+<li><strong>Demographics</strong>
+<ul>
+<li><strong>Insight</strong>: <strong>Asian</strong> and <strong>White populations</strong> vote at <strong>higher rates</strong>, while turnout is <strong>lower</strong> in regions with larger <strong>African American populations</strong>.<br>
+</li>
+<li><strong>Action</strong>: Develop <strong>culturally relevant outreach campaigns</strong> to incentivize voting among underserved groups.</li>
+</ul></li>
+<li><strong>Internet Access</strong>
+<ul>
+<li><strong>Insight</strong>: Regions with higher <strong>internet access</strong> tend to have <strong>higher voting rates</strong>; this could be due to increased awareness of the news and social media</li>
+<li><strong>Action</strong>: Ensure <strong>affordable internet access</strong> in underserved areas to increase voter engagement and awareness.</li>
+<li><ul>
+<li><strong>Action</strong>: Increase voter awareness without the use of the internet, including <strong>community events, workshops</strong>, and <strong>printed materials</strong></li>
+</ul></li>
+</ul></li>
+</ol>
 <hr>
-</section>
-<section id="references" class="level1">
-<h1>References</h1>
-<ul>
-<li><p><a id="gibbons-2022"></a> Gibbons, Aubrie. <em>Factors of Voter Turnout</em>. Diss. Florida Atlantic University, 2022.</p></li>
-<li><p><a id="blais-2006"></a> Blais, André. (2006). <em>What Affects Turnout?</em>. 9. 111-136.</p></li>
-<li><p><a id="zhu-2021"></a> Zhu, Claire. 2021. <em>“A Study of Key Factors Influencing Youth Voter Turnout.”</em> APSA Preprints. doi: 10.33774/apsa-2021-rh7kg. <em>This content is a preprint and has not been peer-reviewed.</em></p></li>
-</ul>
 
 
 </section>

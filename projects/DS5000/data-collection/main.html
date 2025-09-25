@@ -238,13 +238,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#american-community-survey-acs-1-year-data" id="toc-american-community-survey-acs-1-year-data" class="nav-link" data-scroll-target="#american-community-survey-acs-1-year-data">American Community Survey (ACS) 1-Year Data</a></li>
   <li><a href="#geographical-hierarchies" id="toc-geographical-hierarchies" class="nav-link" data-scroll-target="#geographical-hierarchies">Geographical Hierarchies</a></li>
+  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a>
+  <ul class="collapse">
   <li><a href="#api-endpoint" id="toc-api-endpoint" class="nav-link" data-scroll-target="#api-endpoint">API Endpoint</a></li>
+  </ul></li>
   <li><a href="#pull-request-for-census-data" id="toc-pull-request-for-census-data" class="nav-link" data-scroll-target="#pull-request-for-census-data">Pull Request for Census Data</a></li>
   </ul></li>
   <li><a href="#voting-data" id="toc-voting-data" class="nav-link" data-scroll-target="#voting-data">Voting Data</a>
   <ul class="collapse">
   <li><a href="#voter-turnout-data" id="toc-voter-turnout-data" class="nav-link" data-scroll-target="#voter-turnout-data">Voter Turnout Data</a></li>
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a></li>
+  <li><a href="#data-source-1" id="toc-data-source-1" class="nav-link" data-scroll-target="#data-source-1">Data Source</a></li>
   <li><a href="#loading-in-voting-data" id="toc-loading-in-voting-data" class="nav-link" data-scroll-target="#loading-in-voting-data">Loading in Voting Data</a></li>
   </ul></li>
   </ul>
@@ -297,10 +300,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For this project, I chose <strong>congressional districts categorized per state</strong>, as this best aligned with my objectives.</p>
 <hr>
 </section>
+<section id="data-source" class="level2">
+<h2 class="anchored" data-anchor-id="data-source">Data Source</h2>
+<p>Data was collected from the <strong>U.S. Census Bureau’s 2018 American Community Survey</strong> via their public API.</p>
 <section id="api-endpoint" class="level3">
 <h3 class="anchored" data-anchor-id="api-endpoint">API Endpoint</h3>
-<p>The endpoint I used was:<br>
-<a href="https://api.census.gov/data/2018/acs/acsse?get=NAME,K200101_001E&amp;for=congressional%20district:*&amp;in=state:*&amp;key=YOUR_KEY_GOES_HERE">API Endpoint</a></p>
+<p>Data was collected from the <strong>U.S. Census Bureau’s 2018 American Community Survey</strong> via their public API.</p>
+<p><strong>API Query Structure:</strong></p>
+<p>GET /data/2018/acs/acsse</p>
+<p><strong>Example API CALL:</strong> https://api.census.gov/data/2023/acs/acsse?get=NAME,K200101_001E,K200201_003E,K200201_002E,K200201_005E,K202101_002E](https://api.census.gov/data/2018/acs/acsse?get=NAME,K200101_001E,K202101_002E&amp;for=congressional%20district:<em>&amp;in=state:</em>&amp;key=[API_KEY])**</p>
 <p>For my project, I chose to add:</p>
 <ul>
 <li><strong>K200101_001E</strong>: Total_Population<br>
@@ -338,6 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="./images/json.png" class="img-fluid"></p>
 <p>For all Congressional Districts, with each line corresponding to a specific variable.</p>
 <p>After securing my dataset, I utilized <strong>pull requests</strong> and input the <strong>URL</strong> to extract my census data.</p>
+</section>
 </section>
 <section id="pull-request-for-census-data" class="level2">
 <h2 class="anchored" data-anchor-id="pull-request-for-census-data">Pull Request for Census Data</h2>
@@ -532,8 +541,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 </section>
-<section id="data-source" class="level3">
-<h3 class="anchored" data-anchor-id="data-source">Data Source</h3>
+<section id="data-source-1" class="level3">
+<h3 class="anchored" data-anchor-id="data-source-1">Data Source</h3>
 <ul>
 <li>The dataset I used can be found here:<br>
 <a href="https://www.census.gov/data/tables/time-series/demo/voting-and-registration/congressional-voting-tables.html">U.S. Census Bureau: Congressional Voting Tables</a><br>

@@ -343,16 +343,30 @@
   {
     "objectID": "projects/DS5100/index.html",
     "href": "projects/DS5100/index.html",
-    "title": "DSAN 5100",
+    "title": "Statistical Insights into Airbnb Listings and Neighborhood Dynamics",
     "section": "",
-    "text": "Author: Jessica Joy, Adam Stein, Soong-Ping Hill, Hung Tran, David Corcoran\nCourse: DSAN 5100: Probabilistic Modeling and Statistical Computing\n\n\nUnderstanding the relationship between neighborhood safety, listing features, and pricing models is crucial for both Airbnb hosts and potential guests. This analysis examines Airbnb listings alongside city crime data, leveraging statistical testing and geospatial analysis to uncover patterns and insights that influence rental pricing and desirability."
+    "text": "Authors: Jessica Joy, Adam Stein, Soong Ping Hill, Hung Tran, David Corcoran\nCourse: DSAN 5100: Probabilistic Modeling and Statistical Computing\nInstitution: Georgetown University"
   },
   {
-    "objectID": "projects/DS5100/index.html#introduction",
-    "href": "projects/DS5100/index.html#introduction",
-    "title": "DSAN 5100",
-    "section": "",
-    "text": "Understanding the relationship between neighborhood safety, listing features, and pricing models is crucial for both Airbnb hosts and potential guests. This analysis examines Airbnb listings alongside city crime data, leveraging statistical testing and geospatial analysis to uncover patterns and insights that influence rental pricing and desirability."
+    "objectID": "projects/DS5100/index.html#airbnb-analysis",
+    "href": "projects/DS5100/index.html#airbnb-analysis",
+    "title": "Statistical Insights into Airbnb Listings and Neighborhood Dynamics",
+    "section": "Introduction",
+    "text": "Introduction\nUnderstanding the relationship between neighborhood safety, listing features, and pricing models is crucial for both Airbnb hosts and potential guests. This analysis examines Airbnb listings alongside city crime data, leveraging statistical testing and geospatial analysis to uncover patterns and insights that influence rental pricing and desirability."
+  },
+  {
+    "objectID": "projects/DS5100/index.html#presentation",
+    "href": "projects/DS5100/index.html#presentation",
+    "title": "Statistical Insights into Airbnb Listings and Neighborhood Dynamics",
+    "section": "Presentation",
+    "text": "Presentation"
+  },
+  {
+    "objectID": "projects/DS5100/index.html#report",
+    "href": "projects/DS5100/index.html#report",
+    "title": "Statistical Insights into Airbnb Listings and Neighborhood Dynamics",
+    "section": "Report",
+    "text": "Report"
   },
   {
     "objectID": "index.html",
@@ -1029,6 +1043,18 @@
     "title": "Data Collection",
     "section": "",
     "text": "Data collection is the first step in processing data into actionable insights. Data collection involves identifying data sources, selecting relevant data, and retrieving this data. Without doing these first steps carefully, further data analysis would be based on incomplete, irrelevant, or inaccurate data. My goal for data collection was to ensure I used credible sources, obtained all necessary variables, and gathered data in a format that was consistent, organized, and ready for the next stages of data cleaning.",
+    "crumbs": [
+      "About",
+      "Technical details",
+      "Data Collection"
+    ]
+  },
+  {
+    "objectID": "projects/DS5000/data-collection/main.html#data-source",
+    "href": "projects/DS5000/data-collection/main.html#data-source",
+    "title": "Data Collection",
+    "section": "Data Source",
+    "text": "Data Source\nData was collected from the U.S. Census Bureau’s 2018 American Community Survey via their public API.\n\nAPI Endpoint\nData was collected from the U.S. Census Bureau’s 2018 American Community Survey via their public API.\nAPI Query Structure:\nGET /data/2018/acs/acsse\nExample API CALL: https://api.census.gov/data/2023/acs/acsse?get=NAME,K200101_001E,K200201_003E,K200201_002E,K200201_005E,K202101_002E](https://api.census.gov/data/2018/acs/acsse?get=NAME,K200101_001E,K202101_002E&for=congressional%20district:&in=state:&key=[API_KEY])**\nFor my project, I chose to add:\n\nK200101_001E: Total_Population\n\nK200201_002E: White\n\nK200201_003E: African_American\n\nK200201_005E: Asian\n\nK200201_004E: American_Indian_and_Alaska_Native\n\nK200201_006E: Native_Hawaiian_and_Pacific_Islander\n\nK202101_002E: Veterans\n\nK202101_006E: Nonveterans\n\nK201701_002E: Below_Poverty_Level\n\nK201902_001E: Median_Household_Income\n\nK201501_004E: High_School_Graduate\n\nK201501_007E: Bachelors_Degree_or_Higher\n\nK202801_002E: Households_with_Computers\n\nK202801_004E: Households_with_Internet\n\nWhich I believed to be driving factors to which influence voter turn out. Thus, the full API call looked like:\nAPI Call\n“https://api.census.gov/data/2018/acs/acsse?”“get=NAME,K200101_001E,K200201_003E,K200201_002E, K200201_005E,K202101_002E,”“K202101_006E,K201701_002E,K201902_001E,K201501_004E,K201501_007E, K202801_002E,K202801_004E,K200201_004E,K200201_006E&for=congressional%20district:*”\nThis APi call produced JSON data such as:\n\nFor all Congressional Districts, with each line corresponding to a specific variable.\nAfter securing my dataset, I utilized pull requests and input the URL to extract my census data.",
     "crumbs": [
       "About",
       "Technical details",
@@ -1866,7 +1892,7 @@
     "href": "about.html#education",
     "title": "About Me",
     "section": "Education",
-    "text": "Education\nGeorgetown University | Washington, D.C.\n- Master’s in Data Science (DSAN)\n- GPA: 3.95\nBoston University College of Arts and Science | Boston, MA\n- Bachelor of Arts in Neuroscience, Minor in Data Science\n- GPA: 3.57"
+    "text": "Education\nGeorgetown University | Washington, D.C.\n- Master’s in Data Science (DSAN)\n- GPA: 3.95\n- Academic Awards: Returning Student Scholarship\nBoston University College of Arts and Science | Boston, MA\n- Bachelor of Arts in Neuroscience, Minor in Data Science\n- GPA: 3.57\n- Academic Awards: Deans List"
   },
   {
     "objectID": "about.html#work-experience",
@@ -1894,7 +1920,7 @@
     "href": "projects/DS5000/index.html",
     "title": "Predicting Voting Trends: Uncovering Patterns Through Data Science",
     "section": "",
-    "text": "This project explores the factors that influence voting rates. By utilizing machine learning methods such as Dimensionality Reduction, Clustering, Regression, and Classification, the project identifies trends, evaluates model performance, and provides insights into voter participation patterns.\n\n\nVoting is a fundamental part of the democratic process, yet every year millions of people refrain from voting. Voting allows the people to speak for what they want, drive change, and elect new leaders. Despite the importance of voting, many states continue to have low voting rates, with many falling below the 50% mark.\nUnderstanding voting patterns is important for increasing voter turn out and participation. By using data science tools, this project addresses real-world challenges in predicting voter behavior and identifying areas of improvement\n\n\n\nWhat are the biggest variables that influence voter turn out?\nHow accurately can machine learning models predict voting rates?\nCan models effectively distinguish between Low, Medium, and High Voting Rates?\nWhat variable or demographic is responsible for highest voting rates\nWhat and who can government officials and initiatives target to raise voting rates in their district?",
+    "text": "Author: Soong-Ping Hill\nCourse: DSAN 5000 - Data Science and Analytics\nInstitution: Georgetown University\nThis project explores the factors that influence voting rates. By utilizing machine learning methods such as Dimensionality Reduction, Clustering, Regression, and Classification, the project identifies trends, evaluates model performance, and provides insights into voter participation patterns.\n\n\nVoting is a fundamental part of the democratic process, yet every year millions of people refrain from voting. Voting allows the people to speak for what they want, drive change, and elect new leaders. Despite the importance of voting, many states continue to have low voting rates, with many falling below the 50% mark.\nUnderstanding voting patterns is important for increasing voter turn out and participation. By using data science tools, this project addresses real-world challenges in predicting voter behavior and identifying areas of improvement\n\n\n\nPrimary Research Focus: * What are the biggest variables that influence voter turnout? * How accurately can machine learning models predict voting rates?\nModel Performance: * Can models effectively distinguish between Low, Medium, and High voting rates?\nDemographic Impact: * Which variables or demographics are responsible for the highest voting rates?\nPolicy Applications: * What populations and factors can government officials target to raise voting rates in their districts?",
     "crumbs": [
       "About",
       "Home"
@@ -1912,11 +1938,11 @@
     ]
   },
   {
-    "objectID": "projects/DS5000/index.html#research-question",
-    "href": "projects/DS5000/index.html#research-question",
+    "objectID": "projects/DS5000/index.html#research-questions",
+    "href": "projects/DS5000/index.html#research-questions",
     "title": "Predicting Voting Trends: Uncovering Patterns Through Data Science",
     "section": "",
-    "text": "What are the biggest variables that influence voter turn out?\nHow accurately can machine learning models predict voting rates?\nCan models effectively distinguish between Low, Medium, and High Voting Rates?\nWhat variable or demographic is responsible for highest voting rates\nWhat and who can government officials and initiatives target to raise voting rates in their district?",
+    "text": "Primary Research Focus: * What are the biggest variables that influence voter turnout? * How accurately can machine learning models predict voting rates?\nModel Performance: * Can models effectively distinguish between Low, Medium, and High voting rates?\nDemographic Impact: * Which variables or demographics are responsible for the highest voting rates?\nPolicy Applications: * What populations and factors can government officials target to raise voting rates in their districts?",
     "crumbs": [
       "About",
       "Home"
