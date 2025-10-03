@@ -1,0 +1,5 @@
+sidebar: silkroll
+format:
+  html:
+    toc: true
+    code-fold: true

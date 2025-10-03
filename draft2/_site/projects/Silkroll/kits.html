@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Soong Ping Hill – Kit Submission &amp; Conversion Analytics Dashboard</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Soong Ping Hill</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="../../projects/DS5000/index.html">
+ <span class="dropdown-text">Voting Behavior Prediction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../projects/DS5100/index.html">
+ <span class="dropdown-text">Airbnb Pricing Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../projects/Scholarship/index.html">
+ <span class="dropdown-text">Humanitarian Security Research</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../projects/Silkroll/index.html">
+ <span class="dropdown-text">Silkroll Analytics Dashboard</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../projects/Silkroll/kits.html">Kit Analysis</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/brands.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Brand Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/cohort.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cohort Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/merch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Product Performance Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/orders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Order Analytics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/kits.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Kit Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/discount.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discount Analysis</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#kit-processing-customer-acquisition-analysis" id="toc-kit-processing-customer-acquisition-analysis" class="nav-link active" data-scroll-target="#kit-processing-customer-acquisition-analysis">Kit Processing &amp; Customer Acquisition Analysis</a></li>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a>
+  <ul class="collapse">
+  <li><a href="#business-context" id="toc-business-context" class="nav-link" data-scroll-target="#business-context"><strong>Business Context</strong></a></li>
+  <li><a href="#key-metrics-tracked" id="toc-key-metrics-tracked" class="nav-link" data-scroll-target="#key-metrics-tracked"><strong>Key Metrics Tracked</strong></a></li>
+  </ul></li>
+  <li><a href="#kit-request-conversion-funnel-analysis" id="toc-kit-request-conversion-funnel-analysis" class="nav-link" data-scroll-target="#kit-request-conversion-funnel-analysis">Kit Request &amp; Conversion Funnel Analysis</a>
+  <ul class="collapse">
+  <li><a href="#request-activity-patterns" id="toc-request-activity-patterns" class="nav-link" data-scroll-target="#request-activity-patterns"><strong>Request Activity Patterns</strong></a></li>
+  <li><a href="#kit-activity-trends-over-time-2025-ytd" id="toc-kit-activity-trends-over-time-2025-ytd" class="nav-link" data-scroll-target="#kit-activity-trends-over-time-2025-ytd">Kit Activity Trends Over Time (2025 YTD)</a></li>
+  <li><a href="#kit-activity-trends-for-first-time-users-2025-ytd" id="toc-kit-activity-trends-for-first-time-users-2025-ytd" class="nav-link" data-scroll-target="#kit-activity-trends-for-first-time-users-2025-ytd">Kit Activity Trends for First Time Users (2025 YTD)</a></li>
+  <li><a href="#conversion-rate-performance" id="toc-conversion-rate-performance" class="nav-link" data-scroll-target="#conversion-rate-performance"><strong>Conversion Rate Performance</strong></a></li>
+  <li><a href="#kit-conversion-rate-2025-ytd" id="toc-kit-conversion-rate-2025-ytd" class="nav-link" data-scroll-target="#kit-conversion-rate-2025-ytd">Kit Conversion Rate (2025 YTD)</a></li>
+  <li><a href="#kit-conversion-rate-for-first-time-users-2025-ytd" id="toc-kit-conversion-rate-for-first-time-users-2025-ytd" class="nav-link" data-scroll-target="#kit-conversion-rate-for-first-time-users-2025-ytd">Kit Conversion Rate for First Time Users (2025 YTD)</a></li>
+  </ul></li>
+  <li><a href="#submission-volume-activity-analysis" id="toc-submission-volume-activity-analysis" class="nav-link" data-scroll-target="#submission-volume-activity-analysis">Submission Volume &amp; Activity Analysis</a>
+  <ul class="collapse">
+  <li><a href="#total-submitted-items-per-week-2025-ytd" id="toc-total-submitted-items-per-week-2025-ytd" class="nav-link" data-scroll-target="#total-submitted-items-per-week-2025-ytd">Total Submitted Items Per Week (2025 YTD)</a></li>
+  <li><a href="#average-items-submitted-per-box-2025-ytd" id="toc-average-items-submitted-per-box-2025-ytd" class="nav-link" data-scroll-target="#average-items-submitted-per-box-2025-ytd">Average Items Submitted Per Box (2025 YTD)</a></li>
+  </ul></li>
+  <li><a href="#points-distribution-strategy-analysis" id="toc-points-distribution-strategy-analysis" class="nav-link" data-scroll-target="#points-distribution-strategy-analysis">Points Distribution Strategy Analysis</a>
+  <ul class="collapse">
+  <li><a href="#overall-points-distribution" id="toc-overall-points-distribution" class="nav-link" data-scroll-target="#overall-points-distribution"><strong>Overall Points Distribution</strong></a></li>
+  <li><a href="#total-points-awarded-2025-ytd" id="toc-total-points-awarded-2025-ytd" class="nav-link" data-scroll-target="#total-points-awarded-2025-ytd">Total Points Awarded (2025 YTD)</a></li>
+  <li><a href="#average-points-awarded-per-box-2025-ytd" id="toc-average-points-awarded-per-box-2025-ytd" class="nav-link" data-scroll-target="#average-points-awarded-per-box-2025-ytd">Average Points Awarded Per Box (2025 YTD)</a></li>
+  <li><a href="#first-time-user-points-strategy" id="toc-first-time-user-points-strategy" class="nav-link" data-scroll-target="#first-time-user-points-strategy"><strong>First-Time User Points Strategy</strong></a></li>
+  <li><a href="#total-points-awarded-for-first-time-users-2025-ytd" id="toc-total-points-awarded-for-first-time-users-2025-ytd" class="nav-link" data-scroll-target="#total-points-awarded-for-first-time-users-2025-ytd">Total Points Awarded for First Time Users (2025 YTD)</a></li>
+  <li><a href="#average-points-awarded-per-box-for-first-time-users-2025-ytd" id="toc-average-points-awarded-per-box-for-first-time-users-2025-ytd" class="nav-link" data-scroll-target="#average-points-awarded-per-box-for-first-time-users-2025-ytd">Average Points Awarded per Box for First Time Users (2025 YTD)</a></li>
+  </ul></li>
+  <li><a href="#strategic-business-recommendations" id="toc-strategic-business-recommendations" class="nav-link" data-scroll-target="#strategic-business-recommendations">Strategic Business Recommendations</a>
+  <ul class="collapse">
+  <li><a href="#customer-acquisition-crisis-response" id="toc-customer-acquisition-crisis-response" class="nav-link" data-scroll-target="#customer-acquisition-crisis-response"><strong>Customer Acquisition Crisis Response:</strong></a></li>
+  <li><a href="#first-time-user-experience-optimization" id="toc-first-time-user-experience-optimization" class="nav-link" data-scroll-target="#first-time-user-experience-optimization"><strong>First-Time User Experience Optimization:</strong></a></li>
+  <li><a href="#supply-chain-sustainability" id="toc-supply-chain-sustainability" class="nav-link" data-scroll-target="#supply-chain-sustainability"><strong>Supply Chain Sustainability:</strong></a></li>
+  <li><a href="#points-economy-management" id="toc-points-economy-management" class="nav-link" data-scroll-target="#points-economy-management"><strong>Points Economy Management:</strong></a></li>
+  </ul></li>
+  <li><a href="#technical-implementation" id="toc-technical-implementation" class="nav-link" data-scroll-target="#technical-implementation">Technical Implementation</a>
+  <ul class="collapse">
+  <li><a href="#data-engineering" id="toc-data-engineering" class="nav-link" data-scroll-target="#data-engineering"><strong>Data Engineering:</strong></a></li>
+  <li><a href="#key-calculations" id="toc-key-calculations" class="nav-link" data-scroll-target="#key-calculations"><strong>Key Calculations:</strong></a></li>
+  </ul></li>
+  <li><a href="#results-impact" id="toc-results-impact" class="nav-link" data-scroll-target="#results-impact">Results &amp; Impact</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Kit Submission &amp; Conversion Analytics Dashboard</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="kit-processing-customer-acquisition-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="kit-processing-customer-acquisition-analysis">Kit Processing &amp; Customer Acquisition Analysis</h2>
+<p><strong>Developed comprehensive kit analytics system to track customer submissions, conversion rates, and points distribution in the fashion resale business model.</strong></p>
+<hr>
+</section>
+<section id="project-overview" class="level1">
+<h1>Project Overview</h1>
+<section id="business-context" class="level3">
+<h3 class="anchored" data-anchor-id="business-context"><strong>Business Context</strong></h3>
+<p>This dashboard tracks the core supply-side of the circular fashion platform - the customer kit request and shipment funnel that generates the inventory pool. Customers request shipping labels for clothing kits to earn points, making the request-to-shipment conversion rate and processing efficiency critical business metrics.</p>
+</section>
+<section id="key-metrics-tracked" class="level3">
+<h3 class="anchored" data-anchor-id="key-metrics-tracked"><strong>Key Metrics Tracked</strong></h3>
+<ul>
+<li><strong>Kit request vs.&nbsp;actual shipment rates</strong> (overall and first-time users)</li>
+<li><strong>Weekly submission volumes</strong> and seasonal trends</li>
+<li><strong>Points awarded per kit</strong> and total points distribution</li>
+<li><strong>First-time user behavior</strong> compared to repeat customers</li>
+</ul>
+</section>
+</section>
+<section id="kit-request-conversion-funnel-analysis" class="level1">
+<h1>Kit Request &amp; Conversion Funnel Analysis</h1>
+<section id="request-activity-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="request-activity-patterns"><strong>Request Activity Patterns</strong></h3>
+</section>
+<section id="kit-activity-trends-over-time-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="kit-activity-trends-over-time-2025-ytd">Kit Activity Trends Over Time (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/1.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Kit Activity Trends Over Time</figcaption>
+</figure>
+</div>
+</section>
+<section id="kit-activity-trends-for-first-time-users-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="kit-activity-trends-for-first-time-users-2025-ytd">Kit Activity Trends for First Time Users (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/1.2.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Kit Activity Trends for First Time Users</figcaption>
+</figure>
+</div>
+<p><strong>Activity Analysis:</strong></p>
+<p>Kit request activity shows concerning decline from 24 requests per week in early 2025 to near-zero by mid-year, indicating significant customer acquisition challenges. First-time users display more volatile patterns with requests ranging from 0-13 per week, suggesting new user hesitation and the critical importance of first-impression optimization.</p>
+<hr>
+</section>
+<section id="conversion-rate-performance" class="level3">
+<h3 class="anchored" data-anchor-id="conversion-rate-performance"><strong>Conversion Rate Performance</strong></h3>
+</section>
+<section id="kit-conversion-rate-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="kit-conversion-rate-2025-ytd">Kit Conversion Rate (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/1.3.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Kit Conversion Rate</figcaption>
+</figure>
+</div>
+</section>
+<section id="kit-conversion-rate-for-first-time-users-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="kit-conversion-rate-for-first-time-users-2025-ytd">Kit Conversion Rate for First Time Users (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/1.4.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Kit Conversion Rate for First Time Users</figcaption>
+</figure>
+</div>
+<p><strong>Conversion Analysis:</strong></p>
+<p>Conversion rates remain exceptionally strong at 80-100% among those who request kits, demonstrating that the shipping process and user experience effectively convert intent into action. First-time users show conversion rates fluctuating between 20-100%, averaging 50-67% - while facing more friction, the majority who request labels do follow through with shipments.</p>
+<p><strong>Strategic Funnel Insights:</strong> - <strong>Top-of-funnel crisis:</strong> Dramatic request decline requires immediate customer acquisition intervention - <strong>Conversion excellence:</strong> 80-100% follow-through validates shipping process and user experience quality - <strong>New user friction points:</strong> Variable conversion rates (20-100%) indicate inconsistent first-time experience - <strong>Intent-to-action gap:</strong> Strong conversion among requesters suggests the barrier is awareness, not process complexity</p>
+<hr>
+</section>
+</section>
+<section id="submission-volume-activity-analysis" class="level1">
+<h1>Submission Volume &amp; Activity Analysis</h1>
+<section id="total-submitted-items-per-week-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="total-submitted-items-per-week-2025-ytd">Total Submitted Items Per Week (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/2.1.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Total Submitted Items Per Week</figcaption>
+</figure>
+</div>
+</section>
+<section id="average-items-submitted-per-box-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="average-items-submitted-per-box-2025-ytd">Average Items Submitted Per Box (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/2.2.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Average Items Submitted Per Box</figcaption>
+</figure>
+</div>
+<p><strong>Volume Pattern Analysis:</strong></p>
+<p>Submission volumes demonstrate significant volatility with peak activity reaching 309 items in a single week, while recent periods show dramatic decline to single-digit submissions. This extreme variability correlates with the declining request patterns, confirming supply-side challenges extend through the entire funnel.</p>
+<p>Average items per box fluctuate between 5-45 items, with the extreme 45-item outlier likely representing bulk or special submissions. Excluding outliers, the typical range of 8-13 items per box suggests consistent member behavior in terms of what constitutes a “full” submission, providing operational predictability for processing capacity planning.</p>
+<p><strong>Operational Insights:</strong> - <strong>Peak capacity validated:</strong> 309 items/week processed successfully demonstrates operational scalability - <strong>Recent volume crisis:</strong> Decline to 1-20 items/week indicates urgent need for supply generation initiatives - <strong>Box size consistency:</strong> 8-13 item average enables accurate processing time and point allocation forecasting - <strong>Seasonal patterns evident:</strong> Volume spikes in specific periods suggest opportunity for targeted campaigns</p>
+<hr>
+</section>
+</section>
+<section id="points-distribution-strategy-analysis" class="level1">
+<h1>Points Distribution Strategy Analysis</h1>
+<section id="overall-points-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="overall-points-distribution"><strong>Overall Points Distribution</strong></h3>
+</section>
+<section id="total-points-awarded-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="total-points-awarded-2025-ytd">Total Points Awarded (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/3.1.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Total Qs Awarded</figcaption>
+</figure>
+</div>
+</section>
+<section id="average-points-awarded-per-box-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="average-points-awarded-per-box-2025-ytd">Average Points Awarded Per Box (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/3.2.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Avg Qs Awarded Per Box</figcaption>
+</figure>
+</div>
+<p><strong>Overall Points Analysis:</strong></p>
+<p>Overall points distribution shows substantial variation with peak weeks awarding 52,000+ total points while average per-box awards range from 2,400 to 5,000 points. This consistency in per-box averages (despite total volume fluctuations) suggests standardized quality assessment algorithms rather than arbitrary point allocation. The stable per-box metrics enable predictable member value communication and operational forecasting.</p>
+<hr>
+</section>
+<section id="first-time-user-points-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="first-time-user-points-strategy"><strong>First-Time User Points Strategy</strong></h3>
+</section>
+<section id="total-points-awarded-for-first-time-users-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="total-points-awarded-for-first-time-users-2025-ytd">Total Points Awarded for First Time Users (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/3.3.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Total Qs Awarded for First Time Users</figcaption>
+</figure>
+</div>
+</section>
+<section id="average-points-awarded-per-box-for-first-time-users-2025-ytd" class="level3">
+<h3 class="anchored" data-anchor-id="average-points-awarded-per-box-for-first-time-users-2025-ytd">Average Points Awarded per Box for First Time Users (2025 YTD)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/kit/3.4.png" style="width:100.0%" height="400" class="figure-img"></p>
+<figcaption>Average Qs Awarded per Box for First Time Users</figcaption>
+</figure>
+</div>
+<p><strong>First-Time User Points Analysis:</strong></p>
+<p>First-time user points reveal aggressive acquisition strategy with average awards of 7,000-13,000 points per box - significantly higher than the 3,600-4,500 overall average. Peak first-time user awards reached 27,662 total points in single weeks with individual boxes earning up to 13,391 points, demonstrating substantial investment in new user acquisition through premium point bonuses.</p>
+<p><strong>Points Strategy Insights:</strong> - <strong>Acquisition investment:</strong> First-time users receive 2-3x standard points, indicating strategic prioritization of new member onboarding - <strong>Quality consistency:</strong> Stable per-box averages suggest effective item valuation algorithms - <strong>Total distribution volatility:</strong> Wide swings (4,000-52,000) reflect volume fluctuations rather than valuation changes - <strong>Retention opportunity:</strong> Standard 3,600-4,500 point average may be insufficient to maintain engagement after initial bonus period</p>
+<p><strong>Strategic Implications:</strong> - <strong>New user incentive effectiveness:</strong> Higher points successfully drive first-time participation but may create unrealistic expectations - <strong>Point economy sustainability:</strong> Aggressive first-time bonuses require careful balance against platform economics - <strong>Value proposition clarity:</strong> Consistent per-box awards enable predictable member value communication - <strong>Retention risk:</strong> Dramatic drop from first-time bonuses (13k) to standard rates (4k) may impact repeat behavior</p>
+<hr>
+</section>
+</section>
+<section id="strategic-business-recommendations" class="level1">
+<h1>Strategic Business Recommendations</h1>
+<section id="customer-acquisition-crisis-response" class="level3">
+<h3 class="anchored" data-anchor-id="customer-acquisition-crisis-response"><strong>Customer Acquisition Crisis Response:</strong></h3>
+<ul>
+<li><strong>Immediate intervention required:</strong> Request decline from 24 to near-0 threatens supply chain viability</li>
+<li><strong>Marketing campaign intensification:</strong> Leverage 80-100% conversion rate as social proof in acquisition messaging</li>
+<li><strong>Channel diversification:</strong> Expand beyond current acquisition channels to reach new member segments</li>
+<li><strong>Referral program optimization:</strong> Strong conversion rates suggest existing members could effectively recruit peers</li>
+</ul>
+</section>
+<section id="first-time-user-experience-optimization" class="level3">
+<h3 class="anchored" data-anchor-id="first-time-user-experience-optimization"><strong>First-Time User Experience Optimization:</strong></h3>
+<ul>
+<li><strong>Onboarding refinement:</strong> Address 20-100% conversion volatility through clearer instructions and expectation setting</li>
+<li><strong>Shipping support enhancement:</strong> Provide more guidance during critical first-shipment period</li>
+<li><strong>Point expectation management:</strong> Communicate standard vs.&nbsp;bonus point structures to reduce retention shock</li>
+<li><strong>Success stories amplification:</strong> Showcase typical member experiences to normalize process and outcomes</li>
+</ul>
+</section>
+<section id="supply-chain-sustainability" class="level3">
+<h3 class="anchored" data-anchor-id="supply-chain-sustainability"><strong>Supply Chain Sustainability:</strong></h3>
+<ul>
+<li><strong>Volume stabilization initiatives:</strong> Develop consistent acquisition campaigns to smooth submission volatility</li>
+<li><strong>Seasonal campaign planning:</strong> Capitalize on identified peak periods with targeted promotional efforts</li>
+<li><strong>Processing efficiency maintenance:</strong> Preserve 309-item peak capacity for future growth scenarios</li>
+<li><strong>Box size optimization:</strong> Standardize around 8-13 item optimal range for operational predictability</li>
+</ul>
+</section>
+<section id="points-economy-management" class="level3">
+<h3 class="anchored" data-anchor-id="points-economy-management"><strong>Points Economy Management:</strong></h3>
+<ul>
+<li><strong>Acquisition cost analysis:</strong> Evaluate ROI of 2-3x first-time user point bonuses against lifetime value</li>
+<li><strong>Retention incentive testing:</strong> Implement mid-tier loyalty bonuses to bridge first-time and standard rates</li>
+<li><strong>Dynamic point allocation:</strong> Consider item-quality based adjustments while maintaining average consistency</li>
+<li><strong>Point inflation monitoring:</strong> Ensure bonus structures remain sustainable as platform scales</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="technical-implementation" class="level1">
+<h1>Technical Implementation</h1>
+<section id="data-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="data-engineering"><strong>Data Engineering:</strong></h3>
+<ul>
+<li><strong>Cross-platform funnel tracking:</strong> Kit requests → shipping labels → actual shipments → points awarded</li>
+<li><strong>Customer segmentation:</strong> First-time vs.&nbsp;repeat user behavioral analysis across all funnel stages</li>
+<li><strong>Time-series analysis:</strong> Weekly, monthly, and seasonal trend identification for pattern recognition</li>
+<li><strong>Conversion pipeline optimization:</strong> Real-time tracking of request-to-ship-to-process-to-points flow</li>
+</ul>
+</section>
+<section id="key-calculations" class="level3">
+<h3 class="anchored" data-anchor-id="key-calculations"><strong>Key Calculations:</strong></h3>
+<ul>
+<li><strong>Conversion rates:</strong> (Shipped Kits / Requested Kits) × 100 across customer segments and time periods</li>
+<li><strong>Points per item algorithms:</strong> Quality-based valuation system with new user bonus multipliers</li>
+<li><strong>Volume forecasting:</strong> Historical pattern analysis for capacity planning and campaign timing</li>
+<li><strong>Customer lifetime value:</strong> Tracking from first kit request through multiple shipments over time</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="results-impact" class="level1">
+<h1>Results &amp; Impact</h1>
+<p><strong>Supply Chain Intelligence:</strong> - <strong>Critical decline identified:</strong> 2025 request drop from 24 to near-0 enables proactive intervention - <strong>Process validation:</strong> 80-100% conversion rate confirms operational excellence in shipping experience - <strong>Acquisition cost quantified:</strong> First-time user point premium (7k-13k vs 3.6k-4.5k) provides clear investment metrics - <strong>Capacity baseline established:</strong> 309-item peak week validates scalability for future growth</p>
+<p><strong>Strategic Outcomes:</strong> - <strong>Funnel optimization roadmap:</strong> Clear intervention points identified across request, shipment, and retention stages - <strong>Customer education priorities:</strong> First-time user friction points isolated for targeted improvement - <strong>Points economy framework:</strong> Data-driven approach to balancing acquisition incentives with sustainability - <strong>Seasonal planning intelligence:</strong> Historical patterns enable strategic campaign timing and resource allocation</p>
+<p><strong>Business Impact:</strong> - <strong>Acquisition strategy framework:</strong> Evidence-based approach to reversing request decline trends - <strong>Retention program design:</strong> Gap analysis between first-time bonuses and standard rates informs loyalty initiatives - <strong>Operational confidence:</strong> Proven processing capacity supports aggressive growth planning - <strong>Value proposition validation:</strong> Consistent per-box points enable predictable member communication and marketing</p>
+<hr>
+<p><em>This kit analytics system provides essential supply-side intelligence for optimizing the circular fashion platform’s customer acquisition funnel and inventory generation process.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

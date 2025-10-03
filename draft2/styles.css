@@ -1,1 +1,10 @@
 /* css styles */
+
+.project-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}

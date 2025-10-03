@@ -1,9 +1,13 @@
 ---
-title: "Predicting Voting Trends: Uncovering Patterns Through Data Science"
+title: "Predicting Voting Trends: Uncovering Patterns Through Data Science" 
 ---
 
 
-# Introduction 
+# Introduction {#voting-analysis} 
+
+**Author:** Soong-Ping Hill  
+**Course:** DSAN 5000 - Data Science and Analytics  
+**Institution:** Georgetown University
  
 This project explores the factors that influence voting rates. By utilizing machine learning methods such as Dimensionality Reduction, Clustering, Regression, and Classification, the project identifies trends, evaluates model performance, and provides insights into voter participation patterns.
 
@@ -16,17 +20,20 @@ Understanding voting patterns is important for increasing voter turn out and par
 
 
 
-## Research Question 
+## Research Questions
 
-What are the biggest variables that influence voter turn out?
+**Primary Research Focus:**
+* What are the biggest variables that influence voter turnout?
+* How accurately can machine learning models predict voting rates?
 
-How accurately can machine learning models predict voting rates?
+**Model Performance:**
+* Can models effectively distinguish between Low, Medium, and High voting rates?
 
-Can models effectively distinguish between Low, Medium, and High Voting Rates?
+**Demographic Impact:**
+* Which variables or demographics are responsible for the highest voting rates?
 
-What variable or demographic is responsible for highest voting rates
-
-What and who can government officials and initiatives target to raise voting rates in their district?
+**Policy Applications:**
+* What populations and factors can government officials target to raise voting rates in their districts?
 
 # Literature Review  
 

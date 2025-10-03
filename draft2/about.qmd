@@ -21,12 +21,14 @@ I am passionate about leveraging data science to uncover patterns, drive decisio
 ## Education  
 
 **Georgetown University** | *Washington, D.C.*  
-- **Master’s in Data Science (DSAN)**  
-- **GPA**: 3.95 
+- **Master's in Data Science (DSAN)**  
+  - **GPA**: 3.95  
+  - **Academic Awards**: Returning Student Scholarship
 
 **Boston University College of Arts and Science** | *Boston, MA*  
 - **Bachelor of Arts in Neuroscience**, Minor in Data Science  
-- **GPA**: 3.57  
+  - **GPA**: 3.57  
+  - **Academic Awards**: Deans List
 
 ## Work Experience  
 
@@ -73,16 +75,16 @@ I am passionate about leveraging data science to uncover patterns, drive decisio
 
 ## Projects
 
-### **Voting Rate Analysis and Predictive Modeling**
+### [**Voting Rate Analysis and Predictive Modeling**](projects/DS5000/index.qmd#voting-analysis){.project-link}
 * Integrated U.S Census Bureau API to collect and process demographic and socioeconomic data related to voting rates
 * Applied clustering techniques (**K-Means**, **DBSCAN**, **Agglomerative Clustering**) to segment voters by behavior
 * Built and evaluated predictive models (**Random Forest**, **Regression**) to analyze key factors influencing voting rates and predict voter participation trends
 
-### **Statistical Analysis of Airbnb Listing Prices Across Cities**
+### [**Statistical Analysis of Airbnb Listing Prices Across Cities**](projects/DS5100/index.qmd#airbnb-analysis){.project-link}
 * Conducted statistical analysis (**t-tests**, **ANOVAs**, **correlation**, **chi-squared**) to evaluate how location, host status, and other factors impact Airbnb pricing
 * Visualized data patterns with **ggplot** and presented actionable insights to optimize pricing strategies for hosts
 
-### **Covid-19 Data Analysis and Policy Identification**
+### **Covid-19 Data Analysis and Policy Identification** 
 * Integrated COVID-19 data from three sources into data lake via **Azure Data Factory**, prepared for processing in **Azure Synapse**, and analyzed in **Power BI** to identify the top three policies for controlling COVID spread
 
 ### **Analysis of U.S Airline Operational Performance**

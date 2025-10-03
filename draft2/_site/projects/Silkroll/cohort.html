@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Soong Ping Hill – Inventory Performance Analytics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Soong Ping Hill</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="../../projects/DS5000/index.html">
+ <span class="dropdown-text">Voting Behavior Prediction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../projects/DS5100/index.html">
+ <span class="dropdown-text">Airbnb Pricing Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../projects/Scholarship/index.html">
+ <span class="dropdown-text">Humanitarian Security Research</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../projects/Silkroll/index.html">
+ <span class="dropdown-text">Silkroll Analytics Dashboard</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../projects/Silkroll/cohort.html">Cohort Analysis</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/brands.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Brand Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/cohort.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Cohort Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/merch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Product Performance Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/orders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Order Analytics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/kits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kit Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../projects/Silkroll/discount.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discount Analysis</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#business-context" id="toc-business-context" class="nav-link active" data-scroll-target="#business-context">Business Context</a></li>
+  <li><a href="#key-analytics-dimensions" id="toc-key-analytics-dimensions" class="nav-link" data-scroll-target="#key-analytics-dimensions">Key Analytics Dimensions</a></li>
+  <li><a href="#dashboard-1-monthly-category-trends" id="toc-dashboard-1-monthly-category-trends" class="nav-link" data-scroll-target="#dashboard-1-monthly-category-trends">Dashboard 1: Monthly Category Trends</a></li>
+  <li><a href="#dashboard-5-size-distribution-analysis" id="toc-dashboard-5-size-distribution-analysis" class="nav-link" data-scroll-target="#dashboard-5-size-distribution-analysis">Dashboard 5: Size Distribution Analysis</a></li>
+  <li><a href="#dashboard-7-condition-quality-impact" id="toc-dashboard-7-condition-quality-impact" class="nav-link" data-scroll-target="#dashboard-7-condition-quality-impact">Dashboard 7: Condition Quality Impact</a></li>
+  <li><a href="#dashboard-8-color-analysis" id="toc-dashboard-8-color-analysis" class="nav-link" data-scroll-target="#dashboard-8-color-analysis">Dashboard 8: Color Analysis</a></li>
+  <li><a href="#strategic-business-insights" id="toc-strategic-business-insights" class="nav-link" data-scroll-target="#strategic-business-insights">Strategic Business Insights</a>
+  <ul class="collapse">
+  <li><a href="#category-performance-patterns" id="toc-category-performance-patterns" class="nav-link" data-scroll-target="#category-performance-patterns">Category Performance Patterns:</a></li>
+  <li><a href="#seasonal-and-attribute-trends" id="toc-seasonal-and-attribute-trends" class="nav-link" data-scroll-target="#seasonal-and-attribute-trends">Seasonal and Attribute Trends:</a></li>
+  </ul></li>
+  <li><a href="#business-recommendations" id="toc-business-recommendations" class="nav-link" data-scroll-target="#business-recommendations">Business Recommendations</a>
+  <ul class="collapse">
+  <li><a href="#strategic-focus-areas" id="toc-strategic-focus-areas" class="nav-link" data-scroll-target="#strategic-focus-areas">Strategic Focus Areas:</a></li>
+  <li><a href="#operational-improvements" id="toc-operational-improvements" class="nav-link" data-scroll-target="#operational-improvements">Operational Improvements:</a></li>
+  </ul></li>
+  <li><a href="#technical-implementation" id="toc-technical-implementation" class="nav-link" data-scroll-target="#technical-implementation">Technical Implementation</a>
+  <ul class="collapse">
+  <li><a href="#data-engineering-architecture" id="toc-data-engineering-architecture" class="nav-link" data-scroll-target="#data-engineering-architecture">Data Engineering Architecture:</a></li>
+  <li><a href="#key-technical-solutions" id="toc-key-technical-solutions" class="nav-link" data-scroll-target="#key-technical-solutions">Key Technical Solutions:</a></li>
+  </ul></li>
+  <li><a href="#results-impact" id="toc-results-impact" class="nav-link" data-scroll-target="#results-impact">Results &amp; Impact</a>
+  <ul class="collapse">
+  <li><a href="#strategic-intelligence-generated" id="toc-strategic-intelligence-generated" class="nav-link" data-scroll-target="#strategic-intelligence-generated">Strategic Intelligence Generated:</a></li>
+  <li><a href="#business-value-delivered" id="toc-business-value-delivered" class="nav-link" data-scroll-target="#business-value-delivered">Business Value Delivered:</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Inventory Performance Analytics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="business-context" class="level3">
+<h3 class="anchored" data-anchor-id="business-context">Business Context</h3>
+<p>This dashboard analyzes inventory performance across key product attributes to identify which categories, sizes, colors, and conditions sell most effectively. Understanding these patterns enables data-driven inventory curation, pricing optimization, and strategic buying decisions for the resale marketplace.</p>
+</section>
+<section id="key-analytics-dimensions" class="level3">
+<h3 class="anchored" data-anchor-id="key-analytics-dimensions">Key Analytics Dimensions</h3>
+<ul>
+<li>Category performance (Handbags vs Clothing across different timeframes)</li>
+<li>Size distribution and sell-through rates by garment size</li>
+<li>Color performance with seasonal trends and pricing analysis</li>
+<li>Condition quality impact on sales velocity and pricing</li>
+</ul>
+<hr>
+</section>
+<section id="dashboard-1-monthly-category-trends" class="level3">
+<h3 class="anchored" data-anchor-id="dashboard-1-monthly-category-trends">Dashboard 1: Monthly Category Trends</h3>
+<p><strong>Category Performance Analysis: Historical Patterns vs.&nbsp;Recent Trends</strong></p>
+<p>Category analysis reveals distinct performance tiers and significant shifts between historical preferences and recent marketplace activity across different timeframes.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/Cohort/catalltimereal.png" class="img-fluid figure-img"></p>
+<figcaption>All Time Category Trends</figcaption>
+</figure>
+</div>
+<p><strong>All-Time Performance Hierarchy (March 2019-Present):</strong> Accessories categories lead lifetime performance with Bagpacks achieving perfect 100% sell-through (60 received, 60 sold) and Messengers at 89% (35 received, 31 sold). However, apparel categories dominate by volume, with Tops processing 9,442 items at 61% conversion and Dresses handling 6,988 items at 62% sell-through. This creates a clear volume-versus-efficiency divide where small accessories achieve near-perfect conversion while high-volume apparel maintains moderate but consistent performance.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/Cohort/cat1.1.png" class="img-fluid figure-img"></p>
+<figcaption>Quarterly Category Trends</figcaption>
+</figure>
+</div>
+<p><strong>Quarterly Trends (2025):</strong> Quarterly data shows dramatic seasonal shifts in category preferences. January 2025 featured Messengers dominating at nearly 100% conversion, while April 2025 shifted toward Crossbody Bags (~50%) and Satchels (~40%). July 2025 presents more diverse category distribution with Crossbody Bags maintaining strong performance (~70%) alongside increased apparel category presence. This quarterly volatility suggests seasonal demand patterns driving category preferences.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/Cohort/cat2.2.png" class="img-fluid figure-img"></p>
+<figcaption>Monthly Category Trends</figcaption>
+</figure>
+</div>
+<p><strong>Monthly Performance Patterns (2025 YTD):</strong> Monthly analysis reveals extreme category volatility, with Crossbody Bags achieving 53% sell-through in June 2025 (15 received, 8 sold, $486.25 total revenue, $60.78 average price). The monthly view shows accessories appearing sporadically with high conversion rates but limited volume, while apparel categories maintain more consistent monthly presence despite lower individual performance rates.</p>
+<p><strong>Strategic Category Insights:</strong> - <strong>Accessory Seasonality:</strong> High-performing accessories show concentrated seasonal demand rather than consistent year-round appeal - <strong>Volume vs.&nbsp;Revenue Trade-off:</strong> High-volume apparel generates steady activity while low-volume accessories command premium pricing - <strong>Quarterly Planning:</strong> Category performance shifts dramatically between quarters, requiring flexible inventory strategies - <strong>Revenue Concentration:</strong> Accessory categories like Crossbody Bags demonstrate higher revenue per item despite lower overall volume</p>
+<p>Rolling monthly analysis shows dramatic category performance variations with some categories achieving 50%+ sell-through rates in peak periods. The quarterly view demonstrates Messengers performing at 100% sell-through in certain quarters, while the detailed table reveals specific categories like Clutches reaching 43% and Knits at 9% quarterly performance.</p>
+<p>Trend Analysis:</p>
+<ul>
+<li>High volatility: Some categories swing from 0% to 50%+ sell-through</li>
+<li>Quarterly champions: Messengers achieving 100% sell-through in Q1</li>
+<li>Seasonal patterns: Clear category performance cycles throughout the year</li>
+<li>Volume considerations: Performance varies significantly with inventory levels</li>
+</ul>
+<hr>
+<hr>
+</section>
+<section id="dashboard-5-size-distribution-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="dashboard-5-size-distribution-analysis">Dashboard 5: Size Distribution Analysis</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/Cohort/size.png" class="img-fluid figure-img"></p>
+<figcaption>Size Distribution Analysis</figcaption>
+</figure>
+</div>
+<p><strong>Size Performance Analysis (2025 YTD)</strong></p>
+<p>Size analysis reveals significant patterns in member preferences and conversion efficiency across the secondhand marketplace. While smaller sizes dominate intake volume, medium sizes demonstrate superior conversion rates, and extreme sizes show volatility due to limited inventory.</p>
+<p><strong>Key Size Performance Insights:</strong></p>
+<p><strong>“Unknown” Category Dominance:</strong> The exceptional performance of “Unknown” sizes (100% in May 2025) represents bags and accessories, which don’t require traditional sizing. This category’s strong conversion rates reflect consistent demand for size-agnostic items in the secondhand market.</p>
+<p><strong>Small Size Volume vs.&nbsp;Conversion Challenge:</strong> Small sizes (S, XS) consistently appear across months with substantial volume but demonstrate relatively lower conversion rates compared to medium sizes. This pattern suggests oversupply in smaller sizes or potential pricing misalignment for this segment.</p>
+<p><strong>Medium Size Efficiency:</strong> Medium (M) and Large (L) sizes show more consistent conversion rates when available, indicating better supply-demand balance for standard sizing. These sizes appear to optimize both volume and conversion efficiency.</p>
+<p><strong>Extreme Size Statistical Noise:</strong> The XXS spike (100% in May 2025) represents a single item sold from a single item received, creating misleading performance metrics. Similarly, XXL and above show sporadic appearance with small sample sizes that shouldn’t drive strategic decisions.</p>
+<p><strong>Strategic Sizing Implications:</strong> - <strong>Intake Strategy:</strong> Focus on acquiring medium sizes and size-agnostic accessories for optimal conversion - <strong>Small Size Management:</strong> Address oversupply in small sizes through pricing adjustments or targeted marketing - <strong>Seasonal Sizing:</strong> Size preferences show monthly variation, suggesting seasonal wardrobe cycling patterns - <strong>Accessory Opportunity:</strong> “Unknown” category performance indicates strong member demand for bags and accessories</p>
+<hr>
+</section>
+<section id="dashboard-7-condition-quality-impact" class="level3">
+<h3 class="anchored" data-anchor-id="dashboard-7-condition-quality-impact">Dashboard 7: Condition Quality Impact</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/Cohort/conditionreal.png" class="img-fluid figure-img"></p>
+<figcaption>Condition Analysis</figcaption>
+</figure>
+</div>
+<p><strong>Condition Performance Analysis (YTD 2025)</strong></p>
+<p>Condition analysis reveals varying sell-through performance across item conditions in this secondhand marketplace. Recent September data shows <strong>“Good” condition items leading at 17% sell-through</strong>, while “Excellent” condition consistently underperforms relative to its volume throughout the year.</p>
+<p><strong>Condition Insights:</strong> - <strong>“Good” condition dominance:</strong> Consistently achieves higher sell-through rates, suggesting customers prioritize value over pristine condition - <strong>“Excellent” condition challenges:</strong> Lower conversion rates despite premium condition, indicating limited willingness to spend extra points for marginal quality improvements<br>
+- <strong>“New With Tags” variability:</strong> Shows inconsistent performance across months, heavily dependent on seasonal factors and available inventory - <strong>Point-based pricing impact:</strong> Customer purchasing decisions appear driven more by point cost than condition grade - <strong>Acceptance patterns:</strong> Members comfortable buying pre-worn items when point value proposition is strong</p>
+<p><strong>Strategic Implications:</strong> - <strong>Intake standards:</strong> Accept broader range of “Good” condition items given strong conversion rates - <strong>Point allocation:</strong> Consider flatter pricing structure between “Good” and “Excellent” conditions - <strong>Member education:</strong> Current condition categories may not meaningfully differentiate value for point-based shoppers - <strong>Inventory flow:</strong> Focus on quick turnover of “Good” condition items rather than premium condition accumulation</p>
+<hr>
+</section>
+<section id="dashboard-8-color-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="dashboard-8-color-analysis">Dashboard 8: Color Analysis</h3>
+<p><strong>Color Performance Analysis: Historical vs.&nbsp;Recent Trends</strong></p>
+<p>Color analysis across multiple timeframes reveals shifting member preferences and significant changes in inventory patterns within the secondhand marketplace. Historical data shows strong performance for unique colors, while recent trends indicate a move toward classic, neutral tones.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/Cohort/color2.png" class="img-fluid figure-img"></p>
+<figcaption>All Time Color Analysis</figcaption>
+</figure>
+</div>
+<p><strong>All-Time Performance (March 2019-Present):</strong> Multicolor items lead with 88% lifetime sell-through rate, followed by Purple (83%) and White (83%), demonstrating member preference for distinctive pieces. Black shows the highest volume with 9,125 items received but achieves 75% sell-through - solid performance despite lower conversion rates than specialty colors. This volume-versus-efficiency pattern suggests Black’s ubiquity in consigned inventory versus member selectivity for unique color combinations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/Cohort/color3.1.png" class="img-fluid figure-img"></p>
+<figcaption>Quarterly Color Analysis</figcaption>
+</figure>
+</div>
+<p><strong>Quarterly Trends (2025):</strong> Recent quarters show dramatic shifts from historical patterns. January 2025 saw strong Multicolor performance (~50%) and Purple (~45%), aligning with all-time leaders. However, April 2025 data reveals Multicolor dominating at ~65% with more diverse color distribution. July 2025 shows continued Multicolor strength (~25%) but increased neutral color presence, suggesting seasonal preference evolution.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dashboards/Cohort/color3.png" class="img-fluid figure-img"></p>
+<figcaption>Monthly Color Analysis</figcaption>
+</figure>
+</div>
+<p><strong>Monthly Volatility (2025 YTD):</strong> Monthly analysis reveals extreme color performance variability, with Black items showing consistent presence but varying conversion rates. July 2025 data shows Black achieving only 4% sell-through despite high volume (125 items received, 5 sold), generating $1.38 total revenue with an average selling price of $8.28. This pattern of high volume, low conversion exemplifies the challenge of oversaturated neutral colors in the marketplace.</p>
+<p><strong>Strategic Insights:</strong> - <strong>Historical vs.&nbsp;Current Disconnect:</strong> Top all-time performers (Multicolor, Purple, White) show irregular recent activity despite proven appeal - <strong>Volume Management:</strong> Black’s high volume but moderate conversion suggests potential oversaturation in darker basics - <strong>Seasonal Adaptation:</strong> Recent quarters favor different color hierarchies than historical data indicates - <strong>Inventory Planning:</strong> Monthly color volatility suggests need for more consistent diverse color acquisition strategies</p>
+<hr>
+</section>
+<section id="strategic-business-insights" class="level1">
+<h1>Strategic Business Insights</h1>
+<section id="category-performance-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="category-performance-patterns">Category Performance Patterns:</h3>
+<ul>
+<li>Handbags significantly outperform clothing (30%+ vs 8% sell-through rates)</li>
+<li>Crossbody bags lead performance at 67% sell-through with strong revenue generation</li>
+<li>Multiple clothing categories show 0% sell-through indicating pricing or presentation issues</li>
+<li>Size mismatch identified - larger sizes convert better but have limited supply</li>
+</ul>
+</section>
+<section id="seasonal-and-attribute-trends" class="level3">
+<h3 class="anchored" data-anchor-id="seasonal-and-attribute-trends">Seasonal and Attribute Trends:</h3>
+<ul>
+<li>Color seasonality drives performance - Green dominates spring/summer, Black leads fall/winter</li>
+<li>“Good” condition items provide optimal volume-to-conversion balance</li>
+<li>Premium attributes justify higher pricing - Black items and XXL sizes command price premiums</li>
+<li>Cross-dimensional opportunities - specific size-color combinations significantly outperform</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="business-recommendations" class="level1">
+<h1>Business Recommendations</h1>
+<section id="strategic-focus-areas" class="level3">
+<h3 class="anchored" data-anchor-id="strategic-focus-areas">Strategic Focus Areas:</h3>
+<ul>
+<li>Prioritize handbag acquisition in kit acceptance and sourcing strategies</li>
+<li>Optimize size distribution - increase larger size inventory to match conversion performance</li>
+<li>Implement seasonal color planning for strategic acquisition timing</li>
+<li>Reduce investment in zero sell-through clothing categories</li>
+</ul>
+</section>
+<section id="operational-improvements" class="level3">
+<h3 class="anchored" data-anchor-id="operational-improvements">Operational Improvements:</h3>
+<ul>
+<li>Category-specific pricing strategy based on sell-through and revenue performance data</li>
+<li>Expand high-performing subcategories (Crossbody bags, Totes)</li>
+<li>Develop condition-based pricing tiers leveraging performance differentials</li>
+<li>Create cross-selling strategies for high-performing attribute combinations</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="technical-implementation" class="level1">
+<h1>Technical Implementation</h1>
+<section id="data-engineering-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="data-engineering-architecture">Data Engineering Architecture:</h3>
+<ul>
+<li>Multi-dimensional MongoDB aggregation pipelines matching products with sales across category, size, color, and condition</li>
+<li>Cross-collection joins linking product attributes with order data by SKU and time periods</li>
+<li>Dynamic time period calculations for monthly vs quarterly comparative analysis</li>
+<li>Data quality normalization handling inconsistent attribute values and missing data</li>
+</ul>
+</section>
+<section id="key-technical-solutions" class="level3">
+<h3 class="anchored" data-anchor-id="key-technical-solutions">Key Technical Solutions:</h3>
+<ul>
+<li>Complex $lookup operations joining multiple attribute dimensions with sales performance</li>
+<li>Nested aggregation logic for sell-through calculations across attribute combinations<br>
+</li>
+<li>Performance optimization using indexed queries for multi-dimensional filtering</li>
+<li>Interactive dashboard architecture enabling real-time drill-down analysis</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="results-impact" class="level1">
+<h1>Results &amp; Impact</h1>
+<section id="strategic-intelligence-generated" class="level3">
+<h3 class="anchored" data-anchor-id="strategic-intelligence-generated">Strategic Intelligence Generated:</h3>
+<ul>
+<li>Identified handbags as primary business driver with quantified performance advantages</li>
+<li>Established data-driven inventory optimization framework addressing size and color demand patterns</li>
+<li>Created seasonal planning methodology for attribute-specific acquisition timing</li>
+<li>Developed performance benchmarking system for ongoing category evaluation</li>
+</ul>
+</section>
+<section id="business-value-delivered" class="level3">
+<h3 class="anchored" data-anchor-id="business-value-delivered">Business Value Delivered:</h3>
+<ul>
+<li>Inventory allocation optimization shifting resources toward high-performing attributes</li>
+<li>Revenue enhancement opportunities through category-specific pricing strategies</li>
+<li>Operational efficiency gains through data-driven category management decisions</li>
+<li>Strategic planning framework for sustainable growth in competitive resale market</li>
+</ul>
+<hr>
+<p><em>This category analytics system delivers comprehensive product attribute intelligence enabling data-driven inventory curation, pricing optimization, and strategic performance management.</em></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -343,16 +343,96 @@
   {
     "objectID": "projects/DS5100/index.html",
     "href": "projects/DS5100/index.html",
-    "title": "DSAN 5100",
+    "title": "Statistical Insights into Airbnb Listings and Neighborhood Dynamics",
     "section": "",
-    "text": "Author: Jessica Joy, Adam Stein, Soong-Ping Hill, Hung Tran, David Corcoran\nCourse: DSAN 5100: Probabilistic Modeling and Statistical Computing\n\n\nUnderstanding the relationship between neighborhood safety, listing features, and pricing models is crucial for both Airbnb hosts and potential guests. This analysis examines Airbnb listings alongside city crime data, leveraging statistical testing and geospatial analysis to uncover patterns and insights that influence rental pricing and desirability."
+    "text": "Authors: Jessica Joy, Adam Stein, Soong Ping Hill, Hung Tran, David Corcoran\nCourse: DSAN 5100: Probabilistic Modeling and Statistical Computing\nInstitution: Georgetown University"
   },
   {
-    "objectID": "projects/DS5100/index.html#introduction",
-    "href": "projects/DS5100/index.html#introduction",
-    "title": "DSAN 5100",
+    "objectID": "projects/DS5100/index.html#airbnb-analysis",
+    "href": "projects/DS5100/index.html#airbnb-analysis",
+    "title": "Statistical Insights into Airbnb Listings and Neighborhood Dynamics",
+    "section": "Introduction",
+    "text": "Introduction\nUnderstanding the relationship between neighborhood safety, listing features, and pricing models is crucial for both Airbnb hosts and potential guests. This analysis examines Airbnb listings alongside city crime data, leveraging statistical testing and geospatial analysis to uncover patterns and insights that influence rental pricing and desirability."
+  },
+  {
+    "objectID": "projects/DS5100/index.html#presentation",
+    "href": "projects/DS5100/index.html#presentation",
+    "title": "Statistical Insights into Airbnb Listings and Neighborhood Dynamics",
+    "section": "Presentation",
+    "text": "Presentation"
+  },
+  {
+    "objectID": "projects/DS5100/index.html#report",
+    "href": "projects/DS5100/index.html#report",
+    "title": "Statistical Insights into Airbnb Listings and Neighborhood Dynamics",
+    "section": "Report",
+    "text": "Report"
+  },
+  {
+    "objectID": "projects/Silkroll/kits.html",
+    "href": "projects/Silkroll/kits.html",
+    "title": "Kit Submission & Conversion Analytics Dashboard",
     "section": "",
-    "text": "Understanding the relationship between neighborhood safety, listing features, and pricing models is crucial for both Airbnb hosts and potential guests. This analysis examines Airbnb listings alongside city crime data, leveraging statistical testing and geospatial analysis to uncover patterns and insights that influence rental pricing and desirability."
+    "text": "Developed comprehensive kit analytics system to track customer submissions, conversion rates, and points distribution in the fashion resale business model.",
+    "crumbs": [
+      "About",
+      "Kit Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/kits.html#kit-processing-customer-acquisition-analysis",
+    "href": "projects/Silkroll/kits.html#kit-processing-customer-acquisition-analysis",
+    "title": "Kit Submission & Conversion Analytics Dashboard",
+    "section": "",
+    "text": "Developed comprehensive kit analytics system to track customer submissions, conversion rates, and points distribution in the fashion resale business model.",
+    "crumbs": [
+      "About",
+      "Kit Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/discount.html",
+    "href": "projects/Silkroll/discount.html",
+    "title": "Discount & Revenue Impact Analytics Dashboard",
+    "section": "",
+    "text": "Discount Strategy & Revenue Impact Analysis",
+    "crumbs": [
+      "About",
+      "Discount Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/discount.html#fashion-resale-platform---pricing-strategy-profitability-analysis",
+    "href": "projects/Silkroll/discount.html#fashion-resale-platform---pricing-strategy-profitability-analysis",
+    "title": "Discount & Revenue Impact Analytics Dashboard",
+    "section": "",
+    "text": "Developed comprehensive discount tracking system to analyze pricing strategy effectiveness, revenue impact, and discount optimization for the fashion resale business model.",
+    "crumbs": [
+      "About",
+      "Discount Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/brands.html",
+    "href": "projects/Silkroll/brands.html",
+    "title": "Brand Performance Analytics Dashboard",
+    "section": "",
+    "text": "Developed comprehensive brand performance tracking system using Metabase to optimize inventory management and identify top-performing brands across multiple time periods.",
+    "crumbs": [
+      "About",
+      "Brand Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/brands.html#retail-analytics-internship---brand-sell-through-rate-analysis",
+    "href": "projects/Silkroll/brands.html#retail-analytics-internship---brand-sell-through-rate-analysis",
+    "title": "Brand Performance Analytics Dashboard",
+    "section": "",
+    "text": "Developed comprehensive brand performance tracking system using Metabase to optimize inventory management and identify top-performing brands across multiple time periods.",
+    "crumbs": [
+      "About",
+      "Brand Analysis"
+    ]
   },
   {
     "objectID": "index.html",
@@ -1029,6 +1109,18 @@
     "title": "Data Collection",
     "section": "",
     "text": "Data collection is the first step in processing data into actionable insights. Data collection involves identifying data sources, selecting relevant data, and retrieving this data. Without doing these first steps carefully, further data analysis would be based on incomplete, irrelevant, or inaccurate data. My goal for data collection was to ensure I used credible sources, obtained all necessary variables, and gathered data in a format that was consistent, organized, and ready for the next stages of data cleaning.",
+    "crumbs": [
+      "About",
+      "Technical details",
+      "Data Collection"
+    ]
+  },
+  {
+    "objectID": "projects/DS5000/data-collection/main.html#data-source",
+    "href": "projects/DS5000/data-collection/main.html#data-source",
+    "title": "Data Collection",
+    "section": "Data Source",
+    "text": "Data Source\nData was collected from the U.S. Census Bureau’s 2018 American Community Survey via their public API.\n\nAPI Endpoint\nData was collected from the U.S. Census Bureau’s 2018 American Community Survey via their public API.\nAPI Query Structure:\nGET /data/2018/acs/acsse\nExample API CALL: https://api.census.gov/data/2023/acs/acsse?get=NAME,K200101_001E,K200201_003E,K200201_002E,K200201_005E,K202101_002E](https://api.census.gov/data/2018/acs/acsse?get=NAME,K200101_001E,K202101_002E&for=congressional%20district:&in=state:&key=[API_KEY])**\nFor my project, I chose to add:\n\nK200101_001E: Total_Population\n\nK200201_002E: White\n\nK200201_003E: African_American\n\nK200201_005E: Asian\n\nK200201_004E: American_Indian_and_Alaska_Native\n\nK200201_006E: Native_Hawaiian_and_Pacific_Islander\n\nK202101_002E: Veterans\n\nK202101_006E: Nonveterans\n\nK201701_002E: Below_Poverty_Level\n\nK201902_001E: Median_Household_Income\n\nK201501_004E: High_School_Graduate\n\nK201501_007E: Bachelors_Degree_or_Higher\n\nK202801_002E: Households_with_Computers\n\nK202801_004E: Households_with_Internet\n\nWhich I believed to be driving factors to which influence voter turn out. Thus, the full API call looked like:\nAPI Call\n“https://api.census.gov/data/2018/acs/acsse?”“get=NAME,K200101_001E,K200201_003E,K200201_002E, K200201_005E,K202101_002E,”“K202101_006E,K201701_002E,K201902_001E,K201501_004E,K201501_007E, K202801_002E,K202801_004E,K200201_004E,K200201_006E&for=congressional%20district:*”\nThis APi call produced JSON data such as:\n\nFor all Congressional Districts, with each line corresponding to a specific variable.\nAfter securing my dataset, I utilized pull requests and input the URL to extract my census data.",
     "crumbs": [
       "About",
       "Technical details",
@@ -1866,7 +1958,7 @@
     "href": "about.html#education",
     "title": "About Me",
     "section": "Education",
-    "text": "Education\nGeorgetown University | Washington, D.C.\n- Master’s in Data Science (DSAN)\n- GPA: 3.95\nBoston University College of Arts and Science | Boston, MA\n- Bachelor of Arts in Neuroscience, Minor in Data Science\n- GPA: 3.57"
+    "text": "Education\nGeorgetown University | Washington, D.C.\n- Master’s in Data Science (DSAN)\n- GPA: 3.95\n- Academic Awards: Returning Student Scholarship\nBoston University College of Arts and Science | Boston, MA\n- Bachelor of Arts in Neuroscience, Minor in Data Science\n- GPA: 3.57\n- Academic Awards: Deans List"
   },
   {
     "objectID": "about.html#work-experience",
@@ -1894,7 +1986,7 @@
     "href": "projects/DS5000/index.html",
     "title": "Predicting Voting Trends: Uncovering Patterns Through Data Science",
     "section": "",
-    "text": "This project explores the factors that influence voting rates. By utilizing machine learning methods such as Dimensionality Reduction, Clustering, Regression, and Classification, the project identifies trends, evaluates model performance, and provides insights into voter participation patterns.\n\n\nVoting is a fundamental part of the democratic process, yet every year millions of people refrain from voting. Voting allows the people to speak for what they want, drive change, and elect new leaders. Despite the importance of voting, many states continue to have low voting rates, with many falling below the 50% mark.\nUnderstanding voting patterns is important for increasing voter turn out and participation. By using data science tools, this project addresses real-world challenges in predicting voter behavior and identifying areas of improvement\n\n\n\nWhat are the biggest variables that influence voter turn out?\nHow accurately can machine learning models predict voting rates?\nCan models effectively distinguish between Low, Medium, and High Voting Rates?\nWhat variable or demographic is responsible for highest voting rates\nWhat and who can government officials and initiatives target to raise voting rates in their district?",
+    "text": "Author: Soong-Ping Hill\nCourse: DSAN 5000 - Data Science and Analytics\nInstitution: Georgetown University\nThis project explores the factors that influence voting rates. By utilizing machine learning methods such as Dimensionality Reduction, Clustering, Regression, and Classification, the project identifies trends, evaluates model performance, and provides insights into voter participation patterns.\n\n\nVoting is a fundamental part of the democratic process, yet every year millions of people refrain from voting. Voting allows the people to speak for what they want, drive change, and elect new leaders. Despite the importance of voting, many states continue to have low voting rates, with many falling below the 50% mark.\nUnderstanding voting patterns is important for increasing voter turn out and participation. By using data science tools, this project addresses real-world challenges in predicting voter behavior and identifying areas of improvement\n\n\n\nPrimary Research Focus: * What are the biggest variables that influence voter turnout? * How accurately can machine learning models predict voting rates?\nModel Performance: * Can models effectively distinguish between Low, Medium, and High voting rates?\nDemographic Impact: * Which variables or demographics are responsible for the highest voting rates?\nPolicy Applications: * What populations and factors can government officials target to raise voting rates in their districts?",
     "crumbs": [
       "About",
       "Home"
@@ -1912,11 +2004,11 @@
     ]
   },
   {
-    "objectID": "projects/DS5000/index.html#research-question",
-    "href": "projects/DS5000/index.html#research-question",
+    "objectID": "projects/DS5000/index.html#research-questions",
+    "href": "projects/DS5000/index.html#research-questions",
     "title": "Predicting Voting Trends: Uncovering Patterns Through Data Science",
     "section": "",
-    "text": "What are the biggest variables that influence voter turn out?\nHow accurately can machine learning models predict voting rates?\nCan models effectively distinguish between Low, Medium, and High Voting Rates?\nWhat variable or demographic is responsible for highest voting rates\nWhat and who can government officials and initiatives target to raise voting rates in their district?",
+    "text": "Primary Research Focus: * What are the biggest variables that influence voter turnout? * How accurately can machine learning models predict voting rates?\nModel Performance: * Can models effectively distinguish between Low, Medium, and High voting rates?\nDemographic Impact: * Which variables or demographics are responsible for the highest voting rates?\nPolicy Applications: * What populations and factors can government officials target to raise voting rates in their districts?",
     "crumbs": [
       "About",
       "Home"
@@ -1956,6 +2048,83 @@
     ]
   },
   {
+    "objectID": "projects/Silkroll/cohort.html",
+    "href": "projects/Silkroll/cohort.html",
+    "title": "Inventory Performance Analytics",
+    "section": "",
+    "text": "Business Context\nThis dashboard analyzes inventory performance across key product attributes to identify which categories, sizes, colors, and conditions sell most effectively. Understanding these patterns enables data-driven inventory curation, pricing optimization, and strategic buying decisions for the resale marketplace.\n\n\nKey Analytics Dimensions\n\nCategory performance (Handbags vs Clothing across different timeframes)\nSize distribution and sell-through rates by garment size\nColor performance with seasonal trends and pricing analysis\nCondition quality impact on sales velocity and pricing\n\n\n\n\nDashboard 1: Monthly Category Trends\nCategory Performance Analysis: Historical Patterns vs. Recent Trends\nCategory analysis reveals distinct performance tiers and significant shifts between historical preferences and recent marketplace activity across different timeframes.\n\n\n\nAll Time Category Trends\n\n\nAll-Time Performance Hierarchy (March 2019-Present): Accessories categories lead lifetime performance with Bagpacks achieving perfect 100% sell-through (60 received, 60 sold) and Messengers at 89% (35 received, 31 sold). However, apparel categories dominate by volume, with Tops processing 9,442 items at 61% conversion and Dresses handling 6,988 items at 62% sell-through. This creates a clear volume-versus-efficiency divide where small accessories achieve near-perfect conversion while high-volume apparel maintains moderate but consistent performance.\n\n\n\nQuarterly Category Trends\n\n\nQuarterly Trends (2025): Quarterly data shows dramatic seasonal shifts in category preferences. January 2025 featured Messengers dominating at nearly 100% conversion, while April 2025 shifted toward Crossbody Bags (~50%) and Satchels (~40%). July 2025 presents more diverse category distribution with Crossbody Bags maintaining strong performance (~70%) alongside increased apparel category presence. This quarterly volatility suggests seasonal demand patterns driving category preferences.\n\n\n\nMonthly Category Trends\n\n\nMonthly Performance Patterns (2025 YTD): Monthly analysis reveals extreme category volatility, with Crossbody Bags achieving 53% sell-through in June 2025 (15 received, 8 sold, $486.25 total revenue, $60.78 average price). The monthly view shows accessories appearing sporadically with high conversion rates but limited volume, while apparel categories maintain more consistent monthly presence despite lower individual performance rates.\nStrategic Category Insights: - Accessory Seasonality: High-performing accessories show concentrated seasonal demand rather than consistent year-round appeal - Volume vs. Revenue Trade-off: High-volume apparel generates steady activity while low-volume accessories command premium pricing - Quarterly Planning: Category performance shifts dramatically between quarters, requiring flexible inventory strategies - Revenue Concentration: Accessory categories like Crossbody Bags demonstrate higher revenue per item despite lower overall volume\nRolling monthly analysis shows dramatic category performance variations with some categories achieving 50%+ sell-through rates in peak periods. The quarterly view demonstrates Messengers performing at 100% sell-through in certain quarters, while the detailed table reveals specific categories like Clutches reaching 43% and Knits at 9% quarterly performance.\nTrend Analysis:\n\nHigh volatility: Some categories swing from 0% to 50%+ sell-through\nQuarterly champions: Messengers achieving 100% sell-through in Q1\nSeasonal patterns: Clear category performance cycles throughout the year\nVolume considerations: Performance varies significantly with inventory levels\n\n\n\n\n\nDashboard 5: Size Distribution Analysis\n\n\n\nSize Distribution Analysis\n\n\nSize Performance Analysis (2025 YTD)\nSize analysis reveals significant patterns in member preferences and conversion efficiency across the secondhand marketplace. While smaller sizes dominate intake volume, medium sizes demonstrate superior conversion rates, and extreme sizes show volatility due to limited inventory.\nKey Size Performance Insights:\n“Unknown” Category Dominance: The exceptional performance of “Unknown” sizes (100% in May 2025) represents bags and accessories, which don’t require traditional sizing. This category’s strong conversion rates reflect consistent demand for size-agnostic items in the secondhand market.\nSmall Size Volume vs. Conversion Challenge: Small sizes (S, XS) consistently appear across months with substantial volume but demonstrate relatively lower conversion rates compared to medium sizes. This pattern suggests oversupply in smaller sizes or potential pricing misalignment for this segment.\nMedium Size Efficiency: Medium (M) and Large (L) sizes show more consistent conversion rates when available, indicating better supply-demand balance for standard sizing. These sizes appear to optimize both volume and conversion efficiency.\nExtreme Size Statistical Noise: The XXS spike (100% in May 2025) represents a single item sold from a single item received, creating misleading performance metrics. Similarly, XXL and above show sporadic appearance with small sample sizes that shouldn’t drive strategic decisions.\nStrategic Sizing Implications: - Intake Strategy: Focus on acquiring medium sizes and size-agnostic accessories for optimal conversion - Small Size Management: Address oversupply in small sizes through pricing adjustments or targeted marketing - Seasonal Sizing: Size preferences show monthly variation, suggesting seasonal wardrobe cycling patterns - Accessory Opportunity: “Unknown” category performance indicates strong member demand for bags and accessories\n\n\n\nDashboard 7: Condition Quality Impact\n\n\n\nCondition Analysis\n\n\nCondition Performance Analysis (YTD 2025)\nCondition analysis reveals varying sell-through performance across item conditions in this secondhand marketplace. Recent September data shows “Good” condition items leading at 17% sell-through, while “Excellent” condition consistently underperforms relative to its volume throughout the year.\nCondition Insights: - “Good” condition dominance: Consistently achieves higher sell-through rates, suggesting customers prioritize value over pristine condition - “Excellent” condition challenges: Lower conversion rates despite premium condition, indicating limited willingness to spend extra points for marginal quality improvements\n- “New With Tags” variability: Shows inconsistent performance across months, heavily dependent on seasonal factors and available inventory - Point-based pricing impact: Customer purchasing decisions appear driven more by point cost than condition grade - Acceptance patterns: Members comfortable buying pre-worn items when point value proposition is strong\nStrategic Implications: - Intake standards: Accept broader range of “Good” condition items given strong conversion rates - Point allocation: Consider flatter pricing structure between “Good” and “Excellent” conditions - Member education: Current condition categories may not meaningfully differentiate value for point-based shoppers - Inventory flow: Focus on quick turnover of “Good” condition items rather than premium condition accumulation\n\n\n\nDashboard 8: Color Analysis\nColor Performance Analysis: Historical vs. Recent Trends\nColor analysis across multiple timeframes reveals shifting member preferences and significant changes in inventory patterns within the secondhand marketplace. Historical data shows strong performance for unique colors, while recent trends indicate a move toward classic, neutral tones.\n\n\n\nAll Time Color Analysis\n\n\nAll-Time Performance (March 2019-Present): Multicolor items lead with 88% lifetime sell-through rate, followed by Purple (83%) and White (83%), demonstrating member preference for distinctive pieces. Black shows the highest volume with 9,125 items received but achieves 75% sell-through - solid performance despite lower conversion rates than specialty colors. This volume-versus-efficiency pattern suggests Black’s ubiquity in consigned inventory versus member selectivity for unique color combinations.\n\n\n\nQuarterly Color Analysis\n\n\nQuarterly Trends (2025): Recent quarters show dramatic shifts from historical patterns. January 2025 saw strong Multicolor performance (~50%) and Purple (~45%), aligning with all-time leaders. However, April 2025 data reveals Multicolor dominating at ~65% with more diverse color distribution. July 2025 shows continued Multicolor strength (~25%) but increased neutral color presence, suggesting seasonal preference evolution.\n\n\n\nMonthly Color Analysis\n\n\nMonthly Volatility (2025 YTD): Monthly analysis reveals extreme color performance variability, with Black items showing consistent presence but varying conversion rates. July 2025 data shows Black achieving only 4% sell-through despite high volume (125 items received, 5 sold), generating $1.38 total revenue with an average selling price of $8.28. This pattern of high volume, low conversion exemplifies the challenge of oversaturated neutral colors in the marketplace.\nStrategic Insights: - Historical vs. Current Disconnect: Top all-time performers (Multicolor, Purple, White) show irregular recent activity despite proven appeal - Volume Management: Black’s high volume but moderate conversion suggests potential oversaturation in darker basics - Seasonal Adaptation: Recent quarters favor different color hierarchies than historical data indicates - Inventory Planning: Monthly color volatility suggests need for more consistent diverse color acquisition strategies\n\n\n\nStrategic Business Insights\n\nCategory Performance Patterns:\n\nHandbags significantly outperform clothing (30%+ vs 8% sell-through rates)\nCrossbody bags lead performance at 67% sell-through with strong revenue generation\nMultiple clothing categories show 0% sell-through indicating pricing or presentation issues\nSize mismatch identified - larger sizes convert better but have limited supply\n\n\n\nSeasonal and Attribute Trends:\n\nColor seasonality drives performance - Green dominates spring/summer, Black leads fall/winter\n“Good” condition items provide optimal volume-to-conversion balance\nPremium attributes justify higher pricing - Black items and XXL sizes command price premiums\nCross-dimensional opportunities - specific size-color combinations significantly outperform\n\n\n\n\n\nBusiness Recommendations\n\nStrategic Focus Areas:\n\nPrioritize handbag acquisition in kit acceptance and sourcing strategies\nOptimize size distribution - increase larger size inventory to match conversion performance\nImplement seasonal color planning for strategic acquisition timing\nReduce investment in zero sell-through clothing categories\n\n\n\nOperational Improvements:\n\nCategory-specific pricing strategy based on sell-through and revenue performance data\nExpand high-performing subcategories (Crossbody bags, Totes)\nDevelop condition-based pricing tiers leveraging performance differentials\nCreate cross-selling strategies for high-performing attribute combinations\n\n\n\n\n\nTechnical Implementation\n\nData Engineering Architecture:\n\nMulti-dimensional MongoDB aggregation pipelines matching products with sales across category, size, color, and condition\nCross-collection joins linking product attributes with order data by SKU and time periods\nDynamic time period calculations for monthly vs quarterly comparative analysis\nData quality normalization handling inconsistent attribute values and missing data\n\n\n\nKey Technical Solutions:\n\nComplex $lookup operations joining multiple attribute dimensions with sales performance\nNested aggregation logic for sell-through calculations across attribute combinations\n\nPerformance optimization using indexed queries for multi-dimensional filtering\nInteractive dashboard architecture enabling real-time drill-down analysis\n\n\n\n\n\nResults & Impact\n\nStrategic Intelligence Generated:\n\nIdentified handbags as primary business driver with quantified performance advantages\nEstablished data-driven inventory optimization framework addressing size and color demand patterns\nCreated seasonal planning methodology for attribute-specific acquisition timing\nDeveloped performance benchmarking system for ongoing category evaluation\n\n\n\nBusiness Value Delivered:\n\nInventory allocation optimization shifting resources toward high-performing attributes\nRevenue enhancement opportunities through category-specific pricing strategies\nOperational efficiency gains through data-driven category management decisions\nStrategic planning framework for sustainable growth in competitive resale market\n\n\nThis category analytics system delivers comprehensive product attribute intelligence enabling data-driven inventory curation, pricing optimization, and strategic performance management.",
+    "crumbs": [
+      "About",
+      "Cohort Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/index.html",
+    "href": "projects/Silkroll/index.html",
+    "title": "Fashion Resale Analytics Portfolio",
+    "section": "",
+    "text": "This internship was with a circular fashion platform where customers send clothing kits to earn points, which can then be used to purchase items from other users’ submissions. This creates a sustainable marketplace requiring complex analytics across supply (kit submissions), demand (customer orders), and inventory performance across multiple product dimensions.\n\n\n\n\nDeveloped complex MongoDB aggregation pipelines to analyze multi-dimensional sell-through performance across brands, product categories, sizes, colors, and customer segments in a circular fashion marketplace\nBuilt 5 comprehensive Metabase dashboards tracking dual payment systems (points vs cash), kit submission funnels, brand performance, and discount optimization - enabling data-driven inventory and pricing decisions\nEngineered cross-collection data joins linking product inventory with sales transactions across multiple time periods, supporting strategic business insights for a unique resale business model\nAutomated performance reporting for brand sell-through rates, category optimization, and customer acquisition metrics, reducing manual analysis time while improving decision-making accuracy",
+    "crumbs": [
+      "About",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/index.html#data-analytics-internship---dashboard-development-business-intelligence",
+    "href": "projects/Silkroll/index.html#data-analytics-internship---dashboard-development-business-intelligence",
+    "title": "Fashion Resale Analytics Portfolio",
+    "section": "",
+    "text": "This internship was with a circular fashion platform where customers send clothing kits to earn points, which can then be used to purchase items from other users’ submissions. This creates a sustainable marketplace requiring complex analytics across supply (kit submissions), demand (customer orders), and inventory performance across multiple product dimensions.\n\n\n\n\nDeveloped complex MongoDB aggregation pipelines to analyze multi-dimensional sell-through performance across brands, product categories, sizes, colors, and customer segments in a circular fashion marketplace\nBuilt 5 comprehensive Metabase dashboards tracking dual payment systems (points vs cash), kit submission funnels, brand performance, and discount optimization - enabling data-driven inventory and pricing decisions\nEngineered cross-collection data joins linking product inventory with sales transactions across multiple time periods, supporting strategic business insights for a unique resale business model\nAutomated performance reporting for brand sell-through rates, category optimization, and customer acquisition metrics, reducing manual analysis time while improving decision-making accuracy",
+    "crumbs": [
+      "About",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/index.html#analytics-projects-developed",
+    "href": "projects/Silkroll/index.html#analytics-projects-developed",
+    "title": "Fashion Resale Analytics Portfolio",
+    "section": "Analytics Projects Developed",
+    "text": "Analytics Projects Developed\n\nBrand Performance Analytics\nComprehensive sell-through rate analysis across 20+ fashion brands using monthly and quarterly time frames. Identified top-performing brands like Nike (75% sell-through) and Lululemon while revealing inventory challenges with premium brands showing 0% conversion rates.\n\n\nKit Submission Analytics\nCustomer acquisition funnel analysis tracking the request-to-shipment conversion process. Analyzed points distribution patterns and identified declining submission trends requiring strategic intervention, while maintaining strong 80-100% shipment completion rates.\n\n\nOrder & Payment Analytics\nDual payment system performance analysis comparing points-based vs cash transactions. Revealed that points users drive 10x higher purchase volume with significantly greater engagement and service fee generation.\n\n\nCategory Performance Analytics\nMulti-dimensional product attribute analysis across categories, sizes, colors, and conditions. Discovered that handbags outperform clothing (30%+ vs 8% sell-through), larger sizes convert better, and seasonal color trends drive performance optimization opportunities.\n\n\nDiscount Strategy Analytics\nPricing optimization and profitability analysis tracking discount impact on gross vs net revenue. Identified 20-35% discount rates creating significant revenue gaps and opportunities for strategic pricing refinement.",
+    "crumbs": [
+      "About",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/index.html#technical-approach-business-impact",
+    "href": "projects/Silkroll/index.html#technical-approach-business-impact",
+    "title": "Fashion Resale Analytics Portfolio",
+    "section": "Technical Approach & Business Impact",
+    "text": "Technical Approach & Business Impact\nData Engineering: Built complex MongoDB aggregation pipelines handling cross-collection joins, time-based partitioning, and multi-dimensional grouping to support real-time business intelligence across the circular fashion platform.\nDashboard Development: Created interactive Metabase visualizations with dynamic filtering, drill-down capabilities, and automated refresh cycles enabling stakeholders to make data-driven decisions on inventory, pricing, and customer acquisition.\nStrategic Insights: Delivered actionable recommendations that identified handbags as the core business driver, optimized inventory allocation based on size and color performance, and provided frameworks for seasonal planning and discount strategy optimization.\n\nThese analytics systems provided essential business intelligence for optimizing operations in the competitive circular fashion marketplace, enabling data-driven decisions across inventory management, customer acquisition, and pricing strategy.",
+    "crumbs": [
+      "About",
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/orders.html",
+    "href": "projects/Silkroll/orders.html",
+    "title": "Points & Cash Payment Analytics Dashboard",
+    "section": "",
+    "text": "Built comprehensive analytics dashboards to track dual payment system performance, analyzing how customers use points (earned from clothing kits) versus cash payments in the circular fashion marketplace.",
+    "crumbs": [
+      "About",
+      "Order Analytics"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/orders.html#revenue-customer-behavior-analysis",
+    "href": "projects/Silkroll/orders.html#revenue-customer-behavior-analysis",
+    "title": "Points & Cash Payment Analytics Dashboard",
+    "section": "",
+    "text": "Built comprehensive analytics dashboards to track dual payment system performance, analyzing how customers use points (earned from clothing kits) versus cash payments in the circular fashion marketplace.",
+    "crumbs": [
+      "About",
+      "Order Analytics"
+    ]
+  },
+  {
     "objectID": "projects/Scholarship/data_chloropeth.html",
     "href": "projects/Scholarship/data_chloropeth.html",
     "title": "Soong Ping Hill",
@@ -1964,6 +2133,61 @@
     "crumbs": [
       "About",
       "Data Choropleth"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/discount.html#total-discount-trends",
+    "href": "projects/Silkroll/discount.html#total-discount-trends",
+    "title": "Discount & Revenue Impact Analytics Dashboard",
+    "section": "Total Discount Trends",
+    "text": "Total Discount Trends\nThe discount analytics reveal significant patterns in cash transaction pricing strategy and its impact on revenue generation. With both point-based and cash payment options, discount management becomes critical for optimizing cash flow while maintaining competitive positioning.\n\n\n\nTotal Discount Trends\n\n\nTotal Discount Trends: Peak discount periods show $550 in total discounts (August 2024) coinciding with highest gross sales activity ($3,000+), indicating promotional campaigns successfully drive cash transaction volume. However, recent months show declining discount activity, suggesting either strategic pricing changes or reduced promotional intensity.",
+    "crumbs": [
+      "About",
+      "Discount Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/discount.html#average-discount-patterns",
+    "href": "projects/Silkroll/discount.html#average-discount-patterns",
+    "title": "Discount & Revenue Impact Analytics Dashboard",
+    "section": "Average Discount Patterns",
+    "text": "Average Discount Patterns\n\n\n\nAverage Discount Patterns\n\n\nAverage Discount Patterns: Per-order discounts range from $0.75 to $3.50, representing 18-35% discount rates. The February 2025 peak ($1.80 average, ~29% discount rate) demonstrates aggressive promotional pricing, while recent stabilization around $1.80-$2.30 suggests optimized discount levels for sustained profitability.",
+    "crumbs": [
+      "About",
+      "Discount Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/discount.html#gross-vs-net-sales",
+    "href": "projects/Silkroll/discount.html#gross-vs-net-sales",
+    "title": "Discount & Revenue Impact Analytics Dashboard",
+    "section": "Gross vs Net Sales",
+    "text": "Gross vs Net Sales\n\n\n\nNet Revenue Analysis\n\n\nRevenue Impact Analysis: The gross vs. net sales gap reveals substantial revenue impact from discount strategy. Peak periods show $500-800 revenue reduction from discounts, representing 15-25% of gross sales lost to promotional pricing. Recent months maintain more sustainable 10-15% discount impact ratios.\nAverage Discount Percentage Analysis:\n\n\n\nAverage Discount Analysis\n\n\nThe discount percentage trends reveal strategic pricing evolution and promotional intensity across the hybrid marketplace. Percentage analysis shows discount rates ranging from 18% to 35%, with distinct seasonal patterns that impact both cash transaction appeal and point-to-cash conversion strategies.\nPercentage Pattern Insights: Early periods maintained conservative 20% discount rates, escalating to aggressive 25-35% promotional pricing during peak activity months (September-November 2024). Recent stabilization around 30-35% suggests optimized discount levels that balance customer acquisition with profitability in the dual-payment ecosystem.\nStrategic Percentage Implications: Higher percentage discounts (30%+) likely drive customer preference toward cash payments over point usage, directly benefiting the 2% transaction fee revenue model. However, sustained high percentage discounts may create customer expectation for promotional pricing, potentially reducing full-price cash transaction willingness.\nOptimization Opportunities: - Test percentage thresholds that maximize cash preference without eroding margins - Seasonal percentage strategies based on point inventory and cash flow needs\nStrategic Implications: - Dual-economy balance: Cash discounts must compete with point-based “free” alternatives - Transaction fee optimization: 2% fees on discounted items reduce actual commission revenue - Customer channel preference: Aggressive cash discounts may cannibalize point usage - Promotional effectiveness: High discount periods correlate with volume spikes but impact net profitability\nRevenue Optimization Opportunities: - Test discount thresholds that drive cash preference over point usage - Implement dynamic pricing based on point inventory levels - Optimize discount timing to maximize 2% transaction fee generation - Balance promotional intensity with sustainable profit margins",
+    "crumbs": [
+      "About",
+      "Discount Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/merch.html",
+    "href": "projects/Silkroll/merch.html",
+    "title": "Merchandise & Inventory Sales Analysis",
+    "section": "",
+    "text": "Comprehensive analysis of merchandise sales patterns across size, condition, color, category, and brand dimensions in the circular fashion marketplace.",
+    "crumbs": [
+      "About",
+      "Product Performance Analysis"
+    ]
+  },
+  {
+    "objectID": "projects/Silkroll/merch.html#product-performance-sales-patterns",
+    "href": "projects/Silkroll/merch.html#product-performance-sales-patterns",
+    "title": "Merchandise & Inventory Sales Analysis",
+    "section": "",
+    "text": "Comprehensive analysis of merchandise sales patterns across size, condition, color, category, and brand dimensions in the circular fashion marketplace.",
+    "crumbs": [
+      "About",
+      "Product Performance Analysis"
     ]
   }
 ]

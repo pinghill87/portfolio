@@ -6,6 +6,7 @@ project:
     - "projects/Scholarship/*.geojson"
     - "projects/Scholarship/*.geo.json"
     - "projects/Scholarship/*.html"
+    - "projects/Silkroll/dashboards/**"
   render:
     - "*.qmd"
     - "projects/**/index.qmd"
@@ -28,6 +29,8 @@ website:
             href: projects/DS5100/index.qmd
           - text: Humanitarian Security Research
             href: projects/Scholarship/index.qmd
+          - text: Silkroll Analytics Dashboard
+            href: projects/Silkroll/index.qmd
   sidebar:
     - id: ds5000
       title: "DSAN-5000"
@@ -50,10 +53,25 @@ website:
           href: projects/Scholarship/index.qmd
         - text: Supervised
           href: projects/Scholarship/supervised.qmd
-        - text: Data Choropleth
-          href: projects/Scholarship/data_chloropeth.qmd
         - text: Recommendations
           href: projects/Scholarship/recommendations.qmd
+    - id: silkroll
+      title: "Silkroll Analytics"
+      contents:
+        - text: Overview
+          href: projects/Silkroll/index.qmd
+        - text: Brand Analysis
+          href: projects/Silkroll/brands.qmd
+        - text: Cohort Analysis
+          href: projects/Silkroll/cohort.qmd
+        - text: Product Performance Analysis
+          href: projects/Silkroll/merch.qmd
+        - text: Order Analytics
+          href: projects/Silkroll/orders.qmd
+        - text: Kit Analysis
+          href: projects/Silkroll/kits.qmd
+        - text: Discount Analysis
+          href: projects/Silkroll/discount.qmd
 
 format:
   html:
